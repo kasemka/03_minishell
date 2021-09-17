@@ -85,3 +85,14 @@ void rm_from_list(t_env *env_list, int i)
 		j++;
 	}
 }
+
+//index of first founc char in 
+int	index_strchr(char *str, char c)
+{
+	int index;
+
+	index = (int)(strchr(str, c) - str);
+	return (index);
+}
+
+//flag 1 = env, 2 = export, 3 = set 
