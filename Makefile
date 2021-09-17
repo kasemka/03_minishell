@@ -5,7 +5,9 @@ libft/ft_strlen.c\
 libft/ft_strnstr.c\
 libft/ft_split.c\
 libft/ft_strchr.c\
+libft/ft_strncmp.c\
 bldin_env.c\
+bldin_unset.c\
 utils.c
 
 
@@ -20,6 +22,7 @@ FLAGS = -Wall -Wextra -Werror
 
 $(NAME): $(OBJ)
 		$(CC) -g $(FLAGS) -o $@ $^ 
+		rm -f $(OBJ)
 
 all: $(NAME)
 

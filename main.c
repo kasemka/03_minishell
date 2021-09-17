@@ -21,26 +21,18 @@ int main(int argc, char **argv, char **env)
 	if (argc == 1)
 	{
 		printf("not enough argv\n");
-		exit (1);
+		pause ();
 	}
 	env_list = *arr_to_list(env, len_arr(env));
 	printf("------------------------------------------------------------------\n");
 	commands = ft_split(argv[1], ' ');
-	// while (*commands!=NULL)
-	// {
-	// 	printf("%s\n", *commands);
-	// 	commands++;
-	// }
-	while (*commands)
-	{
-		if (ft_strnstr(commands[0], "env", ft_strlen(commands[0])) != NULL)
-		{
-			bldin_env(commands, &env_list);
-			break ;
-		}
-		commands++ ;
-	}
+
+	if (ft_strncmp(commands[0], "env", 4) == 0)
+		bldin_env(&env_list);
+	if (ft_strncmp(commands[0], "unset", 6) == 0)
+		bldin_unset(&env_list, commands);
+
 	printf("------------------------------------------------------------------\n");
-//	printfList(&env_list);
+	printfList(&env_list);
 	return (0);
 }

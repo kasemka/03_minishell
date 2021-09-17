@@ -47,45 +47,6 @@ void printfList(t_env *lst) {
 	}
 }
 
-void rm_from_list(t_env *env_list, int i)
-{
-	int		j;
-	t_env	*tmp;
-	t_env	*tmp2;
-	t_env	*free_old;
-
-	tmp = env_list;
-	tmp2 = env_list;
-	j = 0;
-	//	printfList(env_list);
-	while (j <= i)
-	{
-		if (j == i)
-		{
-			//			printf("\nhere\n\n");
-			tmp2 = tmp2->next;
-			tmp->next = NULL;
-			*env_list = *tmp2;
-			break;
-		}
-		else if (j == i - 1 && tmp->next->next == NULL)
-		{
-			tmp->next = NULL;
-			break ;
-		}
-		else if (j == i - 1 && tmp->next->next != NULL)
-		{
-			free_old = tmp->next;
-			tmp->next = tmp->next->next;
-			free_old->next = NULL;
-			free(free_old);
-			break ;
-		}
-		tmp = tmp->next;
-		j++;
-	}
-}
-
 //index of first founc char in 
 int	index_strchr(char *str, char c)
 {
@@ -96,3 +57,15 @@ int	index_strchr(char *str, char c)
 }
 
 //flag 1 = env, 2 = export, 3 = set 
+
+void	print_env_flag(t_env *lst, int flag)
+{
+	while (lst)
+	{
+		if (lst->flag == flag)
+		{
+			printf("%s \n", lst->key_value);
+		}
+		lst = lst->next;
+	}
+}
