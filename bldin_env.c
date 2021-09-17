@@ -7,12 +7,19 @@
 //env aaa=1 bbb=2 $HOME=c d
 //env aaa=1 bbb=2 $v=c d
 //env aaa=1 bbb=2 s $v=c d
-//env s=s s=s!!!!!!!!!!!!!!!!!!!! отработать
-//env c=c c=d !!!!!!!!!!!!!!!!!!!! отработать
+//env s=s s=s
+//env c=c c=d
 //env =d
 
+void	word_to_space(char *word)
+{
+	while (*word != '\0')
+	{
+		*word = '_';
+		word++ ;
+	}
+}
 
-//find last change of key
 int	key_in_env(char *env, char **args)
 {
 	int		i;
@@ -34,7 +41,7 @@ int	key_in_env(char *env, char **args)
 		if (env[j] == args[i][j])
 		{
 			printf("%s\n", args[i]);
-			args[i][j] = '0';
+			word_to_space(args[i]);
 			return (1);
 		}
 		j = 0;
@@ -42,11 +49,11 @@ int	key_in_env(char *env, char **args)
 	return (0);
 }
 
-void	print_env(t_env *lst, char **args)
+void	print_env_flag(t_env *lst, char **args, int flag)
 {
 	while (lst)
 	{
-		if (lst->flag == 1)
+		if (lst->flag == flag)
 		{
 			if (len_arr(args) == 1 || !key_in_env(lst->key_value, args))
 				printf("%s \n", lst->key_value);
@@ -58,8 +65,24 @@ void	print_env(t_env *lst, char **args)
 void	print_args(char **args)
 {
 	int		i;
+	int		len;
+	int		len2;
 
 	i = 0;
+	len = len_arr(args) - 1;
+	len2 = len - 1;
+	while (len > 1)
+	{
+		while (len2 > 0)
+		{
+			if (ft_strnstr(args[len2], args[len], \
+			index_strchr(args[len], '=') + 1))
+				word_to_space(args[len2]);
+			len2--;
+		}
+		len2 = len - 1;
+		len--;
+	}
 	while (args[++i] != NULL)
 	{
 		if (ft_strchr(args[i], '=') != NULL)
@@ -90,7 +113,7 @@ int	bldin_env(char **args, t_env *env)
 			ignore_env = 1;
 	}
 	if (ignore_env == 0)
-		print_env(env, args);
+		print_env_flag(env, args, 1);
 	print_args(args);
 	return (0);
 }
