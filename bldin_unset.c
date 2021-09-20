@@ -11,34 +11,21 @@
 void	rm_from_list(t_env **env_list, t_env *env_list_tmp)
 {
 	t_env	*tmp;
-	t_env	*start;
 
 	tmp = *env_list;
-	start = (*env_list)->next;
 	while (tmp)
 	{
 		if (*env_list == env_list_tmp)
 		{
-			tmp->next = NULL;
-			*env_list = start;
-			free(tmp);
-			break ;
+			tmp = env_list_tmp->next;
+			*env_list = tmp;
 		}
-		else if (tmp->next == env_list_tmp && env_list_tmp->next == NULL)
-		{
-			tmp->next = NULL;
-			printf("env_list_tmp %p\n", env_list_tmp);
-			free(env_list_tmp);
-			printf("removed %s\n", env_list_tmp->key_value);
-			break ;
-		}
-		else if (tmp->next == env_list_tmp && env_list_tmp->next != NULL)
-		{
+		else if (tmp->next == env_list_tmp)
 			tmp->next = tmp->next->next;
+		if (tmp == env_list_tmp)
+		{
 			env_list_tmp->next = NULL;
-			printf("env_list_tmp %p\n", env_list_tmp);
 			free(env_list_tmp);
-			printf("removed %s\n", env_list_tmp->key_value);
 			break ;
 		}
 		tmp = tmp->next;
