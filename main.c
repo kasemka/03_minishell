@@ -14,25 +14,26 @@
 int main(int argc, char **argv, char **env)
 {
 	int i;
-	t_env env_list;
+	t_env *env_list;
 	char  **commands;
 
+	printf("______________________________________________________________________________________________________________________________________________________________________________________________________________\n");
 	i = 0;
 	if (argc == 1)
 	{
 		printf("not enough argv\n");
 		pause ();
 	}
-	env_list = *arr_to_list(env, len_arr(env));
+	env_list = arr_to_list(env, len_arr(env));
+	printfList(env_list);
 	printf("------------------------------------------------------------------\n");
 	commands = ft_split(argv[1], ' ');
 
 	if (ft_strncmp(commands[0], "env", 4) == 0)
-		bldin_env(&env_list);
+		bldin_env(env_list);
 	if (ft_strncmp(commands[0], "unset", 6) == 0)
 		bldin_unset(&env_list, commands);
-
 	printf("------------------------------------------------------------------\n");
-	printfList(&env_list);
+	printfList(env_list);
 	return (0);
 }

@@ -21,6 +21,7 @@ t_env *arr_to_list(char **env, int env_len)
 		env_list = malloc(sizeof(t_env));
 		if (!env_list)
 			msg_error();
+
 		env_list->key_value = env[env_len - i - 1];
 		env_list->flag = 1;
 		env_list->next = temp;
@@ -42,10 +43,19 @@ int len_arr(char **arr)
 
 void printfList(t_env *lst) {
 	while (lst) {
+		printf("%p ", lst);
 		printf("%s \n", lst->key_value);
 		lst = lst->next;
 	}
 }
+
+void printArr(char **arr) {
+	while (*arr) {
+		printf("%s \n", *arr);
+		arr++;
+	}
+}
+
 
 //index of first founc char in 
 int	index_strchr(char *str, char c)

@@ -8,76 +8,68 @@
 // unset with asdfasdf= -with "=" not a valid identifier
 // unset HOME= - доработать вывод ошибки
 
-void	rm_from_list(t_env *env_list, int i)
+void	rm_from_list(t_env **env_list, t_env *env_list_tmp)
 {
-	int		j;
 	t_env	*tmp;
-	t_env	*tmp2;
-	t_env	*free_old;
+	t_env	*start;
 
-	tmp = env_list;
-	tmp2 = env_list;
-	j = 0;
-	while (j <= i)
+	tmp = *env_list;
+	start = (*env_list)->next;
+	while (tmp)
 	{
-		if (j == i)
-		{
-			tmp2 = tmp2->next;
-			tmp->next = NULL;
-			*env_list = *tmp2;
-			break ;
-		}
-		else if (j == i - 1 && tmp->next->next == NULL)
+		if (*env_list == env_list_tmp)
 		{
 			tmp->next = NULL;
+			*env_list = start;
+			free(tmp);
 			break ;
 		}
-		else if (j == i - 1 && tmp->next->next != NULL)
+		else if (tmp->next == env_list_tmp && env_list_tmp->next == NULL)
 		{
-			free_old = tmp->next;
+			tmp->next = NULL;
+			printf("env_list_tmp %p\n", env_list_tmp);
+			free(env_list_tmp);
+			printf("removed %s\n", env_list_tmp->key_value);
+			break ;
+		}
+		else if (tmp->next == env_list_tmp && env_list_tmp->next != NULL)
+		{
 			tmp->next = tmp->next->next;
-			free_old->next = NULL;
-			free(free_old);
+			env_list_tmp->next = NULL;
+			printf("env_list_tmp %p\n", env_list_tmp);
+			free(env_list_tmp);
+			printf("removed %s\n", env_list_tmp->key_value);
 			break ;
 		}
 		tmp = tmp->next;
-		j++;
 	}
 }
 
-int	unset(t_env *env_list, char *key)
+int	bldin_unset(t_env **env_list, char **args)
 {
-	int		len;
-	int		i;
-	t_env	*env_list_tmp;
-
-	i = 0;
-	env_list_tmp = env_list;
-	len = ft_strlen(key);
-	if (ft_strnstr("_", key, len) != NULL)
-		return (1);
-	while (env_list_tmp != NULL)
-	{
-		if (ft_strnstr(env_list_tmp->key_value, key, len) != NULL && \
-		ft_strnstr(env_list_tmp->key_value + len, "=", 1))
-		{
-			rm_from_list(env_list, i);
-			break ;
-		}
-		env_list_tmp = env_list_tmp->next;
-		i++;
-	}
-	return (0);
-}
-
-int	bldin_unset(t_env *env_list, char **commands)
-{
-	int	i;
+	int			i;
+	int			len;
+	t_env		*env_tmp;
 
 	i = 1;
-	while (commands[i] != NULL)
+	env_tmp = *env_list;
+	while (args[i] != NULL)
 	{
-		unset(env_list, commands[i]);
+		len = ft_strlen(args[i]);
+		if (ft_strnstr("_", args[i], len) == NULL)
+		{
+			while (env_tmp != NULL)
+			{
+				if (ft_strnstr(env_tmp->key_value, args[i], len) != NULL && \
+				ft_strnstr(env_tmp->key_value + len, "=", 1))
+				{
+					rm_from_list(env_list, env_tmp);
+					break ;
+				}
+				env_tmp = env_tmp->next;
+			}
+		}
+		env_tmp = *env_list;
 		i++;
 	}
 	return (0);
