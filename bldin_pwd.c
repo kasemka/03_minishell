@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int ft_pwd(void)
+int bldin_pwd(void)
 {
 	char *pwd;
 	char *buf;
@@ -14,5 +14,6 @@ int ft_pwd(void)
 	if (pwd == NULL)
 		return (msg_error());
 	printf("%s\n", pwd);
+	free(buf);
 	return (0);
 }

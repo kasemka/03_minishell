@@ -36,7 +36,7 @@ int main(int argc, char **argv, char **env)
 	if (ft_strncmp(commands[0], "pwd", 4) == 0)
 		ft_pwd();
 	// if (ft_strncmp(commands[0], "export", 7) == 0)
-	// 	ft_export(&env_list, commands);
+	// 	bldin_export(&env_list, commands);
 	// printf("------------------------------------------------------------------\n");
 	// printfList(env_list);
 	return (0);
