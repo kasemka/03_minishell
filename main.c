@@ -25,15 +25,19 @@ int main(int argc, char **argv, char **env)
 		pause ();
 	}
 	env_list = arr_to_list(env, len_arr(env));
-	printfList(env_list);
-	printf("------------------------------------------------------------------\n");
+	// printfList(env_list);
+	// printf("------------------------------------------------------------------\n");
 	commands = ft_split(argv[1], ' ');
 
 	if (ft_strncmp(commands[0], "env", 4) == 0)
 		bldin_env(env_list);
 	if (ft_strncmp(commands[0], "unset", 6) == 0)
 		bldin_unset(&env_list, commands);
-	printf("------------------------------------------------------------------\n");
-	printfList(env_list);
+	if (ft_strncmp(commands[0], "pwd", 4) == 0)
+		ft_pwd();
+	// if (ft_strncmp(commands[0], "export", 7) == 0)
+	// 	ft_export(&env_list, commands);
+	// printf("------------------------------------------------------------------\n");
+	// printfList(env_list);
 	return (0);
 }
