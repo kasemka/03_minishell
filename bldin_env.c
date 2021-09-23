@@ -2,6 +2,6 @@
 
 int	bldin_env(t_env *env)
 {
-	print_env_flag(env, 1);
+	print_env(env, "env");
 	return (0);
 }

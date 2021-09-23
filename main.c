@@ -1,12 +1,5 @@
 #include "minishell.h"
 
-// unset asdf asdfsd HOME - only HOME removed from env
-// unset $HOME - if key in env: unset: `/Users/lelle': not a valid identifier.
-// unset $COLORFGBG - not a valid identifier
-// unset asdf asf - if key not in env: nothing happens
-// unset _= - does not work
-// unset with asdfasdf= -with "=" not a valid identifier
-
 //flag = 1 env
 //flag = 2 export
 //flag = 3 set
@@ -34,10 +27,16 @@ int main(int argc, char **argv, char **env)
 	if (ft_strncmp(commands[0], "unset", 6) == 0)
 		bldin_unset(&env_list, commands);
 	if (ft_strncmp(commands[0], "pwd", 4) == 0)
-		ft_pwd();
-	// if (ft_strncmp(commands[0], "export", 7) == 0)
-	// 	bldin_export(&env_list, commands);
+		bldin_pwd();
+	if (ft_strncmp(commands[0], "export", 7) == 0 ||\
+		ft_strncmp(commands[0], "set_local", 10) == 0)
+		bldin_export(&env_list, commands);
 	// printf("------------------------------------------------------------------\n");
-	// printfList(env_list);
+	printf("\n\nENV\n");
+	print_env(env_list, "env");
+	printf("\n\nEXPORT\n");
+	print_env(env_list, "export");
+	printf("\n\nSET\n");
+	print_env(env_list, "set_local");
 	return (0);
 }
