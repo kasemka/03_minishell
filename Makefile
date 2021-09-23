@@ -6,8 +6,14 @@ libft/ft_strnstr.c\
 libft/ft_split.c\
 libft/ft_strchr.c\
 libft/ft_strncmp.c\
+libft/ft_strdup.c\
+libft/ft_isdigit.c\
+libft/ft_isalpha.c\
 bldin_env.c\
 bldin_unset.c\
+bldin_pwd.c\
+bldin_export.c\
+bldin_echo.c\
 utils.c
 
 
