@@ -37,9 +37,9 @@ int	add_env(t_env *env_list, char *key_value, char *cmd)
 
 void	change_env(t_env *env_list_tmp, char *key_value)
 {
-	int		i;
+	// int		i;
 
-	i = 0;
+	// i = 0;
 	free(env_list_tmp->key_value);
 	if (ft_strncmp(key_value, "_", 2) == 0)
 		env_list_tmp->key_value = ft_strdup("_=env");

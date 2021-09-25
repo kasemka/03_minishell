@@ -11,6 +11,7 @@
 typedef struct s_env {
 	char		 	*key_value;
 	char			flag;
+	int				printed;
 	struct s_env 	*next;
 } t_env;
 
