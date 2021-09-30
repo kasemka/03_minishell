@@ -25,6 +25,7 @@ t_env *arr_to_list(char **env, int env_len)
 		if (env_list->key_value == NULL)
 			msg_error();
 		env_list->flag = 1;
+		env_list->printed = -1;
 		env_list->next = temp;
 		temp = env_list;
 		i++;
@@ -42,6 +43,22 @@ int len_arr(char **arr)
 	return (len);
 }
 
+
+int	len_lst(t_env *lst)
+{
+	int		i;
+	t_env	*tmp;
+
+	tmp = lst;
+	i = 0;
+	while (tmp != NULL)
+	{
+		tmp = tmp->next;
+		i++ ;
+	}
+	return (i);
+}
+
 void printfList(t_env *lst) {
 	while (lst) {
 		printf("%p ", lst);
@@ -57,6 +74,48 @@ void printArr(char **arr) {
 	}
 }
 
+void 	clean_print_status(t_env *lst)
+{
+	while (lst)
+	{
+		lst->printed = -1;
+		lst = lst->next;
+	}
+	
+}
+
+
+
+void print_export(t_env *lst)
+{
+	int		i;
+	int		len;
+	t_env	*tmp;
+	t_env	*min_lst;
+
+
+	i = 0;
+	len = len_lst(lst);
+	tmp = lst;
+	while (i < len)
+	{
+		tmp = lst;
+		while (tmp->printed >= 0 && tmp->next != NULL)
+			tmp = tmp->next;
+		min_lst = tmp;
+		while (tmp)
+		{
+			if (ft_strncmp(min_lst->key_value, tmp->key_value, ft_strlen(min_lst->key_value)) > 0 && tmp->printed == -1)
+				min_lst = tmp;
+			tmp = tmp->next;
+		}
+		printf("declare -x %s\n", min_lst->key_value);
+		min_lst->printed = 1;
+		i++;
+	}
+	clean_print_status(lst);
+}
+
 //flag 1 = env, 2 = export, 3 = set 
 void	print_env(t_env *lst, char *args)
 {
@@ -70,16 +129,19 @@ void	print_env(t_env *lst, char *args)
 		cmd_flag = 2;
 	else if (ft_strncmp(args, "set_local", 10) == 0)
 		cmd_flag = 3;
-	while (lst)
+	if (cmd_flag != 2)
 	{
-		if (cmd_flag == 1 && lst->flag == 1)
-			printf("%s \n", lst->key_value);
-		else if (cmd_flag == 2 && (lst->flag == 1 || lst->flag == 2))
-			printf("%s \n", lst->key_value);
-		else if (cmd_flag == 3 && (lst->flag == 1 || lst->flag == 3))
-			printf("%s \n", lst->key_value);
-		lst = lst->next;
+		while (lst)
+		{
+			if (cmd_flag == 1 && lst->flag == 1)
+				printf("%s \n", lst->key_value);
+			else if (cmd_flag == 3 && (lst->flag == 1 || lst->flag == 3))
+				printf("%s \n", lst->key_value);
+			lst = lst->next;
+		}
 	}
+	if (cmd_flag == 2)
+		print_export(lst);
 }
 
 int check_export_name(char *key_value)
