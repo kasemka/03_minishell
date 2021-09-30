@@ -15,6 +15,7 @@ bldin_env.c\
 bldin_unset.c\
 bldin_pwd.c\
 bldin_export.c\
+bldin_echo.c\
 utils.c
 
 

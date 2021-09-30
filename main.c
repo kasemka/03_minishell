@@ -31,7 +31,9 @@ int main(int argc, char **argv, char **env)
 	if (ft_strncmp(commands[0], "export", 7) == 0 ||\
 		ft_strncmp(commands[0], "set_local", 10) == 0)
 		bldin_export(&env_list, commands);
-	// printf("------------------------------------------------------------------\n");
+	if (ft_strncmp(commands[0], "echo", 5) == 0)
+		bldin_echo(&env_list, commands);
+	// printf("______________________________________________________________________________________________________________________________________________________________________________________________________________\n");
 	// printf("\n\nENV\n");
 	// print_env(env_list, "env");
 	// printf("\n\nEXPORT\n");
