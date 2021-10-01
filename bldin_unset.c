@@ -25,6 +25,7 @@ void	rm_from_list(t_env **env_list, t_env *env_list_tmp)
 		if (tmp == env_list_tmp)
 		{
 			env_list_tmp->next = NULL;
+			free(env_list_tmp->key_value);
 			free(env_list_tmp);
 			break ;
 		}

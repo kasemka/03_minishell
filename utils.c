@@ -8,6 +8,7 @@ int	msg_error()
 
 }
 
+//change code after malloc error!!!!!!!!!!!!!!!!!!!!!!!!!!
 t_env *arr_to_list(char **env, int env_len)
 {
 	int		i;
@@ -31,6 +32,28 @@ t_env *arr_to_list(char **env, int env_len)
 		i++;
 	}
 	return  (env_list);
+}
+
+//additionally HOME is added for the case if HOME is removed and cd ~ is executed
+//flag = 4;
+int	add_addit_home(t_env *env)
+{
+	t_env *new_home;
+
+	new_home = malloc(sizeof(t_env));
+	if (!new_home)
+		msg_error();
+	new_home->next = NULL;
+	new_home->flag = 4;
+	new_home->printed = -1;
+	while (env->next != NULL)
+	{
+		if (ft_strncmp(env->key_value, "HOME=", 5) == 0)
+			new_home->key_value = ft_strdup(env->key_value);
+		env = env->next;
+	}
+	env->next = new_home;
+	return (0);
 }
 
 int len_arr(char **arr)
@@ -84,8 +107,7 @@ void 	clean_print_status(t_env *lst)
 	
 }
 
-
-
+//flag 1 = env, 2 = export, 3 = set 
 void print_export(t_env *lst)
 {
 	int		i;
@@ -109,14 +131,15 @@ void print_export(t_env *lst)
 				min_lst = tmp;
 			tmp = tmp->next;
 		}
-		printf("declare -x %s\n", min_lst->key_value);
+		if (min_lst->flag == 1 || min_lst->flag == 2)
+			printf("declare -x %s\n", min_lst->key_value);
 		min_lst->printed = 1;
 		i++;
 	}
 	clean_print_status(lst);
 }
 
-//flag 1 = env, 2 = export, 3 = set 
+//flag 1 = env, 2 = export, 3 = set, 4 = additional for HOME
 void	print_env(t_env *lst, char *args)
 {
 	int		cmd_flag;

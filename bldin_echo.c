@@ -2,18 +2,18 @@
 
 //$? - error num
 
-int		bldin_echo(t_env **env_list, char **args)
+int		bldin_echo(char **args)
 {
-	t_env	*env_temp;
 	int		i;
 
 	i = 0;
-	env_temp = *env_list;
 	if (ft_strncmp(args[1], "-n", 3) == 0)
 		i++;
 	while (args[++i] != NULL)
 	{
-		printf("%s ", args[i]);
+		printf("%s", args[i]);
+		if (args[i + 1] != NULL)
+			printf(" ");
 	}
 	if (ft_strncmp(args[1], "-n", 3) != 0)
 		printf("\n");
