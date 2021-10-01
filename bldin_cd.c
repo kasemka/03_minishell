@@ -1,21 +1,48 @@
 #include "minishell.h"
 
-//export HOME=null; cd ~
-int	bldin_cd(t_env *env_list, char **args)
+char	*define_home(t_env *env, int *flag, int *home_empty)
+{
+	char	*home;
+
+	while (env != NULL)
+	{
+		if (ft_strncmp(env->key_val, "HOME=", 5) == 0 && flag == 4)
+		{
+			if (env->key_val[5] != '\0')
+			{
+				home = env->key_val + 5;
+				*flag = env->flag;
+				if (*flag != 4 || *home_empty)
+					break ;
+			}
+			if (env->key_val[5] == '\0')
+				*home_empty = 1;
+			
+		}
+		env = env->next;
+	}
+	return (home);
+}
+
+
+
+// export HOME=null; cd ~ or cd - both do not work and show error
+// export HOME=, cd ~ or cd - first do not work
+// HOME=solong, cd ~ or cd - both do not work
+// unset HOME, cd ~ or cd - first do not work and show error
+int	bldin_cd(t_env *env, char **arg)
 {
 	char	*home_dir;
-	t_env	*tmp_list;
-	int		i;
+	int		len;
+	int		flag;
+	int		home_empty;
 
-	i = 0;
-	tmp_list = env_list;
-	if (args[1][0] == '~')
-	{
-		while (tmp_list != NULL)
-		{
-			if (tmp_list)
-		}
-	}
+	flag = 4;
+	home_empty = 0;
+	len = ft_strlen(arg[1]);
+	home_dir = define_home(env, &flag, &home_empty);
+
+	
 
 
 	return (0);

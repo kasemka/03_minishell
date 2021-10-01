@@ -25,7 +25,7 @@ void	rm_from_list(t_env **env_list, t_env *env_list_tmp)
 		if (tmp == env_list_tmp)
 		{
 			env_list_tmp->next = NULL;
-			free(env_list_tmp->key_value);
+			free(env_list_tmp->key_val);
 			free(env_list_tmp);
 			break ;
 		}
@@ -48,8 +48,8 @@ int	bldin_unset(t_env **env_list, char **args)
 		{
 			while (env_tmp != NULL)
 			{
-				if (ft_strnstr(env_tmp->key_value, args[i], len) != NULL && \
-				ft_strnstr(env_tmp->key_value + len, "=", 1))
+				if (ft_strnstr(env_tmp->key_val, args[i], len) != NULL && \
+				ft_strnstr(env_tmp->key_val + len, "=", 1) && env_tmp->flag != 4)
 				{
 					rm_from_list(env_list, env_tmp);
 					break ;

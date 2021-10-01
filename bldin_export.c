@@ -23,8 +23,8 @@ int	add_env(t_env *env_list, char *key_value, char *cmd)
 		env_list = env_list->next;
 	env_list->next = new_list;
 	new_list->next = NULL;
-	new_list->key_value = ft_strdup(key_value);
-	if (new_list->key_value == NULL)
+	new_list->key_val = ft_strdup(key_value);
+	if (new_list->key_val == NULL)
 		msg_error();
 	if (ft_strchr(key_value, '=') != NULL && is_set == 0)
 		new_list->flag = 1;
@@ -40,40 +40,40 @@ void	change_env(t_env *env_list_tmp, char *key_value)
 	// int		i;
 
 	// i = 0;
-	free(env_list_tmp->key_value);
+	free(env_list_tmp->key_val);
 	if (ft_strncmp(key_value, "_", 2) == 0)
-		env_list_tmp->key_value = ft_strdup("_=env");
+		env_list_tmp->key_val = ft_strdup("_=env");
 	else
-		env_list_tmp->key_value = ft_strdup(key_value);
-	if (env_list_tmp->key_value == NULL)
+		env_list_tmp->key_val = ft_strdup(key_value);
+	if (env_list_tmp->key_val == NULL)
 		msg_error();
 }
 
-int	bldin_export(t_env **env_list, char **args)
+int	bldin_export(t_env **env, char **arg)
 {
 	int			i;
 	int			len;
-	t_env		*env_tmp;
+	t_env		*tmp;
 
 	i = 0;
-	env_tmp = *env_list;
-	if (args[1] == NULL)
-		print_env(*env_list, args[0]);
-	while (args[++i] != NULL)
+	tmp = *env;
+	if (arg[1] == NULL)
+		print_env(*env, arg[0]);
+	while (arg[++i] != NULL)
 	{
-		len = len_before_equal(args[i]);
-		while (env_tmp)
+		len = len_before_equal(arg[i]);
+		while (tmp)
 		{
-			if (ft_strncmp(env_tmp->key_value, args[i], len) == 0 && len)
+			if (ft_strncmp(tmp->key_val, arg[i], len) == 0 && len && tmp->flag != 4)
 			{
-				change_env(env_tmp, args[i]);
+				change_env(tmp, arg[i]);
 				break ;
 			}
-			env_tmp = env_tmp->next;
+			tmp = tmp->next;
 		}
-		if (env_tmp == NULL)
-			add_env(*env_list, args[i], args[0]);
-		env_tmp = *env_list;
+		if (tmp == NULL)
+			add_env(*env, arg[i], arg[0]);
+		tmp = *env;
 	}
 	return (0);
 }

@@ -9,7 +9,7 @@
 
 
 typedef struct s_env {
-	char		 	*key_value;
+	char		 	*key_val;
 	char			flag;
 	int				printed;
 	struct s_env 	*next;

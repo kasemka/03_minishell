@@ -22,8 +22,8 @@ t_env *arr_to_list(char **env, int env_len)
 		env_list = malloc(sizeof(t_env));
 		if (!env_list)
 			msg_error();
-		env_list->key_value = ft_strdup(env[env_len - i - 1]);
-		if (env_list->key_value == NULL)
+		env_list->key_val = ft_strdup(env[env_len - i - 1]);
+		if (env_list->key_val == NULL)
 			msg_error();
 		env_list->flag = 1;
 		env_list->printed = -1;
@@ -48,8 +48,8 @@ int	add_addit_home(t_env *env)
 	new_home->printed = -1;
 	while (env->next != NULL)
 	{
-		if (ft_strncmp(env->key_value, "HOME=", 5) == 0)
-			new_home->key_value = ft_strdup(env->key_value);
+		if (ft_strncmp(env->key_val, "HOME=", 5) == 0)
+			new_home->key_val = ft_strdup(env->key_val);
 		env = env->next;
 	}
 	env->next = new_home;
@@ -85,7 +85,7 @@ int	len_lst(t_env *lst)
 void printfList(t_env *lst) {
 	while (lst) {
 		printf("%p ", lst);
-		printf("%s \n", lst->key_value);
+		printf("%s \n", lst->key_val);
 		lst = lst->next;
 	}
 }
@@ -127,12 +127,12 @@ void print_export(t_env *lst)
 		min_lst = tmp;
 		while (tmp)
 		{
-			if (ft_strncmp(min_lst->key_value, tmp->key_value, ft_strlen(min_lst->key_value)) > 0 && tmp->printed == -1)
+			if (ft_strncmp(min_lst->key_val, tmp->key_val, ft_strlen(min_lst->key_val)) > 0 && tmp->printed == -1)
 				min_lst = tmp;
 			tmp = tmp->next;
 		}
 		if (min_lst->flag == 1 || min_lst->flag == 2)
-			printf("declare -x %s\n", min_lst->key_value);
+			printf("declare -x %s\n", min_lst->key_val);
 		min_lst->printed = 1;
 		i++;
 	}
@@ -157,9 +157,9 @@ void	print_env(t_env *lst, char *args)
 		while (lst)
 		{
 			if (cmd_flag == 1 && lst->flag == 1)
-				printf("%s \n", lst->key_value);
+				printf("%s \n", lst->key_val);
 			else if (cmd_flag == 3 && (lst->flag == 1 || lst->flag == 3))
-				printf("%s \n", lst->key_value);
+				printf("%s \n", lst->key_val);
 			lst = lst->next;
 		}
 	}
