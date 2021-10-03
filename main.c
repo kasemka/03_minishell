@@ -37,11 +37,11 @@ int main(int argc, char **argv, char **env)
 	if (ft_strncmp(commands[0], "cd", 3) == 0)
 		bldin_cd(env_list, commands);
 	printf("______________________________________________________________________________________________________________________________________________________________________________________________________________\n");
-	printf("\n\nENV\n");
-	print_env(env_list, "env");
-	printf("\n\nEXPORT\n");
-	print_env(env_list, "export");
-	printf("\n\nSET\n");
-	print_env(env_list, "set_local");
+	// printf("\n\nENV\n");
+	// print_env(env_list, "env");
+	// printf("\n\nEXPORT\n");
+	// print_env(env_list, "export");
+	// printf("\n\nSET\n");
+	// print_env(env_list, "set_local");
 	return (0);
 }

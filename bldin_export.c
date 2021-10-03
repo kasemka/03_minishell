@@ -6,26 +6,23 @@
 // export 12HOME=asdf
 
 //flag 1 = env, 2 = export, 3 = set 
-int	add_env(t_env *env_list, char *key_value, char *cmd)
+int	add_env(t_env *env, char *key_value, char *cmd)
 {
 	t_env	*new_list;
 	int		is_set;
 
+	new_list = env;
 	is_set = 0;
 	if (ft_strncmp(cmd, "set_local", 10) == 0)
 		is_set = 1;
 	if (check_export_name(key_value) == 1)
 		return (1);
-	new_list = malloc(sizeof(t_env));
-	if (new_list == NULL)
-		msg_error();
-	while (env_list->next != NULL)
-		env_list = env_list->next;
-	env_list->next = new_list;
-	new_list->next = NULL;
+	add_new_list(env, 0, -1);
+	while (new_list->next != NULL)
+		new_list = new_list->next;
 	new_list->key_val = ft_strdup(key_value);
 	if (new_list->key_val == NULL)
-		msg_error();
+		return (msg_error());
 	if (ft_strchr(key_value, '=') != NULL && is_set == 0)
 		new_list->flag = 1;
 	else if (ft_strchr(key_value, '=') != NULL && is_set == 1)

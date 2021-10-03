@@ -32,5 +32,6 @@ void	print_env(t_env *lst, char *args);
 int		check_export_name(char *key_value);
 int		len_before_equal(char *str);
 int		add_addit_home(t_env *env);
+int		add_new_list(t_env *env, int flag, int printed);
 
 void	printArr(char **arr);

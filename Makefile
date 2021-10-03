@@ -11,6 +11,7 @@ libft/ft_isdigit.c\
 libft/ft_isalpha.c\
 libft/ft_memcmp.c\
 libft/ft_strlcpy.c\
+libft/ft_strjoin.c\
 bldin_env.c\
 bldin_unset.c\
 bldin_pwd.c\

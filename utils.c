@@ -4,7 +4,7 @@
 int	msg_error()
 {
 	printf("%s\n", strerror(errno));
-	exit (1);
+	return (0);
 
 }
 
@@ -195,3 +195,23 @@ int	len_before_equal(char *str)
 		return (char_str - str + 1);
 	return (0);
 }
+
+int	add_new_list(t_env *env, int flag, int printed)
+{
+	t_env	*env_new;
+
+	env_new = malloc(sizeof(t_env));
+	if (env_new == NULL)
+	{
+		msg_error();
+		return (1);
+	}
+	while (env->next != NULL)
+		env = env->next;
+	env->next = env_new;
+	env_new->next = NULL;
+	env_new->flag = flag;
+	env_new->printed = printed;
+	return (1);
+}
+
