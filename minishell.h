@@ -18,7 +18,7 @@ typedef struct s_env {
 
 int		msg_error();
 int		len_arr(char **env);
-void	printfList(t_env *lst);
+// void	printfList(t_env *lst);
 t_env	*arr_to_list(char **env, int env_len);
 int		bldin_env(t_env *env);
 int		bldin_unset(t_env **env_list, char **args);
@@ -32,6 +32,8 @@ void	print_env(t_env *lst, char *args);
 int		check_export_name(char *key_value);
 int		len_before_equal(char *str);
 int		add_addit_home(t_env *env);
-int		add_new_list(t_env *env, int flag, int printed);
+int		add_new_list(t_env *envp, int flag, int printed);
+t_env	*last_list(t_env *env);
+int		len_lst(t_env *lst);
 
 void	printArr(char **arr);

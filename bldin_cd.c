@@ -27,26 +27,33 @@ char	*define_home(t_env *env, int *flag, int *home_empty)
 int	change_dir(char **arg, char *home_dir)
 {
 	char	*home;
-	int		dir_changed;
 
-	dir_changed = 0;
 	if (arg[1] == NULL || ft_strncmp(arg[1], "~", 2) == 0)
-		dir_changed = chdir(home_dir);
+		chdir(home_dir);
 	else if (arg[1][0] == '~')
 	{
 		home = ft_strjoin(home_dir, &arg[1][1]);
 		if (home == NULL)
 			return (msg_error());
-		dir_changed = chdir(home);
+		chdir(home);
 	}
 	else
-		dir_changed = chdir(arg[1]);
-	if (dir_changed == 1)
-	{
-		msg_error();
-		return (msg_error());
-	}
+		chdir(arg[1]);
 	return (0);
+}
+
+t_env	*find_key(t_env *env, char *key, int len)
+{
+	t_env	*tmp;
+
+	tmp = env;
+	while (tmp != NULL)
+	{
+		if (ft_strncmp(tmp->key_val, key, len) == 0)
+			break ;
+		tmp = tmp->next;
+	}
+	return (tmp);
 }
 
 int	change_oldpwd(t_env *env)
@@ -54,34 +61,19 @@ int	change_oldpwd(t_env *env)
 	t_env	*tmp1;
 	t_env	*tmp2;
 
-	tmp1 = env;
-	tmp2 = env;
-	while (tmp1 != NULL)
+	tmp1 = find_key(env, "PWD=", 4);
+	tmp2 = find_key(env, "OLDPWD=", 7);
+	if (tmp2 != NULL)
+		free (tmp2->key_val);
+	if (tmp1 == NULL && tmp2 == NULL)
 	{
-		if (ft_strncmp(tmp1->key_val, "PWD", 4) == 0)
-			break ;
-		tmp1 = tmp1->next;
+		add_new_list(env, 1, -1);
+		last_list(env)->key_val = ft_strdup("OLDPWD=");
 	}
-	while (tmp2 != NULL)
-	{
-		if (ft_strncmp(tmp2->key_val, "OLDPWD", 4) == 0)
-		{
-			free(tmp2->key_val);
-			break ;
-		}
-		if (tmp2->next == NULL)
-		{
-			add_new_list(env, 3, -1);
-			tmp2 = tmp2->next;
-			break ;
-		}
-		tmp2 = tmp2->next;
-	}
-	if (tmp1 == NULL)
-		tmp2->key_val = ft_strdup("OLDPWD=");
-	else
-		tmp2->key_val = ft_strdup(tmp1->key_val + 3);
-	if (tmp2 == NULL)
+	else if (tmp1 != NULL && tmp2 != NULL)
+		tmp2->key_val = ft_strjoin("OLDPWD=", tmp1->key_val + 4);
+	if ((tmp1 == NULL && tmp2 == NULL && last_list(env)->key_val == NULL) \
+	|| (tmp2 != NULL && tmp2->key_val == NULL))
 		return (msg_error());
 	return (0);
 }
@@ -90,24 +82,16 @@ int	change_pwd(t_env *env, char *newpwd)
 {
 	t_env	*tmp;
 
-	tmp = env;
-	while (tmp->next != NULL)
-	{
-		if (ft_strncmp(tmp->key_val, "PWD", 4) == 0)
-		{
-			free(tmp->key_val);
-			break ;
-		}
-		tmp = tmp->next;
-	}
-	if (tmp->next == NULL && ft_strncmp(tmp->key_val, "PWD", 4) != 0)
+	tmp = find_key(env, "PWD=", 4);
+	if (tmp == NULL)
 	{
 		add_new_list(env, 3, -1);
-		tmp = tmp->next;
+		tmp = last_list(env);
 	}
+	else
+		free(tmp->key_val);
 	tmp->key_val = ft_strjoin("PWD=", newpwd);
-	free(newpwd);
-	if (tmp == NULL)
+	if (tmp->key_val == NULL)
 		return (1);
 	return (0);
 }
@@ -143,5 +127,6 @@ int	bldin_cd(t_env *env, char **arg)
 	getcwd(newpwd, 4096);
 	if (change_oldpwd(env) || change_pwd(env, newpwd))
 		return (msg_error());
+	printf("\nnewpwd:%s\n", newpwd);
 	return (0);
 }
