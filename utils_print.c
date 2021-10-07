@@ -1,10 +1,15 @@
 #include "minishell.h"
 
-// exit??? malloc fail
-int	msg_error()
+int	msg_error(void)
 {
 	printf("%s\n", strerror(errno));
-	return (0);
+	return (errno);
+}
+
+int	msg_mallocfail(void)
+{
+	printf("malloc fail\n");
+	exit (1);;
 }
 
 void 	clean_print_status(t_env *lst)
@@ -76,5 +81,4 @@ void	print_env(t_env *lst, char *args)
 	if (cmd_flag == 2)
 		print_export(lst);
 }
-
 

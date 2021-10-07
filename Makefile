@@ -18,9 +18,11 @@ bldin_pwd.c\
 bldin_export.c\
 bldin_echo.c\
 bldin_cd.c\
+utils_list.c\
 utils.c\
-utils3.c\
-utils_print.c
+utils_print.c\
+utils_arrays.c\
+other_cmd.c
 
 
 HEADER = minishell.h

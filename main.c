@@ -21,23 +21,25 @@ int main(int argc, char **argv, char **envp)
 	commands = ft_split(argv[1], ' ');
 	if (ft_strncmp(commands[0], "env", 4) == 0)
 		bldin_env(env);
-	if (ft_strncmp(commands[0], "unset", 6) == 0)
+	else if (ft_strncmp(commands[0], "unset", 6) == 0)
 		bldin_unset(&env, commands);
-	if (ft_strncmp(commands[0], "pwd", 4) == 0)
+	else if (ft_strncmp(commands[0], "pwd", 4) == 0)
 		bldin_pwd();
-	if (ft_strncmp(commands[0], "export", 7) == 0 ||\
+	else if (ft_strncmp(commands[0], "export", 7) == 0 ||\
 		ft_strncmp(commands[0], "set_local", 10) == 0)
 		bldin_export(&env, commands);
-	if (ft_strncmp(commands[0], "echo", 5) == 0)
+	else if (ft_strncmp(commands[0], "echo", 5) == 0)
 		bldin_echo(commands);
-	if (ft_strncmp(commands[0], "cd", 3) == 0)
+	else if (ft_strncmp(commands[0], "cd", 3) == 0)
 		bldin_cd(env, commands);
+	else 
+		other_cmd(env, commands);
 	printf("3______________________________________________________________________________________________________________________________________________________________________________________________________________\n");
-	printf("\n\nENV\n");
-	print_env(env, "env");
-	printf("\n\nEXPORT\n");
-	print_env(env, "export");
-	printf("\n\nSET\n");
-	print_env(env, "set_local");
+	// printf("\n\nENV\n");
+	// print_env(env, "env");
+	// printf("\n\nEXPORT\n");
+	// print_env(env, "export");
+	// printf("\n\nSET\n");
+	// print_env(env, "set_local");
 	return (0);
 }

@@ -1,78 +1,44 @@
 #include "minishell.h"
 
-//change code after malloc error!!!!!!!!!!!!!!!!!!!!!!!!!!
-t_env *arr_to_list(char **envp, int env_len)
+int check_export_name(char *key_value)
 {
-	t_env	*temp;
-	t_env	*env_list;
-
-	temp = NULL;
-	while(env_len-- > 0)
+	int i;
+	
+	i = 0;
+	
+	if (ft_isalpha(key_value[0]) == 0)
+		return (1);
+	while (key_value[++i] != '=' && key_value[i] != '\0')
 	{
-		printf("%i %s\n", env_len, envp[env_len]);
-		env_list = malloc(sizeof(t_env));
-		if (!env_list)
-			return (NULL);
-		env_list->key_val = ft_strdup(envp[env_len]);
-		if (env_list->key_val == NULL)
-			return (NULL);
-		env_list->flag = 1;
-		env_list->printed = -1;
-		env_list->next = temp;
-		temp = env_list;
-	}
-	return  (env_list);
-}
-
-//additionally HOME is added for the case if HOME is removed and cd ~ is executed
-//flag = 4;
-int	add_addit_home(t_env *env)
-{
-	char *home_addit;
-
-	while (env != NULL)
-	{
-		if (ft_strncmp(env->key_val, "HOME=", 5) == 0)
+		if (!ft_isalpha(key_value[i]) && !ft_isdigit(key_value[i]) && key_value[i] != '_')
 		{
-			home_addit = env->key_val;
-			break ;
+			printf("export: `%s': not a valid identifier\n", key_value);
+			return (1);
 		}
-		env = env->next;
 	}
-	if (env == NULL)
-	{
-		printf("HOME should be in env before execution!\n");
-		exit (1);
-	}
-	add_new_list(env, 4, -1);
-	(last_list(env))->key_val = ft_strdup(home_addit);
-	if ((last_list(env))->key_val == NULL)
-		return (msg_error());
 	return (0);
 }
 
-int len_arr(char **arr)
+int	len_before_equal(char *str)
 {
-	int len;
+	char		*char_str;
 
-	len = 0;
-	while (arr[len] != NULL)
-		len++;
-	return (len);
+	char_str = ft_strchr(str, '=');
+	if (char_str != NULL)
+		return (char_str - str + 1);
+	return (0);
 }
 
 
-int	len_lst(t_env *lst)
-{
-	int		i;
-	t_env	*tmp;
 
-	tmp = lst;
-	i = 0;
-	while (tmp != NULL)
+char *find_by_key(t_env *env, char *key_env)
+{
+	while (env != NULL)
 	{
-		tmp = tmp->next;
-		i++ ;
+		if (ft_strncmp(env->key_val, key_env, ft_strlen(key_env)) == 0 &&\
+		env->key_val[ft_strlen(key_env)] == '=')
+			return (env->key_val);
+		env = env->next;
 	}
-	return (i);
+	return (NULL);
 }
