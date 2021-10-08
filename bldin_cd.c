@@ -102,6 +102,7 @@ int	change_pwd(t_env *env, char *newpwd)
 // HOME=solong, cd ~ or cd - both do not work
 // unset HOME, cd ~ or cd - first do not work and show error
 // flag=4 for additional home
+// cd dir | rm -rf dir; pwd
 int	bldin_cd(t_env *env, char **arg)
 {
 	char	*home_dir;

@@ -7,7 +7,7 @@
 #include <sys/stat.h>
 #include "libft/libft.h"
 
-int		g_errnum;
+int		g_exitcode;
 
 typedef struct s_env {
 	char		 	*key_val;
@@ -22,12 +22,13 @@ int		msg_mallocfail(void);
 int		len_arr(char **env);
 // void	printfList(t_env *lst);
 t_env	*arr_to_list(char **env, int env_len);
+int		bldin_cd(t_env *env_list, char **args);
+int		bldin_echo(char **args);
 int		bldin_env(t_env *env);
-int		bldin_unset(t_env **env_list, char **args);
+int		bldin_exit(char **args);
 int		bldin_export(t_env **env_list, char **args);
 int		bldin_pwd(void);
-int		bldin_echo(char **args);
-int		bldin_cd(t_env *env_list, char **args);
+int		bldin_unset(t_env **env_list, char **args);
 int		other_cmd(t_env *env, char **commands);
 int		len_arr(char **arr);
 int		index_strchr(char *str, char c);

@@ -1,7 +1,7 @@
 #include "minishell.h"
 
 //$? - error num
-
+//echo * -????
 int		bldin_echo(char **args)
 {
 	int		i;

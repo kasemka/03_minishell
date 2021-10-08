@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-int len_arr(char **arr)
+int	len_arr(char **arr)
 {
-	int len;
+	int	len;
 
 	len = 0;
 	while (arr[len] != NULL)
@@ -20,7 +20,7 @@ void	ft_free_2array(char **arr)
 	free(arr);
 }
 
-char **list_to_arr(t_env *env)
+char	**list_to_arr(t_env *env)
 {
 	char	**arr;
 	int		len;

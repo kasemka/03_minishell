@@ -9,27 +9,25 @@ int	msg_error(void)
 int	msg_mallocfail(void)
 {
 	printf("malloc fail\n");
-	exit (1);;
+	exit (1);
 }
 
-void 	clean_print_status(t_env *lst)
+void	clean_print_status(t_env *lst)
 {
 	while (lst)
 	{
 		lst->printed = -1;
 		lst = lst->next;
 	}
-	
 }
 
 //flag 1 = env, 2 = export, 3 = set 
-void print_export(t_env *lst)
+void	print_export(t_env *lst)
 {
 	int		i;
 	int		len;
 	t_env	*tmp;
 	t_env	*min_lst;
-
 
 	i = 0;
 	len = len_lst(lst);
@@ -42,7 +40,8 @@ void print_export(t_env *lst)
 		min_lst = tmp;
 		while (tmp)
 		{
-			if (ft_strncmp(min_lst->key_val, tmp->key_val, ft_strlen(min_lst->key_val)) > 0 && tmp->printed == -1)
+			if (ft_strncmp(min_lst->key_val, tmp->key_val, \
+			ft_strlen(min_lst->key_val)) > 0 && tmp->printed == -1)
 				min_lst = tmp;
 			tmp = tmp->next;
 		}
@@ -58,7 +57,6 @@ void print_export(t_env *lst)
 void	print_env(t_env *lst, char *args)
 {
 	int		cmd_flag;
-
 
 	cmd_flag = 0;
 	if (ft_strncmp(args, "env", 4) == 0)
@@ -81,4 +79,3 @@ void	print_env(t_env *lst, char *args)
 	if (cmd_flag == 2)
 		print_export(lst);
 }
-
