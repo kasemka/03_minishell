@@ -24,7 +24,8 @@ utils_list.c\
 utils.c\
 utils_print.c\
 utils_arrays.c\
-other_cmd.c
+other_cmd.c\
+print_env.c
 
 
 HEADER = minishell.h
