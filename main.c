@@ -34,7 +34,7 @@ int main(int argc, char **argv, char **envp)
 	else if (ft_strncmp(commands[0], "exit", 5) == 0)
 		bldin_exit(commands);
 	else
-		other_cmd(env, commands);
+		g_exitcode = other_cmd(env, commands);
 	// printf("3______________________________________________________________________________________________________________________________________________________________________________________________________________\n");
 	// printf("\n\nENV\n");
 	// print_env(env, "env");

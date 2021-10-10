@@ -23,9 +23,9 @@ int	add_addit_home(t_env *env)
 
 	while (env != NULL)
 	{
-		if (ft_strncmp(env->key_val, "HOME=", 5) == 0)
+		if (ft_strncmp(env->key_vl, "HOME=", 5) == 0)
 		{
-			home_addit = env->key_val;
+			home_addit = env->key_vl;
 			break ;
 		}
 		env = env->next;
@@ -36,8 +36,8 @@ int	add_addit_home(t_env *env)
 		exit (1);
 	}
 	add_new_list(env, 4, -1);
-	(last_list(env))->key_val = ft_strdup(home_addit);
-	if ((last_list(env))->key_val == NULL)
+	(last_list(env))->key_vl = ft_strdup(home_addit);
+	if ((last_list(env))->key_vl == NULL)
 		return (msg_error());
 	return (0);
 }
@@ -53,12 +53,15 @@ t_env	*arr_to_list(char **envp, int env_len)
 	{
 		env_list = malloc(sizeof(t_env));
 		if (!env_list)
-			return (NULL);
-		env_list->key_val = ft_strdup(envp[env_len]);
-		if (env_list->key_val == NULL)
-			return (NULL);
+			msg_mallocfail();
+		env_list->key_vl = ft_strdup(envp[env_len]);
+		if (env_list->key_vl == NULL)
+			msg_mallocfail();
 		env_list->flag = 1;
-		env_list->printed = -1;
+		if (ft_strncmp(env_list->key_vl, "_=", 2) != 0)
+			env_list->printed = -1;
+		else
+			env_list->printed = 0;
 		env_list->next = temp;
 		temp = env_list;
 	}

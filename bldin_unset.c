@@ -7,7 +7,6 @@
 // unset _= - does not work
 // unset with asdfasdf= -with "=" not a valid identifier
 // unset HOME= - доработать вывод ошибки
-
 void	rm_from_list(t_env **env_list, t_env *env_list_tmp)
 {
 	t_env	*tmp;
@@ -25,7 +24,7 @@ void	rm_from_list(t_env **env_list, t_env *env_list_tmp)
 		if (tmp == env_list_tmp)
 		{
 			env_list_tmp->next = NULL;
-			free(env_list_tmp->key_val);
+			free(env_list_tmp->key_vl);
 			free(env_list_tmp);
 			break ;
 		}
@@ -33,32 +32,31 @@ void	rm_from_list(t_env **env_list, t_env *env_list_tmp)
 	}
 }
 
-int	bldin_unset(t_env **env_list, char **args)
+int	bldin_unset(t_env **env_list, char **arg)
 {
 	int			i;
 	int			len;
-	t_env		*env_tmp;
+	t_env		*t;
 
-	i = 1;
-	env_tmp = *env_list;
-	while (args[i] != NULL)
+	i = 0;
+	t = *env_list;
+	while (arg[++i] != NULL)
 	{
-		len = ft_strlen(args[i]);
-		if (ft_strnstr("_", args[i], len) == NULL)
+		len = ft_strlen(arg[i]);
+		if (ft_strnstr("_=", arg[i], len) == NULL)
 		{
-			while (env_tmp != NULL)
+			while (t != NULL)
 			{
-				if (ft_strnstr(env_tmp->key_val, args[i], len) != NULL && \
-				ft_strnstr(env_tmp->key_val + len, "=", 1) && env_tmp->flag != 4)
+				if (ft_strnstr(t->key_vl, arg[i], len) != NULL && \
+				ft_strnstr(t->key_vl + len, "=", 1) && t->flag != 4)
 				{
-					rm_from_list(env_list, env_tmp);
+					rm_from_list(env_list, t);
 					break ;
 				}
-				env_tmp = env_tmp->next;
+				t = t->next;
 			}
 		}
-		env_tmp = *env_list;
-		i++;
+		t = *env_list;
 	}
 	return (0);
 }

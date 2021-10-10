@@ -33,7 +33,7 @@ char	**list_to_arr(t_env *env)
 		return (0);
 	while (i++ < len && env != NULL)
 	{
-		arr[i] = ft_strdup(env->key_val);
+		arr[i] = ft_strdup(env->key_vl);
 		if (arr[i] == NULL)
 		{	
 			while (i-- >= 0)

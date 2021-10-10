@@ -26,7 +26,6 @@ int	is_num(char *s)
 int	bldin_exit(char **args)
 {
 	(void)args;
-
 	if (is_num(args[1]) == 0)
 	{
 		printf("exit\nminishell: exit: %s: numeric argument required\n", args[1]);

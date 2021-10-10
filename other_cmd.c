@@ -45,9 +45,12 @@ char	*find_path(t_env *env, char *cmd_input)
 	char		*key;
 	char		*cmd;
 	char		*path;
+	struct stat	buf;
 
 	i = -1;
-	key = find_by_key(env, "PATH") + 5;
+	if (stat(cmd_input, &buf) == 0)
+		return (cmd_input);
+	key = (find_by_key(env, "PATH"))->key_vl + 5;
 	if (key == NULL)
 		return (NULL);
 	cmd = ft_strjoin("/", cmd_input);
@@ -57,7 +60,6 @@ char	*find_path(t_env *env, char *cmd_input)
 	if (envpath == NULL)
 		msg_mallocfail();
 	path = search_in_env(envpath, cmd);
-	// ft_free_2array(envpath);
 	if (path == NULL && (ft_strnstr(key, "::", ft_strlen(key)) != NULL \
 	|| key[0] == ':'))
 		path = search_in_curdir(cmd);
@@ -68,6 +70,8 @@ char	*find_path(t_env *env, char *cmd_input)
 	return (NULL);
 }
 
+// bin/ls
+//
 int	other_cmd(t_env *env, char **commands)
 {
 	char	*path;
@@ -75,17 +79,21 @@ int	other_cmd(t_env *env, char **commands)
 
 	if (env == NULL)
 	{
-		printf(" %s: command not found\n", commands[0]);
+		printf("%s: command not found\n", commands[0]);
 		return (127);
 	}
 	env_arr = list_to_arr(env);
 	if (env_arr == NULL)
 		return (msg_mallocfail());
-	
 	path = find_path(env, commands[0]);
-	if (path == NULL)
+	if (path == NULL && ft_strchr(commands[0], '/') == 0)
 	{
-		printf(" %s: command not found\n", commands[0]);
+		printf("%s: command not found\n", commands[0]);
+		return (127);
+	}
+	else if (path == NULL && ft_strchr(commands[0], '/') != 0)
+	{
+		printf("%s: No such file or directory\n", commands[0]);
 		return (127);
 	}
 	if (execve(path, commands, env_arr) == -1)

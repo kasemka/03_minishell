@@ -2,7 +2,7 @@
 
 //$? - error num
 //echo * -????
-int		bldin_echo(char **args)
+int	bldin_echo(char **args)
 {
 	int		i;
 
