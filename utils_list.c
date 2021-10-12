@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_list.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lelle <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/12 14:26:14 by lelle             #+#    #+#             */
+/*   Updated: 2021/10/12 14:26:16 by lelle            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	len_lst(t_env *lst)
@@ -57,7 +69,7 @@ t_env	*arr_to_list(char **envp, int env_len)
 		env_list->key_vl = ft_strdup(envp[env_len]);
 		if (env_list->key_vl == NULL)
 			msg_mallocfail();
-		env_list->flag = 1;
+		env_list->flg = 1;
 		if (ft_strncmp(env_list->key_vl, "_=", 2) != 0)
 			env_list->printed = -1;
 		else
@@ -89,7 +101,7 @@ int	add_new_list(t_env *env, int flag, int printed)
 		env = env->next;
 	env->next = env_new;
 	env_new->next = NULL;
-	env_new->flag = flag;
+	env_new->flg = flag;
 	env_new->printed = printed;
 	return (1);
 }

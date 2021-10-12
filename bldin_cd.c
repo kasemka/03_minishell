@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bldin_cd.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lelle <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/12 14:20:50 by lelle             #+#    #+#             */
+/*   Updated: 2021/10/12 14:24:52 by lelle            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 char	*define_home(t_env *env, int *flag, int *home_empty)
@@ -11,7 +23,7 @@ char	*define_home(t_env *env, int *flag, int *home_empty)
 			if (env->key_vl[5] != '\0')
 			{
 				home = env->key_vl + 5;
-				*flag = env->flag;
+				*flag = env->flg;
 				if (*flag != 4 || *home_empty == 1)
 					break ;
 			}
@@ -43,8 +55,9 @@ int	change_dir(char **arg, char *home_dir)
 		status = chdir(arg[1]);
 	if (status != 0)
 	{
-		printf("cd: %s: No such file or directory", arg[1]);
-		g_exitcode = 1;
+		printf("cd: ");
+		msg_error_str(arg[1]);
+		return (1);
 	}
 	return (0);
 }
@@ -63,13 +76,14 @@ int	change_oldpwd(t_env *env)
 		add_new_list(env, 1, -1);
 		last_list(env)->key_vl = ft_strdup("OLDPWD=");
 		if (!last_list(env)->key_vl)
-			msg_mallocfail();
+			return (msg_mallocfail());
 	}
 	else if (tmp1 != NULL && tmp2 != NULL)
+	{
 		tmp2->key_vl = ft_strjoin("OLDPWD=", tmp1->key_vl + 4);
-	if ((tmp1 == NULL && tmp2 == NULL && last_list(env)->key_vl == NULL) \
-	|| (tmp2 != NULL && tmp2->key_vl == NULL))
-		return (1);
+		if (tmp2->key_vl == NULL)
+			return (msg_mallocfail());
+	}
 	return (0);
 }
 
@@ -87,7 +101,7 @@ int	change_pwd(t_env *env, char *newpwd)
 		free(tmp->key_vl);
 	tmp->key_vl = ft_strjoin("PWD=", newpwd);
 	if (tmp->key_vl == NULL)
-		msg_mallocfail();
+		return (msg_mallocfail());
 	return (0);
 }
 
@@ -113,7 +127,7 @@ int	bldin_cd(t_env *env, char **arg)
 	home_empty = 0;
 	home_dir = define_home(env, &flag, &home_empty);
 	if ((arg[1] == NULL || ft_strncmp(arg[1], "~", 2) == 0) && home_empty)
-		return (1);
+		return (0);
 	else if (arg[1] == NULL && flag == 4)
 	{
 		printf("cd: HOME not set\n");

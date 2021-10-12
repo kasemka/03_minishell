@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print_env.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lelle <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/12 14:27:12 by lelle             #+#    #+#             */
+/*   Updated: 2021/10/12 14:27:14 by lelle            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	clean_print_status(t_env *lst)
@@ -43,7 +55,7 @@ void	print_export(t_env *env)
 				min_l = t;
 			t = t->next;
 		}
-		if (min_l->flag == 1 || min_l->flag == 2)
+		if (min_l->flg == 1 || min_l->flg == 2)
 			print_export2(min_l);
 		min_l->printed = 1;
 	}
@@ -66,9 +78,9 @@ void	print_env(t_env *lst, char *args)
 	{
 		while (lst)
 		{
-			if (cmd_flag == 1 && lst->flag == 1)
+			if (cmd_flag == 1 && lst->flg == 1)
 				printf("%s \n", lst->key_vl);
-			else if (cmd_flag == 3 && (lst->flag == 1 || lst->flag == 3))
+			else if (cmd_flag == 3 && (lst->flg == 1 || lst->flg == 3))
 				printf("%s \n", lst->key_vl);
 			lst = lst->next;
 		}

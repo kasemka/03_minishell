@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bldin_unset.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lelle <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/12 14:27:34 by lelle             #+#    #+#             */
+/*   Updated: 2021/10/12 14:27:36 by lelle            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 // unset asdf asdfsd HOME - only HOME removed from env
@@ -48,7 +60,7 @@ int	bldin_unset(t_env **env_list, char **arg)
 			while (t != NULL)
 			{
 				if (ft_strnstr(t->key_vl, arg[i], len) != NULL && \
-				ft_strnstr(t->key_vl + len, "=", 1) && t->flag != 4)
+				ft_strnstr(t->key_vl + len, "=", 1) && t->flg != 4)
 				{
 					rm_from_list(env_list, t);
 					break ;

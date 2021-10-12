@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bldin_export.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lelle <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/12 14:25:05 by lelle             #+#    #+#             */
+/*   Updated: 2021/10/12 14:25:08 by lelle            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 // HOME=5555
@@ -23,11 +35,11 @@ int	add_env(t_env *env, char *key_value, char *cmd)
 	if (new_list->key_vl == NULL)
 		return (msg_error());
 	if (ft_strchr(key_value, '=') != NULL && is_set == 0)
-		new_list->flag = 1;
+		new_list->flg = 1;
 	else if (ft_strchr(key_value, '=') != NULL && is_set == 1)
-		new_list->flag = 3;
+		new_list->flg = 3;
 	else
-		new_list->flag = 2;
+		new_list->flg = 2;
 	return (0);
 }
 
@@ -58,8 +70,7 @@ int	bldin_export(t_env **env, char **arg)
 		while (t)
 		{
 			if (((ft_strncmp(t->key_vl, arg[i], len) == 0 && len) || \
-			ft_strncmp(t->key_vl, arg[i], ft_strlen(arg[i])) == 0) \
-			&& t->flag != 4)
+			ft_strncmp(t->key_vl, arg[i], ft_strlen(arg[i])) == 0) && t->flg != 4)
 			{
 				change_env(t, arg[i]);
 				break ;

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   other_cmd.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lelle <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/12 14:26:57 by lelle             #+#    #+#             */
+/*   Updated: 2021/10/12 14:27:02 by lelle            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 //check if curr dir in PATH ::, : at the beginnig
@@ -40,16 +52,11 @@ char	*search_in_curdir(char *cmd)
 
 char	*find_path(t_env *env, char *cmd_input)
 {
-	int			i;
 	char		**envpath;
 	char		*key;
 	char		*cmd;
 	char		*path;
-	struct stat	buf;
 
-	i = -1;
-	if (stat(cmd_input, &buf) == 0)
-		return (cmd_input);
 	key = (find_by_key(env, "PATH"))->key_vl + 5;
 	if (key == NULL)
 		return (NULL);
@@ -66,7 +73,7 @@ char	*find_path(t_env *env, char *cmd_input)
 	if (path != NULL)
 		return (path);
 	else
-		free (path);
+		free(path);
 	return (NULL);
 }
 
@@ -74,28 +81,24 @@ char	*find_path(t_env *env, char *cmd_input)
 //
 int	other_cmd(t_env *env, char **commands)
 {
-	char	*path;
-	char	**env_arr;
+	char		*path;
+	char		**env_arr;
+	struct stat	buf;
 
-	if (env == NULL)
-	{
-		printf("%s: command not found\n", commands[0]);
-		return (127);
-	}
 	env_arr = list_to_arr(env);
 	if (env_arr == NULL)
 		return (msg_mallocfail());
-	path = find_path(env, commands[0]);
+	if (stat(commands[0], &buf) == 0)
+		path = commands[0];
+	else
+		path = find_path(env, commands[0]);
 	if (path == NULL && ft_strchr(commands[0], '/') == 0)
 	{
 		printf("%s: command not found\n", commands[0]);
-		return (127);
+		return (errno);
 	}
 	else if (path == NULL && ft_strchr(commands[0], '/') != 0)
-	{
-		printf("%s: No such file or directory\n", commands[0]);
-		return (127);
-	}
+		return (msg_error_str(commands[0]));
 	if (execve(path, commands, env_arr) == -1)
 		return (msg_error());
 	ft_free_2array(env_arr);

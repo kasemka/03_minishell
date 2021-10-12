@@ -30,7 +30,7 @@ int main(int argc, char **argv, char **envp)
 	else if (ft_strncmp(commands[0], "echo", 5) == 0)
 		bldin_echo(commands);
 	else if (ft_strncmp(commands[0], "cd", 3) == 0)
-		bldin_cd(env, commands);
+		g_exitcode = bldin_cd(env, commands);
 	else if (ft_strncmp(commands[0], "exit", 5) == 0)
 		bldin_exit(commands);
 	else
@@ -43,5 +43,5 @@ int main(int argc, char **argv, char **envp)
 	// printf("\n\nSET\n");
 	// print_env(env, "set_local");
 	// pause();
-	return (0);
+	return (g_exitcode);
 }
