@@ -17,7 +17,7 @@ int	check_export_name(char *key_value)
 	int	i;
 
 	i = 0;
-	if (ft_isalpha(key_value[0]) == 0)
+	if (ft_isalpha(key_value[0]) == 0 && key_value[0] != '_')
 	{
 		printf("export: `%s\': not a valid identifier\n", key_value);
 		g_exitcode = 1;
@@ -25,9 +25,11 @@ int	check_export_name(char *key_value)
 	}
 	while (key_value[++i] != '=' && key_value[i] != '\0')
 	{
-		if (!ft_isalpha(key_value[i]) && !ft_isdigit(key_value[i]) && \
-		key_value[i] != '_')
+		if ((!ft_isalpha(key_value[i]) && !ft_isdigit(key_value[i]) && \
+		key_value[i] != '_'))
 		{
+			if (key_value[i] == '+' && key_value[i + 1] == '=')
+				return (0);
 			printf("export: `%s': not a valid identifier\n", key_value);
 			g_exitcode = 1;
 			return (1);
@@ -38,11 +40,15 @@ int	check_export_name(char *key_value)
 
 int	len_key(char *str)
 {
-	char		*char_str;
+	char		*str_p;
 
-	char_str = ft_strchr(str, '=');
-	if (char_str != NULL)
-		return (char_str - str + 1);
+	str_p = str;
+	while (*str_p != '=' && *str_p != '+' && *str_p)
+		str_p++;
+	if (*str_p == '+' && *(str_p + 1) == '=')
+		return (str_p - str);
+	if (*str_p == '=')
+		return (str_p - str);
 	return (0);
 }
 

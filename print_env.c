@@ -28,8 +28,8 @@ void	print_export2(t_env *min_l)
 		printf("declare -x %s\n", min_l->key_vl);
 	else
 	{
-		printf("declare -x %.*s\"", len_key(min_l->key_vl), min_l->key_vl);
-		printf("%s\"\n", len_key(min_l->key_vl) + min_l->key_vl);
+		printf("declare -x %.*s\"", len_key(min_l->key_vl) + 1, min_l->key_vl);
+		printf("%s\"\n", len_key(min_l->key_vl) + 1 + min_l->key_vl);
 	}
 }
 

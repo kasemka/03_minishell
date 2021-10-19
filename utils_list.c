@@ -73,7 +73,11 @@ t_env	*arr_to_list(char **envp, int env_len)
 		if (ft_strncmp(env_list->key_vl, "_=", 2) != 0)
 			env_list->printed = -1;
 		else
+		{
 			env_list->printed = 0;
+			free(env_list->key_vl);
+			env_list->key_vl = "_=env";
+		}
 		env_list->next = temp;
 		temp = env_list;
 	}
