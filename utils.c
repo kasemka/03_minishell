@@ -26,11 +26,7 @@ int	check_export_name(char *key_value)
 	while (key_value[++i] != '=' && key_value[i] != '\0')
 	{
 		if ((!ft_isalpha(key_value[i]) && !ft_isdigit(key_value[i]) && \
-<<<<<<< HEAD
-		key_value[i] != '_' && key_value[i] != '+') || (key_value[i] == '+' && key_value[i + 1] != '='))
-=======
 		key_value[i] != '_'))
->>>>>>> 544d9617b7e20fec5564a04341da6159173ad8ce
 		{
 			if (key_value[i] == '+' && key_value[i + 1] == '=')
 				return (0);
