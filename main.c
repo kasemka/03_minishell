@@ -40,6 +40,13 @@ int main(int argc, char **argv, char **envp)
 	// print_env(env, "env");
 	// printf("\n\nEXPORT\n");
 	// print_env(env, "export");
+<<<<<<< HEAD
+=======
+	printf("\n\nENV\n");
+	print_env(env, "env");
+	printf("\n\nEXPORT\n");
+	print_env(env, "export");
+>>>>>>> logic
 	//printf("\n\nSET\n");
 	//print_env(env, "set_local");
 	// pause();
