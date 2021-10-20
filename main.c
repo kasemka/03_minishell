@@ -47,5 +47,6 @@ int main(int argc, char **argv, char **envp)
 	//printf("\n\nSET\n");
 	//print_env(env, "set_local");
 	// pause();
+	//test
 	return (g_exitcode);
 }
