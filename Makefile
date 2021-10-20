@@ -1,54 +1,34 @@
-NAME = minishell
+NAME 	=	minishell
 
-SRC = main.c\
-libft/ft_strlen.c\
-libft/ft_strnstr.c\
-libft/ft_split.c\
-libft/ft_strchr.c\
-libft/ft_strncmp.c\
-libft/ft_strdup.c\
-libft/ft_isdigit.c\
-libft/ft_isalpha.c\
-libft/ft_memcmp.c\
-libft/ft_strlcpy.c\
-libft/ft_strjoin.c\
-libft/ft_atoi.c\
-bldin_cd.c\
-bldin_echo.c\
-bldin_env.c\
-bldin_exit.c\
-bldin_export.c\
-bldin_pwd.c\
-bldin_unset.c\
-utils_list.c\
-utils.c\
-utils_print.c\
-utils_arrays.c\
-other_cmd.c\
-print_env.c
+HEADER	=	minishell.h
 
+SRC		=	$(wildcard *.c)
 
-HEADER = minishell.h
-OBJ = $(SRC:.c=.o)
+LIBFT	=	libft/libft.a
 
-CC = gcc
-FLAGS = -Wall -Wextra -Werror
+OBJ		=	$(SRC:.c=.o)
 
-%.o: %.c $(HEADER)
-		$(CC) -g $(FLAGS) -c -o $@ $<
+CC		=	gcc
+FLAGS	=	-Wall -Wextra -Werror
 
-$(NAME): $(OBJ)
-		$(CC) -g $(FLAGS) -o $@ $^ 
-		rm -f $(OBJ)
+%.o:		%.c $(HEADER)
+			$(CC) -g $(FLAGS) -c -o $@ $<
 
-all: $(NAME)
+$(NAME):	$(OBJ) $(HEADER)
+			$(MAKE) -C ./libft
+			$(CC) -g $(FLAGS) $(OBJ) libft/libft.a -o $(NAME)
+			rm -f $(OBJ)
+
+all:		$(NAME)
 
 clean:
-	rm -f $(OBJ)
+			$(MAKE) clean -C ./libft
+			rm -f $(OBJ)
 
-fclean:	clean
-	rm -f $(NAME)
+fclean:		clean
+			$(MAKE) clean -C ./libft
+			rm -f $(NAME)
 
-re:	fclean all
+re:			fclean all
 
-.PHONY: all clean fclean re
+.PHONY:		all clean fclean re

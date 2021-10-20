@@ -31,7 +31,10 @@ int	add_env(t_env *env, char *key_value, char *cmd)
 	add_new_list(env, 0, -1);
 	while (new_list->next != NULL)
 		new_list = new_list->next;
-	new_list->key_vl = ft_strdup(key_value);
+	if (ft_strnstr(key_value, "+=", 2))
+		printf("TRUE");
+	else 
+		new_list->key_vl = ft_strdup(key_value);
 	if (new_list->key_vl == NULL)
 		return (msg_error());
 	if (ft_strchr(key_value, '=') != NULL && is_set == 0)
