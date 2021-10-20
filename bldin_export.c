@@ -12,13 +12,7 @@
 
 #include "minishell.h"
 
-// HOME=5555
-// arg="2 3 1"
-// check key value includes only char + digit+ _
-// export 12HOME=asdf
-// export 1 asdfa=4 cccc ccc
 //flag 1 = env, 2 = export, 3 = set 
-// export 3 2 la=laaaaaaaaaaaaaaaaaaaaaaaa
 int	add_env(t_env *env, char *key_value, char *cmd)
 {
 	t_env	*new_list;
@@ -31,9 +25,16 @@ int	add_env(t_env *env, char *key_value, char *cmd)
 	add_new_list(env, 0, -1);
 	while (new_list->next != NULL)
 		new_list = new_list->next;
+<<<<<<< HEAD
 	if (ft_strnstr(key_value, "+=", 2))
 		printf("TRUE");
 	else 
+=======
+	if (ft_strnstr(key_value, "+=", 2) == 0)
+		new_list->key_vl = ft_strjoin(ft_substr(key_value, 0, \
+		len_key(key_value)), key_value + len_key(key_value) + 1);
+	else
+>>>>>>> 544d9617b7e20fec5564a04341da6159173ad8ce
 		new_list->key_vl = ft_strdup(key_value);
 	if (new_list->key_vl == NULL)
 		return (msg_error());
@@ -48,13 +49,24 @@ int	add_env(t_env *env, char *key_value, char *cmd)
 
 void	change_env(t_env *env, char *key_vl)
 {
-	free(env->key_vl);
-	if (ft_strncmp(key_vl, "_=", 2) == 0)
+	char	*new_vl;
+	char	*old_vl;
+
+	old_vl = key_vl;
+	new_vl = NULL;
+	if (ft_strncmp(key_vl, "_=", 2) == 0 || ft_strncmp(key_vl, "_+=", 3) == 0)
 		env->key_vl = ft_strdup("_=env");
+	else if (key_vl[len_key(key_vl)] == '+')
+	{
+		new_vl = ft_strjoin(env->key_vl, (key_vl + len_key(key_vl) + 2));
+		if (new_vl != NULL)
+			env->key_vl = new_vl;
+	}
 	else
 		env->key_vl = ft_strdup(key_vl);
 	if (env->key_vl == NULL)
 		msg_error();
+	free(old_vl);
 }
 
 int	bldin_export(t_env **env, char **arg)
@@ -72,8 +84,9 @@ int	bldin_export(t_env **env, char **arg)
 		len = len_key(arg[i]);
 		while (t)
 		{
-			if (((ft_strncmp(t->key_vl, arg[i], len) == 0 && len) || \
-			ft_strncmp(t->key_vl, arg[i], ft_strlen(arg[i])) == 0) && t->flg != 4)
+			if (((!ft_strncmp(t->key_vl, arg[i], len) && \
+			t->key_vl[len] == '=' && len) || ft_strncmp(t->key_vl, arg[i], \
+			!ft_strlen(arg[i]))) && t->flg != 4)
 			{
 				change_env(t, arg[i]);
 				break ;
