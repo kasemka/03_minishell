@@ -36,17 +36,10 @@ int main(int argc, char **argv, char **envp)
 	else
 		g_exitcode = other_cmd(env, commands);
 	// printf("3______________________________________________________________________________________________________________________________________________________________________________________________________________\n");
-<<<<<<< HEAD
 	// printf("\n\nENV\n");
 	// print_env(env, "env");
 	// printf("\n\nEXPORT\n");
 	// print_env(env, "export");
-=======
-	printf("\n\nENV\n");
-	print_env(env, "env");
-	printf("\n\nEXPORT\n");
-	print_env(env, "export");
->>>>>>> 544d9617b7e20fec5564a04341da6159173ad8ce
 	//printf("\n\nSET\n");
 	//print_env(env, "set_local");
 	// pause();
