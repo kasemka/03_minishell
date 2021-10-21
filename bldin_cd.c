@@ -35,7 +35,6 @@ char	*define_home(t_env *env, int *flag, int *home_empty)
 	return (home);
 }
 
-// int	change_dir(t_env *env, char **arg, char *home_dir)
 int	change_dir(char **arg, char *home_dir)
 {
 	char	*home;
@@ -100,26 +99,22 @@ int	change_pwd(t_env *env, char *newpwd)
 	else
 		free(tmp->key_vl);
 	tmp->key_vl = ft_strjoin("PWD=", newpwd);
+	free(newpwd);
 	if (tmp->key_vl == NULL)
 		return (msg_mallocfail());
 	return (0);
 }
 
 // flag 4 = if HOME not in env
-// export HOME=null; cd ~ or cd - both do not work and show error
-// export HOME=, cd ~ or cd - both do not work. no error
-// HOME=solong, cd ~ or cd - both do not work
-// unset HOME, cd ~ or cd - first do not work and show error
 // flag=4 for additional home
-// cd dir | rm -rf dir; pwd
 int	bldin_cd(t_env *env, char **arg)
 {
 	char		*home_dir;
 	int			flag;
 	int			home_empty;
 	char		*oldpwd;
+	int			status;
 
-	g_exitcode = 0;
 	oldpwd = malloc(4096 * sizeof(char));
 	if (oldpwd == NULL)
 		msg_mallocfail();
@@ -129,12 +124,10 @@ int	bldin_cd(t_env *env, char **arg)
 	if ((arg[1] == NULL || ft_strncmp(arg[1], "~", 2) == 0) && home_empty)
 		return (0);
 	else if (arg[1] == NULL && flag == 4)
-	{
-		printf("cd: HOME not set\n");
-		return (1);
-	}
-	if (change_dir(arg, home_dir) == 1)
-		return (1);
+		return(msg_home_not_set());
+	status = change_dir(arg, home_dir);
+	if (status)
+		return (status);
 	getcwd(oldpwd, 4096);
 	if (change_oldpwd(env) || change_pwd(env, oldpwd))
 		return (1);

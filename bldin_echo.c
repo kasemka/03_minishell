@@ -12,9 +12,6 @@
 
 #include "minishell.h"
 
-//$? - error num
-//echo * -????
-// echo $((1+1))
 int	bldin_echo(char **args)
 {
 	int		i;

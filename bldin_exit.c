@@ -26,15 +26,6 @@ int	is_num(char *s)
 	return (1);
 }
 
-// exit | echo "how" - exit ignored
-// echo "how" | exit - both ignored
-// exit asd - works but with error
-// between 0 and 255
-// Other numbers can be used, but these are treated modulo 256, 
-// so exit -10 is equivalent to exit 246, 
-// and exit 257 is equivalent to exit 1.
-// change SHLVL in env??? probably later
-// exit * asd"
 int	bldin_exit(char **args)
 {
 	(void)args;

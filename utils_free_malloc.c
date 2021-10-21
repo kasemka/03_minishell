@@ -1,37 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_print.c                                      :+:      :+:    :+:   */
+/*   utils_list2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lelle <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/12 14:26:24 by lelle             #+#    #+#             */
-/*   Updated: 2021/10/12 14:26:26 by lelle            ###   ########.fr       */
+/*   Created: 2021/10/20 21:38:02 by lelle             #+#    #+#             */
+/*   Updated: 2021/10/20 21:38:05 by lelle            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	msg_error_str(char *s)
+void	free_list(t_env *env)
 {
-	printf("%s: %s\n", s, strerror(errno));
-	return (errno);
-}
+	t_env	*tmp;
 
-int	msg_error(void)
-{
-	printf("%s\n", strerror(errno));
-	return (errno);
-}
-
-int	msg_mallocfail(void)
-{
-	printf("Cannot allocate memory.\n");
-	return (12);
-}
-
-int	msg_home_not_set(void)
-{
-	printf("cd: HOME not set\n");
-	return (1);
+	while (env != NULL)
+	{
+		tmp = env->next;
+		free(env->key_vl);
+		free(env);
+		env = tmp;
+	}
 }

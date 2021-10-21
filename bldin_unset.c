@@ -12,13 +12,6 @@
 
 #include "minishell.h"
 
-// unset asdf asdfsd HOME - only HOME removed from env
-// unset $HOME - if key in env: unset: `/Users/lelle': not a valid identifier.
-// unset $COLORFGBG - not a valid identifier
-// unset asdf asf - if key not in env: nothing happens
-// unset _= - does not work
-// unset with asdfasdf= -with "=" not a valid identifier
-// unset HOME= - доработать вывод ошибки
 void	rm_from_list(t_env **env_list, t_env *env_list_tmp)
 {
 	t_env	*tmp;
@@ -36,12 +29,12 @@ void	rm_from_list(t_env **env_list, t_env *env_list_tmp)
 		if (tmp == env_list_tmp)
 		{
 			env_list_tmp->next = NULL;
-			free(env_list_tmp->key_vl);
-			free(env_list_tmp);
 			break ;
 		}
 		tmp = tmp->next;
 	}
+	free(env_list_tmp->key_vl);
+	free(env_list_tmp);
 }
 
 int	bldin_unset(t_env **env_list, char **arg)

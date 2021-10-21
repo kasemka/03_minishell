@@ -20,7 +20,7 @@ int	bldin_pwd(void)
 	size = 4096;
 	buf = malloc(size * sizeof(char));
 	if (buf == NULL)
-		msg_mallocfail();
+		return(msg_mallocfail());
 	printf("%s\n", getcwd(buf, size));
 	free(buf);
 	return (0);

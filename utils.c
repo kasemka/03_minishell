@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	check_export_name(char *key_value)
+int	check_name(char *key_value)
 {
 	int	i;
 
@@ -34,7 +34,6 @@ int	check_export_name(char *key_value)
 			g_exitcode = 1;
 			return (1);
 		}
-
 	}
 	return (0);
 }

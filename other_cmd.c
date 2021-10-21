@@ -70,20 +70,15 @@ char	*find_path(t_env *env, char *cmd_input)
 	if (path == NULL && (ft_strnstr(key, "::", ft_strlen(key)) != NULL \
 	|| key[0] == ':'))
 		path = search_in_curdir(cmd);
-	if (path != NULL)
-		return (path);
-	else
-		free(path);
-	return (NULL);
+	return (path);
 }
 
-// bin/ls
-//
 int	other_cmd(t_env *env, char **commands)
 {
 	char		*path;
 	char		**env_arr;
 	struct stat	buf;
+	int			pid;
 
 	env_arr = list_to_arr(env);
 	if (env_arr == NULL)
@@ -93,14 +88,16 @@ int	other_cmd(t_env *env, char **commands)
 	else
 		path = find_path(env, commands[0]);
 	if (path == NULL && ft_strchr(commands[0], '/') == 0)
-	{
 		printf("%s: command not found\n", commands[0]);
-		return (errno);
-	}
 	else if (path == NULL && ft_strchr(commands[0], '/') != 0)
-		return (msg_error_str(commands[0]));
-	if (execve(path, commands, env_arr) == -1)
+		printf("%s: No such file or directory\n", commands[0]);
+	if (path == NULL)
+		return (127);
+	pid = fork();
+	if (pid == 0 && execve(path, commands, env_arr) == -1 )
 		return (msg_error());
+	else
+		wait(NULL);
 	ft_free_2array(env_arr);
 	return (0);
 }
