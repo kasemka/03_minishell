@@ -7,16 +7,19 @@
 int main(int argc, char **argv, char **envp)
 {
 	// int i;
-	t_env *env;
-	char  **commands;
+	t_env	*env;
+	char	**commands;
 
 	(void)argc;
+	(void)argv;
+
+	if (argc == 1)
+		return (0);
 	// printf("1______________________________________________________________________________________________________________________________________________________________________________________________________________\n");
 	// i = 0;
 	env = arr_to_list(envp, len_arr(envp));
 	add_addit_home(env);
-	// printfList(env);
-	// printf("2------------------------------------------------------------------\n");
+	printf("2------------------------------------------------------------------\n");
 	commands = ft_split(argv[1], ' ');
 	if (ft_strncmp(commands[0], "env", 4) == 0)
 		bldin_env(env);
@@ -35,18 +38,7 @@ int main(int argc, char **argv, char **envp)
 		bldin_exit(commands);
 	else
 		g_exitcode = other_cmd(env, commands);
-	// printf("3______________________________________________________________________________________________________________________________________________________________________________________________________________\n");
-	// printf("\n\nENV\n");
-	// print_env(env, "env");
-	// printf("\n\nEXPORT\n");
-	// print_env(env, "export");
-	// printf("\n\nENV\n");
-	// print_env(env, "env");
-	// printf("\n\nEXPORT\n");
-	// print_env(env, "export");
-	//printf("\n\nSET\n");
-	//print_env(env, "set_local");
-	// pause();
-	//test
+	free_list(env);
+	printf("\nendddd...\n");
 	return (g_exitcode);
 }

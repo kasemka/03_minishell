@@ -76,7 +76,7 @@ t_env	*arr_to_list(char **envp, int env_len)
 		{
 			env_list->printed = 0;
 			free(env_list->key_vl);
-			env_list->key_vl = "_=env";
+			env_list->key_vl = ft_strdup("_=env");
 		}
 		env_list->next = temp;
 		temp = env_list;

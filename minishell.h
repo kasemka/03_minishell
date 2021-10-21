@@ -32,6 +32,7 @@ typedef struct s_env {
 int		msg_error(void);
 int		msg_error_str(char *s);
 int		msg_mallocfail(void);
+int		msg_command_not_found(char *s);
 int		len_arr(char **env);
 int		bldin_cd(t_env *env_list, char **args);
 int		bldin_echo(char **args);
@@ -54,6 +55,7 @@ char	**list_to_arr(t_env *env);
 t_env	*arr_to_list(char **env, int env_len);
 t_env	*find_by_key(t_env *env, char *key_env);
 t_env	*last_list(t_env *env);
+void	free_list(t_env *env);
 void	printArr(char **arr);
 
 #endif

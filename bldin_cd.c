@@ -35,7 +35,6 @@ char	*define_home(t_env *env, int *flag, int *home_empty)
 	return (home);
 }
 
-// int	change_dir(t_env *env, char **arg, char *home_dir)
 int	change_dir(char **arg, char *home_dir)
 {
 	char	*home;
@@ -100,18 +99,14 @@ int	change_pwd(t_env *env, char *newpwd)
 	else
 		free(tmp->key_vl);
 	tmp->key_vl = ft_strjoin("PWD=", newpwd);
+	free(newpwd);
 	if (tmp->key_vl == NULL)
 		return (msg_mallocfail());
 	return (0);
 }
 
 // flag 4 = if HOME not in env
-// export HOME=null; cd ~ or cd - both do not work and show error
-// export HOME=, cd ~ or cd - both do not work. no error
-// HOME=solong, cd ~ or cd - both do not work
-// unset HOME, cd ~ or cd - first do not work and show error
 // flag=4 for additional home
-// cd dir | rm -rf dir; pwd
 int	bldin_cd(t_env *env, char **arg)
 {
 	char		*home_dir;

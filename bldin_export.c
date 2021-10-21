@@ -12,13 +12,7 @@
 
 #include "minishell.h"
 
-// HOME=5555
-// arg="2 3 1"
-// check key value includes only char + digit+ _
-// export 12HOME=asdf
-// export 1 asdfa=4 cccc ccc
 //flag 1 = env, 2 = export, 3 = set 
-// export 3 2 la=laaaaaaaaaaaaaaaaaaaaaaaa
 int	add_env(t_env *env, char *key_value, char *cmd)
 {
 	t_env	*new_list;
@@ -33,7 +27,7 @@ int	add_env(t_env *env, char *key_value, char *cmd)
 		new_list = new_list->next;
 	if (ft_strnstr(key_value, "+=", 2))
 		printf("TRUE");
-	else 
+	else
 		new_list->key_vl = ft_strdup(key_value);
 	if (new_list->key_vl == NULL)
 		return (msg_error());
