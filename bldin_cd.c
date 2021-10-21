@@ -113,8 +113,8 @@ int	bldin_cd(t_env *env, char **arg)
 	int			flag;
 	int			home_empty;
 	char		*oldpwd;
+	int			status;
 
-	g_exitcode = 0;
 	oldpwd = malloc(4096 * sizeof(char));
 	if (oldpwd == NULL)
 		msg_mallocfail();
@@ -124,12 +124,10 @@ int	bldin_cd(t_env *env, char **arg)
 	if ((arg[1] == NULL || ft_strncmp(arg[1], "~", 2) == 0) && home_empty)
 		return (0);
 	else if (arg[1] == NULL && flag == 4)
-	{
-		printf("cd: HOME not set\n");
-		return (1);
-	}
-	if (change_dir(arg, home_dir) == 1)
-		return (1);
+		return(msg_home_not_set());
+	status = change_dir(arg, home_dir);
+	if (status)
+		return (status);
 	getcwd(oldpwd, 4096);
 	if (change_oldpwd(env) || change_pwd(env, oldpwd))
 		return (1);

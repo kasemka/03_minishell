@@ -29,3 +29,9 @@ int	msg_mallocfail(void)
 	printf("Cannot allocate memory.\n");
 	return (12);
 }
+
+int	msg_home_not_set(void)
+{
+	printf("cd: HOME not set\n");
+	return (1);
+}
