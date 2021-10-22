@@ -15,14 +15,13 @@ int pipe_o_redirect(char *str)
 	return (0);
 }
 
-void ft_isspace(char **str)
+void ft_isspace(char *str, int *s_w_i)
 {
-	if (*str)
-		while ((**str ==' ' || **str == '\t' || **str == '\n' || **str == '\v' \
-		|| **str == '\f' || **str == '\r') && **str)
-		{
-			(*str)++;
-		}
+	if (str[s_w_i[2]])
+		while ((str[s_w_i[2]] ==' ' || str[s_w_i[2]] == '\t' || \
+		str[s_w_i[2]] == '\n' || str[s_w_i[2]] == '\v' || str[s_w_i[2]] == '\f'\
+		|| str[s_w_i[2]] == '\r') && str[s_w_i[2]])
+			s_w_i[2]++;
 }
 
 char *get_var(char *str, int *i)
@@ -61,7 +60,8 @@ t_parsing	*new_list(void)
 	{
 		commons->args = NULL;
 		commons->next = NULL;
-		commons->red_o_pipe = NULL;
+		commons->redirects = NULL;
+		commons->real_empty_str = 0;
 		return (commons);
 	}
 }

@@ -13,21 +13,6 @@ char *update_path(char *path, char *str, int start, int len)
 	return (path);
 }
 
-char *get_dollar(int *i, char *str, char *out)
-{
-	char *var_val;
-	char *temp1;
-
-	temp1 = out;
-	var_val = get_var(str, i);
-	if (var_val)
-	{
-		out = ft_strjoin(temp1, var_val);
-		free(temp1);
-	}
-	return (out); // should add free VAR_VAL later
-}
-
 char *get_str_between(char *str, int *i, char c)
 {
 	char *out;

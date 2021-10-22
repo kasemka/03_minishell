@@ -1,5 +1,6 @@
 SRC_S    =   parcer.c help_funcs.c Parser/parser_help.c Parser/parser_help2.c \
-			Parser/parser_help3.c  Parser/parser_help_array.c
+			Parser/parser_help3.c  Parser/parser_help_array.c \
+			Redirect/redirect.c Redirect/pipes.c
 
 OBJ_S    =   ${SRC_S:.c=.o}
 
