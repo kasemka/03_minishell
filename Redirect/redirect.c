@@ -103,8 +103,8 @@ int	make_redirects(t_pipes *pipes)
 		// close file_desc of in if pipes
 		if (pipes->next)
 			close(pipes->next->fd_in);
-		write(1, &a, 1);
-		//run_commands(all_args, pipes->env);
+		//write(1, &a, 1);
+		run_commands(all_args, pipes->env);
 	}
 	if (pipes->fd_in != STD_IN )
 		close (pipes->fd_in);
