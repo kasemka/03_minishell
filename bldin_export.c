@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   bldin_export.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lelle <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: lelle <lelle@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 14:25:05 by lelle             #+#    #+#             */
-/*   Updated: 2021/10/12 14:25:08 by lelle            ###   ########.fr       */
+/*   Updated: 2021/10/23 16:52:54 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "ft_minishell.h"
 
-//flag 1 = env, 2 = export, 3 = set 
+//flag 1 = env, 2 = export, 3 = set
 int	add_env(t_env *env, char *key_value, char *cmd)
 {
 	t_env	*new_list;

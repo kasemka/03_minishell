@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   print_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lelle <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: lelle <lelle@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 14:27:12 by lelle             #+#    #+#             */
-/*   Updated: 2021/10/12 14:27:14 by lelle            ###   ########.fr       */
+/*   Updated: 2021/10/23 16:54:05 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "ft_minishell.h"
 
 void	clean_print_status(t_env *lst)
 {

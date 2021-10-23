@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils_arrays.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lelle <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: lelle <lelle@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 14:26:00 by lelle             #+#    #+#             */
-/*   Updated: 2021/10/12 14:26:06 by lelle            ###   ########.fr       */
+/*   Updated: 2021/10/23 16:54:13 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "ft_minishell.h"
 
 int	len_arr(char **arr)
 {
@@ -47,7 +47,7 @@ char	**list_to_arr(t_env *env)
 	{
 		arr[i] = ft_strdup(env->key_vl);
 		if (arr[i] == NULL)
-		{	
+		{
 			while (i-- >= 0)
 				free(arr[i]);
 			free(arr);

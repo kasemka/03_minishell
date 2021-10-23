@@ -3,7 +3,7 @@
 //flag = 1 env
 //flag = 2 export
 //flag = 3 set
-
+/*
 int main(int argc, char **argv, char **envp)
 {
 	t_env	*env;
@@ -18,8 +18,8 @@ int main(int argc, char **argv, char **envp)
 	free_list(env);
 	printf("\nendddd...\n");
 	return (g_exitcode);
-}
-
-!!!asdfadfasdf
+}*/
 
 
+//KKKg
+TEST!!!!!!!!!!!!!!!

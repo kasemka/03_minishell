@@ -1,26 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_free_malloc.c                                :+:      :+:    :+:   */
+/*   ft_isprint.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lelle <lelle@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gvolibea <gvolibea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/20 21:38:02 by lelle             #+#    #+#             */
-/*   Updated: 2021/10/23 17:38:24 by gvolibea         ###   ########.fr       */
+/*   Created: 2021/09/04 18:58:29 by gvolibea          #+#    #+#             */
+/*   Updated: 2021/09/04 19:00:01 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_minishell.h"
-
-void	free_list_env(t_env *env)
+int	ft_isprint(int c)
 {
-	t_env	*tmp;
-
-	while (env != NULL)
-	{
-		tmp = env->next;
-		free(env->key_vl);
-		free(env);
-		env = tmp;
-	}
+	if (c > 31 && c < 127)
+		return (1);
+	return (0);
 }

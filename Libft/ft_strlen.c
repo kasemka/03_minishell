@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_free_malloc.c                                :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lelle <lelle@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gvolibea <gvolibea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/20 21:38:02 by lelle             #+#    #+#             */
-/*   Updated: 2021/10/23 17:38:24 by gvolibea         ###   ########.fr       */
+/*   Created: 2021/09/04 18:59:05 by gvolibea          #+#    #+#             */
+/*   Updated: 2021/09/04 18:59:47 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_minishell.h"
+#include "libft.h"
 
-void	free_list_env(t_env *env)
+size_t	ft_strlen(const char *s)
 {
-	t_env	*tmp;
+	size_t	counter;
 
-	while (env != NULL)
+	counter = 0;
+	while (*s)
 	{
-		tmp = env->next;
-		free(env->key_vl);
-		free(env);
-		env = tmp;
+		counter++;
+		s++;
 	}
+	return (counter);
 }

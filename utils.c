@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lelle <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: lelle <lelle@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 14:25:45 by lelle             #+#    #+#             */
-/*   Updated: 2021/10/12 14:25:50 by lelle            ###   ########.fr       */
+/*   Updated: 2021/10/23 16:58:49 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "ft_minishell.h"
 
 int	check_name(char *key_value)
 {

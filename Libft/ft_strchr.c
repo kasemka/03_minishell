@@ -1,31 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bldin_echo.c                                       :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lelle <lelle@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gvolibea <gvolibea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/12 14:25:29 by lelle             #+#    #+#             */
-/*   Updated: 2021/10/23 16:52:49 by gvolibea         ###   ########.fr       */
+/*   Created: 2021/09/04 18:58:56 by gvolibea          #+#    #+#             */
+/*   Updated: 2021/09/04 18:59:51 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_minishell.h"
+#include "libft.h"
 
-int	bldin_echo(char **args)
+char	*ft_strchr(const char *s, int c)
 {
 	int		i;
+	char	chr;
 
-	i = 0;
-	if (ft_strncmp(args[1], "-n", 3) == 0)
-		i++;
-	while (args[++i] != NULL)
+	chr = c;
+	if (chr == '\0')
 	{
-		printf("%s", args[i]);
-		if (args[i + 1] != NULL)
-			printf(" ");
+		s += ft_strlen(s);
+		return ((char *)s);
 	}
-	if (ft_strncmp(args[1], "-n", 3) != 0)
-		printf("\n");
-	return (0);
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == chr)
+		{
+			s = s + i;
+			return ((char *)s);
+		}
+		i++;
+	}
+	return (NULL);
 }

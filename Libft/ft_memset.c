@@ -1,26 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_free_malloc.c                                :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lelle <lelle@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gvolibea <gvolibea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/20 21:38:02 by lelle             #+#    #+#             */
-/*   Updated: 2021/10/23 17:38:24 by gvolibea         ###   ########.fr       */
+/*   Created: 2021/09/04 18:58:43 by gvolibea          #+#    #+#             */
+/*   Updated: 2021/09/04 18:59:56 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_minishell.h"
+#include "libft.h"
 
-void	free_list_env(t_env *env)
+void	*ft_memset(void *b, int c, size_t len)
 {
-	t_env	*tmp;
+	size_t			i;
+	char			*str;
+	unsigned char	temp;
 
-	while (env != NULL)
+	temp = c;
+	str = b;
+	i = 0;
+	while (i < len)
 	{
-		tmp = env->next;
-		free(env->key_vl);
-		free(env);
-		env = tmp;
+		str[i] = temp;
+		i++;
 	}
+	return (str);
 }

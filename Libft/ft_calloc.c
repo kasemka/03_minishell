@@ -1,26 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_free_malloc.c                                :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lelle <lelle@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gvolibea <gvolibea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/20 21:38:02 by lelle             #+#    #+#             */
-/*   Updated: 2021/10/23 17:38:24 by gvolibea         ###   ########.fr       */
+/*   Created: 2021/09/04 18:58:15 by gvolibea          #+#    #+#             */
+/*   Updated: 2021/09/04 19:00:08 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_minishell.h"
+#include "libft.h"
 
-void	free_list_env(t_env *env)
+void	*ft_calloc(size_t count, size_t size)
 {
-	t_env	*tmp;
+	void	*out;
 
-	while (env != NULL)
-	{
-		tmp = env->next;
-		free(env->key_vl);
-		free(env);
-		env = tmp;
-	}
+	out = (void *)malloc(count * size);
+	if (out == NULL)
+		return (NULL);
+	ft_bzero (out, count * size);
+	return (out);
 }

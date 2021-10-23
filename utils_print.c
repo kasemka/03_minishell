@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils_print.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lelle <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: lelle <lelle@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 14:26:24 by lelle             #+#    #+#             */
-/*   Updated: 2021/10/12 14:26:26 by lelle            ###   ########.fr       */
+/*   Updated: 2021/10/23 16:58:47 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "ft_minishell.h"
 
 int	msg_error_str(char *s)
 {
