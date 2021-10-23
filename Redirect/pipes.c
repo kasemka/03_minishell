@@ -13,20 +13,8 @@ int	pipes_list_size(t_pipes *pipes)
 	return (i);
 }
 
-void make_pipes(t_pipes *pipes)
+void execution(t_pipes *pipes)
 {
-	// get len_of_pipes_list
-	// if len_of_pipes_list > 1
-		// fd_pipe = make pipes array int **fd (size of list x sizeof(*int))
-		// pipes (fd_pipe)
-	// cycle throght pipes lists (even if no)
-	// --
-		// if pipes
-			// change file descriptors acc to new_pipes - do open / close
-		// launch execution
-		// list++;
-	// --
-
 	//  execution
 	// ++
 		// launch redirects (break pipes in case is necessary)
@@ -39,4 +27,32 @@ void make_pipes(t_pipes *pipes)
 		// else
 			// run comand
 	//++
+	make_redirects(pipes);
+}
+
+void make_pipes(t_pipes *pipes)
+{
+	// cycle throght pipes lists (even if no)
+	// --
+		// if pipes->next
+			// make pipe command
+		// launch execution
+		// list++;
+	// --
+	t_pipes *dup_pipes;
+
+	dup_pipes = pipes;
+	while (dup_pipes)
+	{
+		if (dup_pipes->next)
+		{
+			// make new fd_s and pipe
+			pipe(dup_pipes->fd_pipes);
+			dup_pipes->fd_out = dup_pipes->fd_pipes[1];
+			dup_pipes->next->fd_in = dup_pipes->fd_pipes[0];
+			printf("pipe add is %d",dup_pipes->next->fd_in);
+		}
+		execution(dup_pipes);
+		dup_pipes = dup_pipes->next;
+	}
 }

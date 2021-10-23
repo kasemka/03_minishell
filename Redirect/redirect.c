@@ -76,6 +76,7 @@ int	make_redirects(t_pipes *pipes)
 
 	char		**all_args;
 	t_parsing	*begin;
+	pid_t		pid;
 
 	begin = pipes->parso;
 	all_args = NULL;
@@ -88,8 +89,23 @@ int	make_redirects(t_pipes *pipes)
 	}
 	// print all all_args
 	// check file-descriptors and fork if_NOT_fork if desc else than std_in _ out  -> here we fork in case of NO PIPES
-	// run-commands
-	print_array(all_args);
+	pid = 0;
+	if (pipes->fd_in != STD_IN || pipes->fd_out != STD_OUT)
+		pid = fork();
+	if (!pid)
+	{
+		dup2(pipes->fd_in, STD_IN);
+		dup2(pipes->fd_out, STD_OUT);
+		// close file_desc of in if pipes
+		if (pipes->next)
+			close(pipes->next->fd_in);
+		//run_comand here;
+	}
+	if (pipes->fd_in != STD_IN )
+		close (pipes->fd_in);
+	if (pipes->fd_out != STD_OUT)
+		close (pipes->fd_out);
+	//print_array(all_args);
 	clean_array(all_args);
 	return (0);
 }

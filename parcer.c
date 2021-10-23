@@ -6,7 +6,7 @@
 /*   By: gvolibea <gvolibea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 19:13:17 by gvolibea          #+#    #+#             */
-/*   Updated: 2021/10/22 22:23:52 by gvolibea         ###   ########.fr       */
+/*   Updated: 2021/10/23 15:52:51 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ char *parser(char *str)
 	if (!out)
 		return (exit_failure(pipes, out));
 	//print_list(pipes);
-	make_redirects(pipes);
+	make_pipes(pipes);
 	free (out);
 	free_pipes(pipes);
 	return (str);

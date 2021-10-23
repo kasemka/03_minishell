@@ -6,7 +6,7 @@
 /*   By: gvolibea <gvolibea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 19:13:28 by gvolibea          #+#    #+#             */
-/*   Updated: 2021/10/22 21:19:38 by gvolibea         ###   ########.fr       */
+/*   Updated: 2021/10/23 15:53:23 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct parse_pipes
 {
 	t_parsing			*parso;
 	struct parse_pipes	*next;
+	int					fd_pipes[2];
 	int					fd_in;
 	int					fd_out;
 } t_pipes;
@@ -67,6 +68,7 @@ char **add_array_element(t_parsing *parso, char *str, int words_num);
 int if_pipe_or_redirect(char c);
 t_pipes *new_pipes(void);
 void free_pipes(t_pipes *pipes);
+void make_pipes(t_pipes *pipes);
 
 // make_redirects
 int	make_redirects(t_pipes *pipes);
