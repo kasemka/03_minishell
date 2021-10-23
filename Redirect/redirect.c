@@ -6,11 +6,13 @@ int open_file(char *filename, int red_type)
 
 	fd = -1;
 	if (red_type == 1)
-		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0774);
 	else if (red_type == 2)
-		fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0774);
 	else
 		fd = open(filename, O_RDONLY, 0644);
+
+	// add closing
 	return (fd); // if -1 - send error
 }
 
@@ -80,8 +82,7 @@ int	make_redirects(t_pipes *pipes)
 
 	begin = pipes->parso;
 	all_args = NULL;
- 	//while (ft_strncmp(parso->redirects,">",1) || \
-		ft_strncmp(parso->redirects,">>",2))
+ 	//while (ft_strncmp(parso->redirects,">",1) ||	ft_strncmp(parso->redirects,">>",2))
 	while (begin)
 	{
 		all_args = update_array(all_args, pipes, begin);
@@ -89,7 +90,10 @@ int	make_redirects(t_pipes *pipes)
 	}
 	// print all all_args
 	// check file-descriptors and fork if_NOT_fork if desc else than std_in _ out  -> here we fork in case of NO PIPES
+	//printf("out is %d",pipes->fd_out);
 	pid = 0;
+	char a;
+	a = 'a';
 	if (pipes->fd_in != STD_IN || pipes->fd_out != STD_OUT)
 		pid = fork();
 	if (!pid)
@@ -99,7 +103,8 @@ int	make_redirects(t_pipes *pipes)
 		// close file_desc of in if pipes
 		if (pipes->next)
 			close(pipes->next->fd_in);
-		//run_comand here;
+		write(1, &a, 1);
+		//run_commands(all_args, pipes->env);
 	}
 	if (pipes->fd_in != STD_IN )
 		close (pipes->fd_in);

@@ -6,7 +6,7 @@
 /*   By: gvolibea <gvolibea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 19:13:28 by gvolibea          #+#    #+#             */
-/*   Updated: 2021/10/23 15:53:23 by gvolibea         ###   ########.fr       */
+/*   Updated: 2021/10/23 17:41:23 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,15 @@
 # define SHL_NAME	"\033[32mgoonndy$ \033[0m"
 # define STD_IN		0
 # define STD_OUT	1
+
+int		g_exitcode;
+
+typedef struct s_env {
+	char			*key_vl;
+	char			flg;
+	int				printed;
+	struct s_env	*next;
+}	t_env;
 
 typedef struct s_parsing
 {
@@ -31,6 +40,7 @@ typedef struct parse_pipes
 	int					fd_pipes[2];
 	int					fd_in;
 	int					fd_out;
+	t_env				*env;
 } t_pipes;
 
 # include "Libft/libft.h"
@@ -47,6 +57,7 @@ typedef struct parse_pipes
 # include <signal.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 
 void print_list(t_pipes *pipes); //take out later
 void free_list(t_parsing *commons);
@@ -66,7 +77,7 @@ int pipe_o_redirect(char *str);
 void parser_get_word(char **out, char *str, int start, int *i);
 char **add_array_element(t_parsing *parso, char *str, int words_num);
 int if_pipe_or_redirect(char c);
-t_pipes *new_pipes(void);
+t_pipes *new_pipes(t_env *env);
 void free_pipes(t_pipes *pipes);
 void make_pipes(t_pipes *pipes);
 
@@ -78,5 +89,36 @@ int	make_redirects(t_pipes *pipes);
 char **add_array_array(char **arr1, char **arr2);
 void clean_array(char **args);
 int size_arr(char **arr);
+
+void	run_commands(char **commands, t_env *env);
+int		msg_error(void);
+int		msg_error_str(char *s);
+int		msg_mallocfail(void);
+int		msg_home_not_set(void);
+int		len_arr(char **env);
+int		bldin_cd(t_env *env_list, char **args);
+int		bldin_echo(char **args);
+int		bldin_env(t_env *env);
+int		bldin_exit(char **args);
+int		bldin_export(t_env **env_list, char **args);
+int		bldin_pwd(void);
+int		bldin_unset(t_env **env_list, char **args);
+int		other_cmd(t_env *env, char **commands);
+int		len_arr(char **arr);
+int		index_strchr(char *str, char c);
+void	print_env(t_env *lst, char *args);
+int		check_name(char *key_value);
+int		len_key(char *str);
+int		add_addit_home(t_env *env);
+int		add_new_list(t_env *envp, int flag, int printed);
+int		len_lst(t_env *lst);
+void	ft_free_2array(char **arr);
+char	**list_to_arr(t_env *env);
+t_env	*arr_to_list(char **env, int env_len);
+t_env	*find_by_key(t_env *env, char *key_env);
+t_env	*last_list(t_env *env);
+void	free_list_env(t_env *env);
+void	printArr(char **arr);
+
 
 #endif

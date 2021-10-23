@@ -73,7 +73,7 @@ int parser_list_update(char *out, t_pipes **pipes)
 	else
 	{
 		//(*pipes)->pipe = 1;
-		(*pipes)->next = new_pipes();
+		(*pipes)->next = new_pipes((*pipes)->env);
 		if(!((*pipes)->next))
 			flag = 1;
 		else

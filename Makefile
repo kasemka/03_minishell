@@ -1,32 +1,33 @@
 NAME 	=	minishell
 
-HEADER	=	minishell.h
+HEADER	=	ft_minishell.h
 
-SRC		=	$(wildcard *.c)
+SRC		=	$(wildcard *.c) $(wildcard Parser/*.c) $(wildcard Redirect/*.c)
 
-LIBFT	=	libft/libft.a
+LIBFT	=	Libft/libft.a
 
 OBJ		=	$(SRC:.c=.o)
 
 CC		=	gcc
 FLAGS	=	-Wall -Wextra -Werror
 
-%.o:		%.c $(HEADER)
-			$(CC) -g $(FLAGS) -c -o $@ $<
+#%.o:		%.c $(HEADER)
+			#$(CC) -g $(FLAGS) -c -o $@ $<
 
 $(NAME):	$(OBJ) $(HEADER)
 			$(MAKE) -C ./libft
-			$(CC) -g $(FLAGS) $(OBJ) libft/libft.a -o $(NAME)
-			rm -f $(OBJ)
+			$(CC) -g $(FLAGS) $(OBJ) -L./Libft/ -lft -L/usr/include \
+			-lreadline -o $(NAME)
+			#rm -f $(OBJ)
 
 all:		$(NAME)
 
 clean:
-			$(MAKE) clean -C ./libft
+			$(MAKE) clean -C ./Libft
 			rm -f $(OBJ)
 
 fclean:		clean
-			$(MAKE) clean -C ./libft
+			$(MAKE) clean -C ./Libft
 			rm -f $(NAME)
 
 re:			fclean all

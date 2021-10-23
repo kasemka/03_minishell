@@ -6,12 +6,11 @@
 /*   By: gvolibea <gvolibea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 19:13:17 by gvolibea          #+#    #+#             */
-/*   Updated: 2021/10/23 15:52:51 by gvolibea         ###   ########.fr       */
+/*   Updated: 2021/10/23 17:42:26 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_minishell.h"
-#include <stdio.h>
 
 void init_i_start_words(int *s_w_i)
 {
@@ -75,7 +74,7 @@ char *parsing_cycle(t_pipes *pipes, char *str, char *out)
 	return (out);
 }
 
-t_pipes *new_pipes(void)
+t_pipes *new_pipes(t_env *env)
 {
 	t_pipes		*new_pipe;
 	t_parsing	*new_parso;
@@ -86,17 +85,18 @@ t_pipes *new_pipes(void)
 	new_pipe->next = NULL;
 	new_pipe->fd_in = STD_IN;
 	new_pipe->fd_out = STD_OUT;
+	new_pipe->env = env;
 	return (new_pipe);
 }
 
-char *parser(char *str)
+char *parser(char *str, t_env *env)
 {
 	char *out;
 //	t_parsing *parso;
 
 	//parso = new_list();
 	t_pipes *pipes;
-	pipes = new_pipes();
+	pipes = new_pipes(env);
 	if (!pipes)
 		return (NULL);
 	out = ft_strdup("");
@@ -127,18 +127,26 @@ char *parser(char *str)
 
 
 
-int main(int argc, char **argv, char **env)
+int main(int argc, char **argv, char **envp)
 {
 	char *test;
-	// add env into structure (or to parso)
+	t_env	*env;
 
+	(void)argc;
+	(void)argv;
+	env = arr_to_list(envp, len_arr(envp));
+	add_addit_home(env);
+	//commands = ft_split(argv[1], ' ');
+	//run_commands(commands, env);
+//	free_list(env);
 
 	while (1)
 	{
 		test = readline(SHL_NAME);
 		add_history(test);
-		parser(test);
+		parser(test, env);
 	//	while(1);
 	}
-	return (1);
+	free_list_env(env);
+	return (g_exitcode);
 }

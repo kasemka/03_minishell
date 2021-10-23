@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   bldin_echo.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lelle <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: lelle <lelle@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 14:25:29 by lelle             #+#    #+#             */
-/*   Updated: 2021/10/12 14:25:32 by lelle            ###   ########.fr       */
+/*   Updated: 2021/10/23 16:52:49 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "ft_minishell.h"
 
 int	bldin_echo(char **args)
 {
