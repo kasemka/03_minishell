@@ -98,23 +98,18 @@ int	make_redirects(t_pipes *pipes)
 	// check file-descriptors and fork if_NOT_fork if desc else than std_in _ out  -> here we fork in case of NO PIPES
 	//printf("out is %d",pipes->fd_out);
 	pid = 0;
-	char a;
-	a = 'a';
+
 	if (pipes->fd_in != STD_IN || pipes->fd_out != STD_OUT)
 		pid = fork();
 	if (!pid)
 	{
 		dup2(pipes->fd_in, STD_IN);
 		dup2(pipes->fd_out, STD_OUT);
-		// close file_desc of in if pipes
 		if (pipes->next)
 			close(pipes->next->fd_in);
-		//write(1, &a, 1);
-		// if builtin - exit:
 		run_commands(all_args, pipes);
 		if (pipes->fd_in != STD_IN || pipes->fd_out != STD_OUT)
 			exit(g_exitcode);
-		//close(pipes->fd_out);
 	}
 	if (pipes->fd_in != STD_IN || pipes->fd_out != STD_OUT)
 		waitpid(pid, 0, 0);
@@ -122,8 +117,6 @@ int	make_redirects(t_pipes *pipes)
 		close (pipes->fd_in);
 	if (pipes->fd_out != STD_OUT)
 		close (pipes->fd_out);
-
-	//print_array(all_args);
 	clean_array(all_args);
 	return (0);
 }
