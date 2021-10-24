@@ -21,14 +21,15 @@ char **dup_array(char **parso_args)
 	int i;
 	char **temp;
 
-	temp = malloc(sizeof(char *) * size_arr(parso_args) + 1);
+	temp = malloc(sizeof(char *) * size_arr(parso_args));
 	i = 0;
 	if (parso_args)
-		while (parso_args[i])
-		{
-			temp[i] = ft_strdup(parso_args[i]);
-			i++;
-		}
+		if (parso_args[i])
+			while (parso_args[i + 1])
+			{
+				temp[i] = ft_strdup(parso_args[i + 1]);
+				i++;
+			}
 	temp[i] = NULL;
 	return (temp);
 }
@@ -36,6 +37,7 @@ char **dup_array(char **parso_args)
 char **update_array(char **all_args, t_pipes *pipes, t_parsing *parso)
 {
 	char	**temp;
+	char	**temp2;
 	char	*filename;
 
 	filename = NULL;
@@ -52,6 +54,10 @@ char **update_array(char **all_args, t_pipes *pipes, t_parsing *parso)
 			pipes->fd_out = open_file(filename, 2);
 		else if (!ft_strncmp(parso->redirects, "<" ,2))
 			pipes->fd_in = open_file(filename, 3);
+		temp2 = parso->next->args;
+		//printf("next arr is %s an %s",parso->next->args[0], parso->next->args[1]);
+		parso->next->args = dup_array(parso->next->args);
+		clean_array(temp2);
 	}
 	// update array
 	temp = add_array_array(all_args, parso->args);
@@ -104,12 +110,19 @@ int	make_redirects(t_pipes *pipes)
 		if (pipes->next)
 			close(pipes->next->fd_in);
 		//write(1, &a, 1);
-		run_commands(all_args, pipes->env);
+		// if builtin - exit:
+		run_commands(all_args, pipes);
+		if (pipes->fd_in != STD_IN || pipes->fd_out != STD_OUT)
+			exit(g_exitcode);
+		//close(pipes->fd_out);
 	}
+	if (pipes->fd_in != STD_IN || pipes->fd_out != STD_OUT)
+		waitpid(pid, 0, 0);
 	if (pipes->fd_in != STD_IN )
 		close (pipes->fd_in);
 	if (pipes->fd_out != STD_OUT)
 		close (pipes->fd_out);
+
 	//print_array(all_args);
 	clean_array(all_args);
 	return (0);

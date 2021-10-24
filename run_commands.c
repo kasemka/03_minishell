@@ -3,8 +3,12 @@
 //flag = 1 env
 //flag = 2 export
 //flag = 3 set
-void	run_commands(char **commands, t_env *env)
+void	run_commands(char **commands, t_pipes *pipes) //t_env *env)
 {
+	t_env	*env;
+	pid_t	pid;
+
+	env = pipes->env;
 	if (ft_strncmp(commands[0], "env", 4) == 0)
 		g_exitcode = bldin_env(env);
 	else if (ft_strncmp(commands[0], "unset", 6) == 0)
@@ -21,5 +25,15 @@ void	run_commands(char **commands, t_env *env)
 	else if (ft_strncmp(commands[0], "exit", 5) == 0)
 		bldin_exit(commands);
 	else
-		g_exitcode = other_cmd(env, commands);
+	{
+		if (pipes->fd_in == STD_IN && pipes->fd_out == STD_OUT)
+		{
+			pid = fork();
+			if (!pid)
+				g_exitcode = other_cmd(env, commands);
+			waitpid(pid, 0, 0);
+		}
+		else
+			g_exitcode = other_cmd(env, commands);
+	}
 }

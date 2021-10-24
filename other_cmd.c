@@ -6,7 +6,7 @@
 /*   By: lelle <lelle@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 14:26:57 by lelle             #+#    #+#             */
-/*   Updated: 2021/10/23 16:53:10 by gvolibea         ###   ########.fr       */
+/*   Updated: 2021/10/24 12:58:39 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,12 @@ int	other_cmd(t_env *env, char **commands)
 		printf("%s: No such file or directory\n", commands[0]);
 	if (path == NULL)
 		return (127);
-	pid = fork();
-	if (pid == 0 && execve(path, commands, env_arr) == -1 )
-		return (msg_error());
-	else
-		wait(NULL);
+	//pid = fork();
+//if (pid == 0 && execve(path, commands, env_arr) == -1 )
+//		return (msg_error());
+//	else
+//		wait(NULL);
+	execve(path, commands, env_arr);
 	ft_free_2array(env_arr);
 	return (0);
 }

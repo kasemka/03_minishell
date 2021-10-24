@@ -6,7 +6,7 @@
 /*   By: gvolibea <gvolibea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 19:13:28 by gvolibea          #+#    #+#             */
-/*   Updated: 2021/10/23 17:41:23 by gvolibea         ###   ########.fr       */
+/*   Updated: 2021/10/24 22:52:22 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ char **add_array_array(char **arr1, char **arr2);
 void clean_array(char **args);
 int size_arr(char **arr);
 
-void	run_commands(char **commands, t_env *env);
+void	run_commands(char **commands, t_pipes *pipes); //run_commands(char **commands, t_env *env);
 int		msg_error(void);
 int		msg_error_str(char *s);
 int		msg_mallocfail(void);

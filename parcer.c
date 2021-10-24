@@ -6,7 +6,7 @@
 /*   By: gvolibea <gvolibea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 19:13:17 by gvolibea          #+#    #+#             */
-/*   Updated: 2021/10/23 17:42:26 by gvolibea         ###   ########.fr       */
+/*   Updated: 2021/10/24 16:03:03 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,8 +145,8 @@ int main(int argc, char **argv, char **envp)
 		test = readline(SHL_NAME);
 		add_history(test);
 		parser(test, env);
-	//	while(1);
 	}
 	free_list_env(env);
+	//while(1);
 	return (g_exitcode);
 }
