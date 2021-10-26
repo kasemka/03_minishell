@@ -30,7 +30,11 @@ void	run_commands(char **commands, t_pipes *pipes) //t_env *env)
 		{
 			pid = fork();
 			if (!pid)
+			{
 				g_exitcode = other_cmd(env, commands);
+				if (g_exitcode)
+					exit(g_exitcode);
+			}
 			waitpid(pid, 0, 0);
 		}
 		else

@@ -6,7 +6,7 @@
 /*   By: lelle <lelle@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 14:26:57 by lelle             #+#    #+#             */
-/*   Updated: 2021/10/24 12:58:39 by gvolibea         ###   ########.fr       */
+/*   Updated: 2021/10/26 23:39:12 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,11 @@ int	other_cmd(t_env *env, char **commands)
 	else
 		path = find_path(env, commands[0]);
 	if (path == NULL && ft_strchr(commands[0], '/') == 0)
+	{
+		write(2,"HI\n",2);  // вот тут как нужно выводить ошибки
 		printf("%s: command not found\n", commands[0]);
+	}
+
 	else if (path == NULL && ft_strchr(commands[0], '/') != 0)
 		printf("%s: No such file or directory\n", commands[0]);
 	if (path == NULL)

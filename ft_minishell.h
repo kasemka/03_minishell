@@ -6,7 +6,7 @@
 /*   By: gvolibea <gvolibea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 19:13:28 by gvolibea          #+#    #+#             */
-/*   Updated: 2021/10/24 22:52:22 by gvolibea         ###   ########.fr       */
+/*   Updated: 2021/10/26 23:11:23 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void parser_get_zero_o_space(char **out, t_pipes **pipes, int *s_w_i, \
 	char *str);
 char *get_dollar(int *i, char *str, char *out);
 char *get_quotes(int *i, char *str, char *out);
-char *get_question(void);
+void get_question(void);
 char *get_var(char *str, int *i);
 t_parsing	*new_list(void);
 void ft_isspace(char *str, int *s_w_i);

@@ -27,12 +27,9 @@ char *get_str_between(char *str, int *i, char c)
 	return(out);
 }
 
-char *get_question(void)
+void get_question(void)
 {
-	char *test;
-	test = malloc(4);
-	test = "123";
-	return (test);
+	printf("%d\n",g_exitcode);
 }
 
 char *get_str_between_dbl(char *str, int *i, char c)

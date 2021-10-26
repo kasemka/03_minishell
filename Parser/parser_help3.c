@@ -37,7 +37,8 @@ char *get_var(char *str, int *i)
 		len++;
 	if (len == 0 && str[*i] == '?')
 	{
-		glob_var = get_question();
+		//glob_var = get_question(); // add fd
+		glob_var = ft_itoa(g_exitcode);
 		(*i)++;
 	}
 	else

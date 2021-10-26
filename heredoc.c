@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lelle <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: lelle <lelle@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 12:18:15 by lelle             #+#    #+#             */
-/*   Updated: 2021/10/25 12:18:28 by lelle            ###   ########.fr       */
+/*   Updated: 2021/10/26 19:07:11 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "ft_minishell.h"
 
 void read_2left_arr(int fd_out, char *stop_word)
 {
@@ -42,5 +42,5 @@ void read_2left_arr(int fd_out, char *stop_word)
 		free(full_text);
 	if (*text_line)
 		free(text_line);
-	return (g_exitcode);
+//	return (g_exitcode);
 }

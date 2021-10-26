@@ -50,7 +50,7 @@ void make_pipes(t_pipes *pipes)
 			pipe(dup_pipes->fd_pipes);
 			dup_pipes->fd_out = dup_pipes->fd_pipes[1];
 			dup_pipes->next->fd_in = dup_pipes->fd_pipes[0];
-			printf("pipe add is %d",dup_pipes->next->fd_in);
+			//printf("pipe add is %d",dup_pipes->next->fd_in);
 		}
 		execution(dup_pipes);
 		dup_pipes = dup_pipes->next;
