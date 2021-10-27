@@ -54,7 +54,7 @@ int	change_dir(char **arg, char *home_dir)
 		status = chdir(arg[1]);
 	if (status != 0)
 	{
-		ft_putstr_fd("cd: ", STDERR_FILENO);
+		ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
 		msg_error_str(arg[1]);
 		return (1);
 	}
