@@ -27,7 +27,7 @@ int	add_env(t_env *env, char *key_value, char *cmd)
 	while (new_list->next != NULL)
 		new_list = new_list->next;
 	if (ft_strnstr(key_value, "+=", 2))
-		printf("TRUE");
+		printf("TRUE");	//????????????????????????????????check again
 	else
 		new_list->key_vl = ft_strdup(key_value);
 	if (new_list->key_vl == NULL)

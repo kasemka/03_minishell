@@ -14,24 +14,37 @@
 
 int	msg_error_str(char *s)
 {
-	printf("%s: %s\n", s, strerror(errno));
+	ft_putstr_fd(s, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putstr_fd(strerror(errno), STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
 	return (errno);
 }
 
 int	msg_error(void)
 {
-	printf("%s\n", strerror(errno));
+	ft_putstr_fd(strerror(errno), STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
 	return (errno);
 }
 
 int	msg_mallocfail(void)
 {
-	printf("Cannot allocate memory.\n");
+	ft_putstr_fd("Cannot allocate memory.\n", STDERR_FILENO);
 	return (12);
 }
 
 int	msg_home_not_set(void)
 {
-	printf("cd: HOME not set\n");
+	ft_putstr_fd("cd: HOME not set\n", STDERR_FILENO);
+	return (1);
+}
+
+int	msg_error_export(char *s)
+{
+	ft_putstr_fd("minishell: export: `", STDERR_FILENO);
+	ft_putstr_fd(s, STDERR_FILENO);
+	ft_putstr_fd("\': not a valid identifier\n", STDERR_FILENO);
+	g_exitcode = 1;
 	return (1);
 }

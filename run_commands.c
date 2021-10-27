@@ -14,7 +14,7 @@ void	run_commands(char **commands, t_pipes *pipes) //t_env *env)
 	else if (ft_strncmp(commands[0], "unset", 6) == 0)
 		g_exitcode = bldin_unset(&env, commands);
 	else if (ft_strncmp(commands[0], "pwd", 4) == 0)
-		g_exitcode = bldin_pwd();
+		g_exitcode = bldin_pwd(env);
 	else if (ft_strncmp(commands[0], "export", 7) == 0 || \
 		ft_strncmp(commands[0], "set_local", 10) == 0)
 		g_exitcode = bldin_export(&env, commands);

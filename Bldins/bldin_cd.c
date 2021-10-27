@@ -54,7 +54,7 @@ int	change_dir(char **arg, char *home_dir)
 		status = chdir(arg[1]);
 	if (status != 0)
 	{
-		printf("cd: ");
+		ft_putstr_fd("cd: ", STDERR_FILENO);
 		msg_error_str(arg[1]);
 		return (1);
 	}
@@ -126,6 +126,7 @@ int	bldin_cd(t_env *env, char **arg)
 	else if (arg[1] == NULL && flag == 4)
 		return(msg_home_not_set());
 	status = change_dir(arg, home_dir);
+	add_pwd(env);
 	if (status)
 		return (status);
 	getcwd(oldpwd, 4096);

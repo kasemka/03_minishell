@@ -29,14 +29,20 @@ int	is_num(char *s)
 int	bldin_exit(char **args)
 {
 	(void)args;
-	if (is_num(args[1]) == 0)
+
+	g_exitcode = 0;
+	if (args[1] == NULL)
+		exit(g_exitcode);
+	else if (is_num(args[1]) == 0)
 	{
-		printf("exit\nminishell: exit: %s: numeric argument required\n", args[1]);
+		ft_putstr_fd("exit\nminishell: exit: ", STDERR_FILENO);
+		ft_putstr_fd(args[1], STDERR_FILENO);
+		ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
 		g_exitcode = 255;
 	}
 	else if (args[2] != NULL)
 	{
-		printf("exit\nminishell: exit: too many arguments\n");
+		ft_putstr_fd("exit\nminishell: exit: too many arguments\n", STDERR_FILENO);
 		g_exitcode = 1;
 		return (1);
 	}

@@ -135,7 +135,7 @@ int main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	env = arr_to_list(envp, len_arr(envp));
-	add_addit_home(env);
+	add_addit_keys(env);
 	//commands = ft_split(argv[1], ' ');
 	//run_commands(commands, env);
 //	free_list(env);

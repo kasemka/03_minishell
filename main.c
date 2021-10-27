@@ -1,4 +1,4 @@
-#include "minishell.h"
+//#include "minishell.h"
 
 //flag = 1 env
 //flag = 2 export

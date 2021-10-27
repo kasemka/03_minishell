@@ -27,32 +27,7 @@ int	len_lst(t_env *lst)
 	return (i);
 }
 
-//additionally HOME is added: if HOME is removed and cd ~ is executed
-//flag = 4;
-int	add_addit_home(t_env *env)
-{
-	char	*home_addit;
 
-	while (env != NULL)
-	{
-		if (ft_strncmp(env->key_vl, "HOME=", 5) == 0)
-		{
-			home_addit = env->key_vl;
-			break ;
-		}
-		env = env->next;
-	}
-	if (env == NULL)
-	{
-		printf("HOME should be in env before execution!\n");
-		exit (1);
-	}
-	add_new_list(env, 4, -1);
-	(last_list(env))->key_vl = ft_strdup(home_addit);
-	if ((last_list(env))->key_vl == NULL)
-		return (msg_error());
-	return (0);
-}
 
 //change code after malloc error!!!!!!!!!!!!!!!!!!!!!!!!!!
 t_env	*arr_to_list(char **envp, int env_len)
@@ -97,7 +72,7 @@ int	add_new_list(t_env *env, int flag, int printed)
 
 	env_new = malloc(sizeof(t_env));
 	if (env_new == NULL)
-		return (errno);
+		return (msg_mallocfail());
 	while (env->next != NULL)
 		env = env->next;
 	env->next = env_new;

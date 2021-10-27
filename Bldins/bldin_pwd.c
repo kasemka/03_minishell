@@ -12,7 +12,7 @@
 
 #include "../ft_minishell.h"
 
-int	bldin_pwd(void)
+int	bldin_pwd(t_env *env)
 {
 	char	*buf;
 	size_t	size;
@@ -21,7 +21,15 @@ int	bldin_pwd(void)
 	buf = malloc(size * sizeof(char));
 	if (buf == NULL)
 		return(msg_mallocfail());
-	printf("%s\n", getcwd(buf, size));
+	getcwd(buf, size);
+	if (!buf)
+	{
+		while (ft_strncmp(env->key_vl, "PWD=", 4) != 0 && env->flg != 4)
+			env = env->next;
+		ft_putstr_fd(env->key_vl + 4, STDOUT_FILENO);
+	}
+	else
+		printf("%s\n", buf);
 	free(buf);
 	return (0);
 }

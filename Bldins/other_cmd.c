@@ -89,12 +89,15 @@ int	other_cmd(t_env *env, char **commands)
 		path = find_path(env, commands[0]);
 	if (path == NULL && ft_strchr(commands[0], '/') == 0)
 	{
-		write(2,"HI\n",2);  // вот тут как нужно выводить ошибки
-		printf("%s: command not found\n", commands[0]);
+		ft_putstr_fd(commands[0], STDERR_FILENO);
+		ft_putstr_fd(": command not found\n", STDERR_FILENO);
 	}
 
 	else if (path == NULL && ft_strchr(commands[0], '/') != 0)
-		printf("%s: No such file or directory\n", commands[0]);
+	{
+		ft_putstr_fd(commands[0], STDERR_FILENO);
+		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+	}
 	if (path == NULL)
 		return (127);
 	//pid = fork();
