@@ -87,16 +87,14 @@ int	other_cmd(t_env *env, char **commands)
 		path = commands[0];
 	else
 		path = find_path(env, commands[0]);
-	if (path == NULL && ft_strchr(commands[0], '/') == 0)
+	if (path == NULL)
 	{
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
 		ft_putstr_fd(commands[0], STDERR_FILENO);
-		ft_putstr_fd(": command not found\n", STDERR_FILENO);
-	}
-
-	else if (path == NULL && ft_strchr(commands[0], '/') != 0)
-	{
-		ft_putstr_fd(commands[0], STDERR_FILENO);
-		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+		if (ft_strchr(commands[0], '/') == 0)
+			ft_putstr_fd(": command not found\n", STDERR_FILENO);
+		else if (ft_strchr(commands[0], '/') != 0)
+			ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
 	}
 	if (path == NULL)
 		return (127);

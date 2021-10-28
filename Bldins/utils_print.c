@@ -36,7 +36,7 @@ int	msg_mallocfail(void)
 
 int	msg_home_not_set(void)
 {
-	ft_putstr_fd("cd: HOME not set\n", STDERR_FILENO);
+	ft_putstr_fd("minishell: cd: HOME not set\n", STDERR_FILENO);
 	return (1);
 }
 

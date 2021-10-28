@@ -14,7 +14,8 @@
 
 char	*define_home(t_env *env, int *flag, int *home_empty)
 {
-	char	*home;
+	char			*home;
+	struct stat		buf;
 
 	while (env != NULL)
 	{
@@ -32,7 +33,12 @@ char	*define_home(t_env *env, int *flag, int *home_empty)
 		}
 		env = env->next;
 	}
-	return (home);
+	if (stat(home, &buf) == 0)
+		return (home);
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(home, STDERR_FILENO);
+	ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+	return (NULL);
 }
 
 int	change_dir(char **arg, char *home_dir)
@@ -121,6 +127,8 @@ int	bldin_cd(t_env *env, char **arg)
 	flag = 4;
 	home_empty = 0;
 	home_dir = define_home(env, &flag, &home_empty);
+	if (!home_dir)
+		return (1);
 	if ((arg[1] == NULL || ft_strncmp(arg[1], "~", 2) == 0) && home_empty)
 		return (0);
 	else if (arg[1] == NULL && flag == 4)
