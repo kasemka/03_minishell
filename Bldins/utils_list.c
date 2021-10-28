@@ -12,7 +12,7 @@
 
 #include "../ft_minishell.h"
 
-int	len_lst(t_env *lst)
+int	len_lst(t_env *lst, int flag)
 {
 	int		i;
 	t_env	*tmp;
@@ -21,13 +21,14 @@ int	len_lst(t_env *lst)
 	i = 0;
 	while (tmp != NULL)
 	{
+		if (flag == 0)
+			i++ ;
+		if (flag && tmp->flg == flag)
+			i++ ;
 		tmp = tmp->next;
-		i++ ;
 	}
 	return (i);
 }
-
-
 
 //change code after malloc error!!!!!!!!!!!!!!!!!!!!!!!!!!
 t_env	*arr_to_list(char **envp, int env_len)

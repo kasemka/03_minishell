@@ -134,6 +134,35 @@ char *parser(char *str, t_env *env)
 
 
 
+void	change_shlvl(t_env * env)
+{
+	int		level;
+	char	*lev_char;
+
+	level = 0;
+	env = find_by_key(env, "SHLVL");
+	if (env)
+	{
+		if (ft_strncmp(env->key_vl, "SHLVL=", 7) == 0)
+			level = 0;
+		else
+			level = ft_atoi(env->key_vl + 6);
+		free(env->key_vl);
+		if (level < 999)
+		{
+			level++;
+			lev_char = ft_itoa(level);
+			if (lev_char == NULL)
+				exit (msg_mallocfail());
+			env->key_vl = ft_strjoin("SHLVL=", lev_char);	
+		}
+		else
+			env->key_vl = ft_strdup("SHLVL=");
+		if (env->key_vl == NULL)
+			exit (msg_mallocfail());
+	}
+}
+
 int main(int argc, char **argv, char **envp)
 {
 	char *test;
@@ -142,6 +171,7 @@ int main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	env = arr_to_list(envp, len_arr(envp));
+	change_shlvl(env);
 	add_addit_keys(env);
 	//commands = ft_split(argv[1], ' ');
 	//run_commands(commands, env);

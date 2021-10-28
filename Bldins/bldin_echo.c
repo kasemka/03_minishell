@@ -17,6 +17,11 @@ int	bldin_echo(char **args)
 	int		i;
 
 	i = 0;
+	if (args[1] == NULL)
+	{
+	 	printf("\n");
+		return (0);
+	}
 	if (ft_strncmp(args[1], "-n", 3) == 0)
 		i++;
 	while (args[++i] != NULL)

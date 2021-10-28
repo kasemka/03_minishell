@@ -12,15 +12,24 @@
 
 #include "../ft_minishell.h"
 
+t_env	*find_by_key_flag(t_env *env, char *key_env, int flag)
+{
+	while (env != NULL)
+	{
+		if (ft_strncmp(env->key_vl, key_env, ft_strlen(key_env)) == 0 && \
+		env->key_vl[ft_strlen(key_env)] == '=' && env->flg == flag)
+			return (env);
+		env = env->next;
+	}
+	return (NULL);
+}
+
 int	add_pwd(t_env *env)
 {
 	char	*pwd;
 	t_env	*t;
 
 	t = env;
-	if (env == NULL)
-		write(1, "env = NULL\n", 11);
-	
 	pwd = malloc(4096 * sizeof(char));
 	if (pwd == NULL)
 		return(msg_mallocfail());
@@ -34,7 +43,6 @@ int	add_pwd(t_env *env)
 		}
 		t = t->next;
 	}
-		
 	if (t == NULL)
 	{
 		add_new_list(env, 4, -1);
@@ -52,25 +60,24 @@ int	add_pwd(t_env *env)
 int	add_home(t_env *env)
 {
 	char	*home_addit;
+	t_env	*tmp;
 
-	while (env != NULL)
-	{
-		if (ft_strncmp(env->key_vl, "HOME=", 5) == 0)
-		{
-			home_addit = env->key_vl;
-			break ;
-		}
-		env = env->next;
-	}
-	if (env == NULL)
+	tmp = find_by_key(env, "HOME");
+	if (!tmp)
 	{
 		ft_putstr_fd("HOME should be in env as in real bash!\n", STDERR_FILENO);
 		exit (1);
 	}
-	add_new_list(env, 4, -1);
-	(last_list(env))->key_vl = ft_strdup(home_addit);
-	if ((last_list(env))->key_vl == NULL)
-		return (msg_mallocfail());
+	tmp = find_by_key_flag(env, "HOME", 4);
+	home_addit = find_by_key_flag(env, "HOME", 1)->key_vl;
+	if (tmp == NULL)
+	{
+		if (add_new_list(env, 4, -1))
+			return (msg_mallocfail());
+		(last_list(env))->key_vl = ft_strdup(home_addit);
+		if ((last_list(env))->key_vl == NULL)
+			return (msg_mallocfail());
+	}
 	return (0);
 }
 

@@ -35,26 +35,27 @@ void	ft_free_2array(char **arr)
 char	**list_to_arr(t_env *env)
 {
 	char	**arr;
-	int		len;
 	int		i;
 
 	i = -1;
-	len = len_lst(env);
-	arr = malloc((len + 1) * sizeof(char *));
+	arr = malloc((len_lst(env, 1) + 1) * sizeof(char *));
 	if (!arr)
 		return (0);
-	while (i++ < len && env != NULL)
+	while (env != NULL)
 	{
-		arr[i] = ft_strdup(env->key_vl);
-		if (arr[i] == NULL)
+		if (env->flg == 1)
 		{
-			while (i-- >= 0)
-				free(arr[i]);
-			free(arr);
-			return (NULL);
+			arr[++i] = ft_strdup(env->key_vl);
+			if (arr[i] == NULL)
+			{
+				while (i-- >= 0)
+					free(arr[i]);
+				free(arr);
+				exit(msg_mallocfail());
+			}
 		}
 		env = env->next;
 	}
-	arr[i] = NULL;
+	arr[++i] = NULL;
 	return (arr);
 }

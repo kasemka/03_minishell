@@ -41,7 +41,7 @@ void	print_export(t_env *env)
 	t_env	*min_l;
 
 	i = -1;
-	len = len_lst(env);
+	len = len_lst(env, 0);
 	while (++i < len - 1)
 	{
 		t = env;

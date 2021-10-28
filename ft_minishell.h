@@ -114,7 +114,7 @@ int		add_addit_keys(t_env *env);
 int		add_pwd(t_env *env);
 int		change_env(t_env *env, char **arg);
 int		add_new_list(t_env *envp, int flag, int printed);
-int		len_lst(t_env *lst);
+int		len_lst(t_env *lst, int flag); // edit
 void	ft_free_2array(char **arr);
 char	**list_to_arr(t_env *env);
 t_env	*arr_to_list(char **env, int env_len);
