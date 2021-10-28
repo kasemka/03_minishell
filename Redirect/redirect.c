@@ -94,6 +94,7 @@ int	make_redirects(t_pipes *pipes)
 		all_args = update_array(all_args, pipes, begin);
 		begin = begin->next;
 	}
+	//print_array(all_args);
 	// print all all_args
 	// check file-descriptors and fork if_NOT_fork if desc else than std_in _ out  -> here we fork in case of NO PIPES
 	//printf("out is %d",pipes->fd_out);

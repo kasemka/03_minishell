@@ -6,13 +6,13 @@
 /*   By: gvolibea <gvolibea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 19:13:28 by gvolibea          #+#    #+#             */
-/*   Updated: 2021/10/26 23:11:23 by gvolibea         ###   ########.fr       */
+/*   Updated: 2021/10/27 22:27:52 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-# define SHL_NAME	"\033[32mgoonndy$ \033[0m"
+# define SHL_NAME	"minishell:"
 # define STD_IN		0
 # define STD_OUT	1
 

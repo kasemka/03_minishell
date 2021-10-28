@@ -13,7 +13,8 @@ void parser_get_dollar(char **out, int *i, char *str)
 {
 	*out = get_dollar(i, str, *out);
 	(*i)--;
-	if (str[*i + 1] == ' ' || !str[*i + 1])
+	//printf("i'm at simb %c and out is %s\n",str[*i],*out);
+	if (str[*i + 1] == ' ' || str[*i + 1] == '\0')
 		(*i)++;
 }
 

@@ -6,7 +6,7 @@
 /*   By: gvolibea <gvolibea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 19:13:17 by gvolibea          #+#    #+#             */
-/*   Updated: 2021/10/26 23:10:51 by gvolibea         ###   ########.fr       */
+/*   Updated: 2021/10/27 23:47:44 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,20 @@ void init_i_start_words(int *s_w_i)
 	if
 }*/
 
-int check_limit_vals(char c)
+int check_limit_vals(char *str, int j)
 {
 	int i;
 
+	char c;
+
+	c = str[j];
 	i = 0;
-	if (c != '\'' && c != '\"' && c != ' ' && c != '$'  && c != '\0' \
+	if (c != '\'' && c != '\"' && c != ' ' && c != '\0' \
 		&& c != '>' && c != '<' && c != '|')
 		i = 1;
+	if ((c == '$' && ft_isalnum(str[j + 1])) || \
+	(c == '$' && str[j + 1] == '?'))
+		i = 0;
 	return (i);
 }
 
@@ -54,7 +60,7 @@ char *parsing_cycle(t_pipes *pipes, char *str, char *out)
 	{
 		ft_isspace(str, s_w_i);
 		s_w_i[0] = s_w_i[2];
-		while(check_limit_vals(str[s_w_i[2]]))
+		while(check_limit_vals(str, s_w_i[2]))
 			s_w_i[2]++;
 		if (s_w_i[0] != s_w_i[2])
 			parser_get_word(&out, str, s_w_i[0], &s_w_i[2]);
@@ -63,8 +69,8 @@ char *parsing_cycle(t_pipes *pipes, char *str, char *out)
 		if (str[s_w_i[2]] == '$' && (ft_isalnum(str[s_w_i[2] + 1]) \
 		|| str[s_w_i[2] + 1] == '?'))
 			parser_get_dollar(&out, &s_w_i[2], str);
-		else if (str[s_w_i[2]] == '$')
-			parser_get_dollar_alone(&out);
+		//else if (str[s_w_i[2]] == '$')
+		//	parser_get_dollar_alone(&out);
 		if (str[s_w_i[2]] == ' ' || str[s_w_i[2]] == '\0' || \
 			if_pipe_or_redirect(str[s_w_i[2]]))
 			parser_get_zero_o_space(&out, &pipes, s_w_i, str);
@@ -108,6 +114,7 @@ char *parser(char *str, t_env *env)
 	if (!out)
 		return (exit_failure(pipes, out));
 	//print_list(pipes);
+
 	make_pipes(pipes);
 	free (out);
 	free_pipes(pipes);
