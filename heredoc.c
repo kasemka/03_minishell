@@ -18,6 +18,7 @@ void read_2left_arr(int fd_out, char *stop_word)
 	char	*full_text;
 	int		len;
 
+	(void)fd_out;
 	g_exitcode = 0;
 	len = ft_strlen(stop_word);
 	full_text = NULL;
@@ -42,5 +43,5 @@ void read_2left_arr(int fd_out, char *stop_word)
 		free(full_text);
 	if (*text_line)
 		free(text_line);
-//	return (g_exitcode);
+	// return (g_exitcode);
 }

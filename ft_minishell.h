@@ -56,8 +56,8 @@ typedef struct parse_pipes
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <sys/stat.h>
-# include <readline/readline.h>
 # include <readline/history.h>
+# include <readline/readline.h>
 # include "Libft/libft.h"
 
 void print_list(t_pipes *pipes); //take out later

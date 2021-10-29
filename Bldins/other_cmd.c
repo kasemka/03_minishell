@@ -78,7 +78,7 @@ int	other_cmd(t_env *env, char **commands)
 	char		*path;
 	char		**env_arr;
 	struct stat	buf;
-	int			pid;
+	// int			pid;
 
 	env_arr = list_to_arr(env);
 	if (env_arr == NULL)

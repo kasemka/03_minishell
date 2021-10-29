@@ -183,11 +183,11 @@ int main(int argc, char **argv, char **envp)
 	env = arr_to_list(envp, len_arr(envp));
 	change_shlvl(env);
 	add_addit_keys(env);
-	signal(SIGINT, sig_cancel);
+	// signal(SIGINT, sig_cancel);
 	while (1)
 	{
-		// rl_catch_signals = 1;
-		// signal(SIGINT, sig_cancel);
+		rl_catch_signals = 0;
+		signal(SIGINT, sig_cancel);
 		// signal(SIGQUIT, SIG_IGN);
 		// signal(SIGINT, SIG_IGN);
 		test = readline(SHL_NAME);

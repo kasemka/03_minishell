@@ -12,7 +12,7 @@ FLAGS   =   -Wall -Wextra -Werror -I.
 
 NAME	=	libft.a
 
-.c.o:
+.c.o:		
 			cc ${FLAGS} -c $< -o ${<:.c=.o}
 
 ${NAME}:    ${OBJS} libft.h
