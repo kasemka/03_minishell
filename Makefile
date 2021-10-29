@@ -13,12 +13,13 @@ CC		=	gcc
 FLAGS	=	-Wall -Wextra -Werror
 
 #%.o:		%.c $(HEADER)
-			#$(CC) -g $(FLAGS) -c -o $@ $<
+			# $(CC) -g $(FLAGS) -c -o $@ $<
 
 $(NAME):	$(OBJ) $(HEADER)
-			$(MAKE) -C ./libft
-			$(CC) -g $(FLAGS) $(OBJ) -L./Libft/ -lft -L/usr/include \
-			-lreadline -o $(NAME)
+			$(MAKE) -C ./Libft
+			# $(CC) -g $(FLAGS) $(OBJ) -L./Libft/ -lft -L/usr/include \
+			# -lreadline -o $(NAME)
+			$(CC) -g $(FLAGS) $(OBJ)  -L./Libft/ -lft -L/usr/include -I ~/.brew/opt/readline/include -lreadline -L ~/.brew/opt/readline/lib -o $(NAME) 
 			#rm -f $(OBJ)
 
 all:		$(NAME)

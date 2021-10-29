@@ -43,21 +43,22 @@ typedef struct parse_pipes
 	t_env				*env;
 } t_pipes;
 
-# include "Libft/libft.h"
-# include <unistd.h>
-# include <string.h>
-# include <stdlib.h>
-# include <stdbool.h>
+
 # include <stdio.h>
+# include <signal.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <string.h>
+# include <stdbool.h>
 # include <fcntl.h>
 # include <sys/errno.h>
 # include <dirent.h>
-# include <readline/history.h>
-# include <readline/readline.h>
-# include <signal.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <sys/stat.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include "Libft/libft.h"
 
 void print_list(t_pipes *pipes); //take out later
 void free_list(t_parsing *commons);
@@ -122,6 +123,8 @@ t_env	*find_by_key(t_env *env, char *key_env);
 t_env	*last_list(t_env *env);
 void	free_list_env(t_env *env);
 void	printArr(char **arr);
+void sig_cancel(int sig);
+void empty(int sig);
 
 
 #endif

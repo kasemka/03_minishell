@@ -143,9 +143,7 @@ void	change_shlvl(t_env * env)
 	env = find_by_key(env, "SHLVL");
 	if (env)
 	{
-		if (ft_strncmp(env->key_vl, "SHLVL=", 7) == 0)
-			level = 0;
-		else
+		if (ft_strncmp(env->key_vl, "SHLVL=", 7) != 0)
 			level = ft_atoi(env->key_vl + 6);
 		free(env->key_vl);
 		if (level < 999)
@@ -154,13 +152,25 @@ void	change_shlvl(t_env * env)
 			lev_char = ft_itoa(level);
 			if (lev_char == NULL)
 				exit (msg_mallocfail());
-			env->key_vl = ft_strjoin("SHLVL=", lev_char);	
+			env->key_vl = ft_strjoin("SHLVL=", lev_char);
+			free(lev_char);
 		}
 		else
 			env->key_vl = ft_strdup("SHLVL=");
 		if (env->key_vl == NULL)
 			exit (msg_mallocfail());
 	}
+}
+
+//sigquit - ctrl + \
+//sigint - ctrl + c
+//str NULL - ctrl + D
+
+void	catch_empty_signal_c(int signum)
+{
+	(void)signum;
+	write(1, "\n", 1);
+	// g_errnum = 1;
 }
 
 int main(int argc, char **argv, char **envp)
@@ -173,13 +183,23 @@ int main(int argc, char **argv, char **envp)
 	env = arr_to_list(envp, len_arr(envp));
 	change_shlvl(env);
 	add_addit_keys(env);
-	//commands = ft_split(argv[1], ' ');
-	//run_commands(commands, env);
-//	free_list(env);
-
+	signal(SIGINT, sig_cancel);
 	while (1)
 	{
+		// rl_catch_signals = 1;
+		// signal(SIGINT, sig_cancel);
+		// signal(SIGQUIT, SIG_IGN);
+		// signal(SIGINT, SIG_IGN);
 		test = readline(SHL_NAME);
+
+		// signal(SIGINT, sig_cancel);
+		// signal(SIGINT, catch_empty_signal_c);
+		if (test == NULL)
+		{
+			ft_putstr_fd("\e[1A\e[11C" "exit\n", 1);
+			exit (0);
+		}
+		
 		add_history(test);
 		parser(test, env);
 	}
