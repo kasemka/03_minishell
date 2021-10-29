@@ -1,6 +1,6 @@
 #include "../ft_minishell.h"
 
-int open_file(char *filename, int red_type)
+int open_file(char *filename, int red_type, t_pipes *pipes)
 {
 	int fd;
 
@@ -9,10 +9,14 @@ int open_file(char *filename, int red_type)
 		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0774);
 	else if (red_type == 2)
 		fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0774);
-	else
+	if (fd != -1 && pipes->fd_out != STD_OUT)
+		close (pipes->fd_out);
+	if (red_type == 3)
+	{
 		fd = open(filename, O_RDONLY, 0644);
-
-	// add closing
+		if (fd != -1 && pipes->fd_in != STD_IN)
+			close (pipes->fd_in);
+	}
 	return (fd); // if -1 - send error
 }
 
@@ -49,11 +53,11 @@ char **update_array(char **all_args, t_pipes *pipes, t_parsing *parso)
 	if (parso->redirects)
 	{
 		if (!ft_strncmp(parso->redirects, ">", 2))
-			pipes->fd_out = open_file(filename, 1);
+			pipes->fd_out = open_file(filename, 1, pipes);
 		else if (!ft_strncmp(parso->redirects, ">>" ,3))
-			pipes->fd_out = open_file(filename, 2);
+			pipes->fd_out = open_file(filename, 2, pipes);
 		else if (!ft_strncmp(parso->redirects, "<" ,2))
-			pipes->fd_in = open_file(filename, 3);
+			pipes->fd_in = open_file(filename, 3, pipes);
 		temp2 = parso->next->args;
 		//printf("next arr is %s an %s",parso->next->args[0], parso->next->args[1]);
 		parso->next->args = dup_array(parso->next->args);

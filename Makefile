@@ -17,12 +17,14 @@ FLAGS	=	-Wall -Wextra -Werror
 
 $(NAME):	$(OBJ) $(HEADER)
 			$(MAKE) -C ./Libft
-			# $(CC) -g $(FLAGS) $(OBJ) -L./Libft/ -lft -L/usr/include \
-			# -lreadline -o $(NAME)
-			$(CC) -g $(FLAGS) $(OBJ)  -L./Libft/ -lft -L/usr/include -I ~/.brew/opt/readline/include -lreadline -L ~/.brew/opt/readline/lib -o $(NAME) 
+			#$(CC) -g $(FLAGS) $(OBJ) -L./Libft/ -lft  \
+			-o $(NAME) -L/usr/include -lreadline
+			$(CC) -g $(FLAGS) $(OBJ) -L./Libft/ -o $(NAME) \
+			-lreadline -L /User/dp/.brew/opt/readline/lib -I /User/dp/.brew/opt/readline/include
+			#~/.brew/opt/readline/include -lreadline -L ~/.brew/opt/readline/lib
 			#rm -f $(OBJ)
 
-all:		$(NAME)
+all:		$(NAME)cd
 
 clean:
 			$(MAKE) clean -C ./Libft
