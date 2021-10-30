@@ -2,7 +2,7 @@
 
 //flag = 1 env
 //flag = 2 export
-//flag = 3 set
+//flag = 4 additional home and pwd
 void	run_commands(char **commands, t_pipes *pipes) //t_env *env)
 {
 	t_env	*env;
@@ -32,6 +32,8 @@ void	run_commands(char **commands, t_pipes *pipes) //t_env *env)
 			if (!pid)
 			{
 				// catch signal here
+				signal(SIGINT, SIG_DFL);
+				signal(SIGQUIT, quit_cmd);
 				g_exitcode = other_cmd(env, commands);
 				if (g_exitcode)
 				{

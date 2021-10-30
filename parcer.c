@@ -166,16 +166,11 @@ void	change_shlvl(t_env * env)
 //sigint - ctrl + c
 //str NULL - ctrl + D
 
-void	catch_empty_signal_c(int signum)
-{
-	(void)signum;
-	write(1, "\n", 1);
-	// g_errnum = 1;
-}
+
 
 int main(int argc, char **argv, char **envp)
 {
-	char *test;
+	char *string;
 	t_env	*env;
 
 	(void)argc;
@@ -183,25 +178,21 @@ int main(int argc, char **argv, char **envp)
 	env = arr_to_list(envp, len_arr(envp));
 	change_shlvl(env);
 	add_addit_keys(env);
-	// signal(SIGINT, sig_cancel);
+	rl_catch_signals = 0;
 	while (1)
 	{
-		rl_catch_signals = 0;
-		signal(SIGINT, sig_cancel);
-		// signal(SIGQUIT, SIG_IGN);
-		// signal(SIGINT, SIG_IGN);
-		test = readline(SHL_NAME);
-
-		// signal(SIGINT, sig_cancel);
-		// signal(SIGINT, catch_empty_signal_c);
-		if (test == NULL)
+		signal(SIGINT, sig_ignore);
+		signal(SIGQUIT, SIG_IGN);
+		string = readline(SHL_NAME);
+		if (string == NULL)
 		{
 			ft_putstr_fd("\e[1A\e[11C" "exit\n", 1);
 			exit (0);
 		}
-
-		add_history(test);
-		parser(test, env);
+		signal(SIGINT, cancel_cmd);
+		add_history(string);
+		parser(string, env);
+		free(string);
 	}
 	free_list_env(env);
 	//while(1);

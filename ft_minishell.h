@@ -125,8 +125,11 @@ t_env	*find_by_key(t_env *env, char *key_env);
 t_env	*last_list(t_env *env);
 void	free_list_env(t_env *env);
 void	printArr(char **arr);
-void sig_cancel(int sig);
-void empty(int sig);
+
+//signals
+void 	sig_ignore(int signo);
+void	cancel_cmd(int signo);
+void 	quit_cmd(int signo);
 
 
 #endif

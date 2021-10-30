@@ -12,7 +12,7 @@
 
 #include "../ft_minishell.h"
 
-//flag 1 = env, 2 = export, 3 = set
+//flag 1 = env, 2 = export, 4 = additional
 int	add_env(t_env *env, char *key_value)
 {
 	t_env	*new_list;
