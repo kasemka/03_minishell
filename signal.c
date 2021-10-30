@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "ft_minishell.h"
+
 void sig_cancel(int signum)
 {
 	(void)signum;

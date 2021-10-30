@@ -13,29 +13,24 @@
 #include "../ft_minishell.h"
 
 //flag 1 = env, 2 = export, 3 = set
-int	add_env(t_env *env, char *key_value, char *cmd)
+int	add_env(t_env *env, char *key_value)
 {
 	t_env	*new_list;
-	int		is_set;
 
 	new_list = env;
-	is_set = 0;
-	if (ft_strncmp(cmd, "set_local", 10) == 0)
-		is_set = 1;
 	if (add_new_list(env, 0, -1) != 0)
 		return (errno);
 	while (new_list->next != NULL)
 		new_list = new_list->next;
-	if (ft_strnstr(key_value, "+=", 2))
-		printf("TRUE");	//????????????????????????????????check again
+	if (ft_strnstr(key_value, "+=", 3))
+		new_list->key_vl = ft_strjoin(ft_substr(key_value, 0, \
+		len_key(key_value)), key_value + len_key(key_value) + 1);
 	else
 		new_list->key_vl = ft_strdup(key_value);
 	if (new_list->key_vl == NULL)
 		return (errno);
-	if (ft_strchr(key_value, '=') != NULL && is_set == 0)
+	if (ft_strchr(key_value, '=') != NULL)
 		new_list->flg = 1;
-	else if (ft_strchr(key_value, '=') != NULL && is_set == 1)
-		new_list->flg = 3;
 	else
 		new_list->flg = 2;
 	return (0);
@@ -43,9 +38,19 @@ int	add_env(t_env *env, char *key_value, char *cmd)
 
 int	change_value(t_env *env, char *key_vl)
 {
-	free(env->key_vl);
-	if (ft_strncmp(key_vl, "_=", 2) == 0)
-		env->key_vl = ft_strdup("_=env");
+	char	*new_vl;
+	char	*old_vl;
+
+	old_vl = key_vl;
+	new_vl = NULL;
+	if (!ft_strncmp(key_vl, "_=", 2) || !ft_strncmp(key_vl, "_+=", 3))
+		return (0);
+	else if (key_vl[len_key(key_vl)] == '+')
+	{
+		new_vl = ft_strjoin(env->key_vl, (key_vl + len_key(key_vl) + 2));
+		if (new_vl != NULL)
+			env->key_vl = new_vl;
+	}
 	else
 		env->key_vl = ft_strdup(key_vl);
 	if (env->key_vl == NULL)
@@ -60,6 +65,7 @@ int	change_env(t_env *env, char **arg)
 	t_env		*t;
 
 	i = 0;
+	
 	while (arg[++i] != NULL)
 	{
 		t = env;
@@ -77,9 +83,11 @@ int	change_env(t_env *env, char **arg)
 			t = t->next;
 		}
 		if (t == NULL && !check_name(arg[i]) && \
-		add_env(env, arg[i], arg[0]) == 12)
-				return (12);
+		add_env(env, arg[i]) == 12)
+			return (12);
 	}
+
+
 	return (0);
 }
 

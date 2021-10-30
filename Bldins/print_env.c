@@ -62,7 +62,7 @@ void	print_export(t_env *env)
 	clean_print_status(env);
 }
 
-//flag 1 = env, 2 = export, 3 = set, 4 = additional for HOME
+//flag 1 = env, 2 = export, 4 = additional for HOME
 void	print_env(t_env *lst, char *args)
 {
 	int		cmd_flag;
@@ -72,15 +72,11 @@ void	print_env(t_env *lst, char *args)
 		cmd_flag = 1;
 	else if (ft_strncmp(args, "export", 7) == 0)
 		cmd_flag = 2;
-	else if (ft_strncmp(args, "set_local", 10) == 0)
-		cmd_flag = 3;
 	if (cmd_flag != 2)
 	{
 		while (lst)
 		{
 			if (cmd_flag == 1 && lst->flg == 1)
-				printf("%s \n", lst->key_vl);
-			else if (cmd_flag == 3 && (lst->flg == 1 || lst->flg == 3))
 				printf("%s \n", lst->key_vl);
 			lst = lst->next;
 		}
