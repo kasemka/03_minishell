@@ -12,13 +12,13 @@ OBJ		=	$(SRC:.c=.o)
 CC		=	gcc
 FLAGS	=	-Wall -Wextra -Werror
 
-
 %.o:		%.c $(HEADER)
-			$(CC) -g $(FLAGS) -c -o $@ $< -I ./Libft -I /Users/$(USER)/.brew/include
+			$(CC) -g $(FLAGS) -c -o $@ $< -I -I./Libft/ -I ~/.brew/opt/readline/include
 
 $(NAME):	$(OBJ) $(HEADER)
 			$(MAKE) -C ./Libft
-			$(CC) $(OBJ) $(LIBFT) -I ./Libft -I /Users/$(USER)/.brew/include -o ${NAME} -lreadline -L /Users/$(USER)/.brew/opt/readline/lib 
+			$(CC) -I -I./Libft/libft/ -I ~/.brew/opt/readline/include -o \
+			$(NAME) $(OBJ) ./Libft/libft.a -lreadline -L ~/.brew/opt/readline/lib
 
 all:		$(NAME)
 

@@ -31,6 +31,7 @@ void	run_commands(char **commands, t_pipes *pipes) //t_env *env)
 			pid = fork();
 			if (!pid)
 			{
+				// catch signal here
 				g_exitcode = other_cmd(env, commands);
 				if (g_exitcode)
 				{

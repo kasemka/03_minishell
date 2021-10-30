@@ -43,32 +43,49 @@ char **update_array(char **all_args, t_pipes *pipes, t_parsing *parso)
 	char	**temp;
 	char	**temp2;
 	char	*filename;
+	int		fd;
+	int 	fd2;
 
+	fd = pipes->fd_out;
+	fd2 = pipes->fd_in;
 	filename = NULL;
 	if (parso->redirects)
 		if (parso->next->args)
 			filename = parso->next->args[0];
 	// IF FILENAME = NULL GENERATE ERROR
+
 	temp = all_args;
 	if (parso->redirects)
 	{
 		if (!ft_strncmp(parso->redirects, ">", 2))
-			pipes->fd_out = open_file(filename, 1, pipes);
+			fd =  open_file(filename, 1, pipes);
 		else if (!ft_strncmp(parso->redirects, ">>" ,3))
-			pipes->fd_out = open_file(filename, 2, pipes);
+			fd = open_file(filename, 2, pipes);
 		else if (!ft_strncmp(parso->redirects, "<" ,2))
-			pipes->fd_in = open_file(filename, 3, pipes);
-		temp2 = parso->next->args;
-		//printf("next arr is %s an %s",parso->next->args[0], parso->next->args[1]);
-		parso->next->args = dup_array(parso->next->args);
-		clean_array(temp2);
+			fd2 = open_file(filename, 3, pipes);
+		if (fd2 != -1 && fd != -1)
+		{
+			temp2 = parso->next->args;
+			//printf("next arr is %s an %s",parso->next->args[0], parso->next->args[1]);
+			parso->next->args = dup_array(parso->next->args);
+			clean_array(temp2);
+		}
 	}
 	// update array
 	temp = add_array_array(all_args, parso->args);
-	clean_array(all_args);
+
 	// check fd for ERROR
-	if (pipes->fd_in == -1 || pipes->fd_out == -1)
-		exit_failure(pipes, NULL);
+	if (fd == -1 || fd2 == -1)
+	{
+		non_exit_failure(filename);
+		clean_array(temp);
+		clean_array(all_args);
+		g_exitcode = errno;
+		return(NULL);
+	}
+	pipes->fd_in = fd2;
+	pipes->fd_out = fd;
+	clean_array(all_args);
 	return (temp);
 }
 
@@ -97,16 +114,19 @@ int	make_redirects(t_pipes *pipes)
 	{
 		all_args = update_array(all_args, pipes, begin);
 		begin = begin->next;
+		if (!all_args)
+			break ;
 	}
+	//printf("here am i");
 	//print_array(all_args);
 	// print all all_args
 	// check file-descriptors and fork if_NOT_fork if desc else than std_in _ out  -> here we fork in case of NO PIPES
 	//printf("out is %d",pipes->fd_out);
 	pid = 0;
-
-	if (pipes->fd_in != STD_IN || pipes->fd_out != STD_OUT)
+	//printf("out is %d\n",pipes->fd_out);
+	if ((pipes->fd_in != STD_IN || pipes->fd_out != STD_OUT) && !g_exitcode)
 		pid = fork();
-	if (!pid)
+	if (!pid && !g_exitcode)
 	{
 		dup2(pipes->fd_in, STD_IN);
 		dup2(pipes->fd_out, STD_OUT);
@@ -114,7 +134,10 @@ int	make_redirects(t_pipes *pipes)
 			close(pipes->next->fd_in);
 		run_commands(all_args, pipes);
 		if (pipes->fd_in != STD_IN || pipes->fd_out != STD_OUT)
+		{
+			// catch signal here;
 			exit(g_exitcode);
+		}
 	}
 	if (pipes->fd_in != STD_IN || pipes->fd_out != STD_OUT)
 		waitpid(pid, 0, 0);

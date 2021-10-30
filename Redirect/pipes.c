@@ -55,4 +55,7 @@ void make_pipes(t_pipes *pipes)
 		execution(dup_pipes);
 		dup_pipes = dup_pipes->next;
 	}
+
+	// close all fd's
+	// waitpid here
 }

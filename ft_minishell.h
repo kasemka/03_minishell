@@ -6,13 +6,13 @@
 /*   By: gvolibea <gvolibea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 19:13:28 by gvolibea          #+#    #+#             */
-/*   Updated: 2021/10/27 22:27:52 by gvolibea         ###   ########.fr       */
+/*   Updated: 2021/10/30 12:24:39 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-# define SHL_NAME	"minishell:"
+# define SHL_NAME	"minishell: $"
 # define STD_IN		0
 # define STD_OUT	1
 
@@ -56,9 +56,10 @@ typedef struct parse_pipes
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <sys/stat.h>
+# include "Libft/libft.h"
 # include <readline/history.h>
 # include <readline/readline.h>
-# include "Libft/libft.h"
+
 
 void print_list(t_pipes *pipes); //take out later
 void free_list(t_parsing *commons);
@@ -81,6 +82,7 @@ int if_pipe_or_redirect(char c);
 t_pipes *new_pipes(t_env *env);
 void free_pipes(t_pipes *pipes);
 void make_pipes(t_pipes *pipes);
+void non_exit_failure(char *err_msg);
 
 // make_redirects
 int	make_redirects(t_pipes *pipes);

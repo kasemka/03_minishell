@@ -76,6 +76,7 @@ char *exit_failure(t_pipes *pipes, char *out)
 		free(begin);
 	}
 	printf("%s\n",strerror(errno));
+	//printf("%s\n",strerror(errno));
 	return (NULL);
 }
 
@@ -85,4 +86,17 @@ char *exit_failure_parso(t_parsing *parso)//, char *out)
 	free_list(parso);
 	printf("%s\n",strerror(errno));
 	return (NULL);
+}
+
+void non_exit_failure(char *err_msg)
+{
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(err_msg, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putendl_fd(strerror(errno),STDERR_FILENO);
+
+	if (errno)
+		g_exitcode = errno;
+	else
+		g_exitcode = 1;
 }

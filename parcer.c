@@ -6,7 +6,7 @@
 /*   By: gvolibea <gvolibea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 19:13:17 by gvolibea          #+#    #+#             */
-/*   Updated: 2021/10/27 23:47:44 by gvolibea         ###   ########.fr       */
+/*   Updated: 2021/10/30 13:35:09 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ char *parser(char *str, t_env *env)
 	if (!out)
 		return (exit_failure(pipes, out));
 	//print_list(pipes);
-
+	g_exitcode = 0; // may be is should be somewhere else
 	make_pipes(pipes);
 	free (out);
 	free_pipes(pipes);
@@ -199,7 +199,7 @@ int main(int argc, char **argv, char **envp)
 			ft_putstr_fd("\e[1A\e[11C" "exit\n", 1);
 			exit (0);
 		}
-		
+
 		add_history(test);
 		parser(test, env);
 	}
