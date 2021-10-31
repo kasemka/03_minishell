@@ -24,6 +24,40 @@ void ft_isspace(char *str, int *s_w_i)
 			s_w_i[2]++;
 }
 
+char *get_key(char *str)
+{
+	int		i;
+	int		j;
+	char	*out;
+
+	i = 0;
+	while (str[i] != '=')
+		i++;
+	out = malloc(sizeof(char) * i);
+	j = -1;
+	while (++j < i)
+		out[j] = str[j];
+	out[j] = '\0';
+	return (out);
+}
+
+char *ft_getenv(char *path, t_pipes *pipes)
+{
+	t_env	*temp;
+	char	*temp_str;
+
+	temp = pipes->env;
+	while(temp)
+	{
+		if (ft_strncmp(temp->key_vl, path, ft_strlen(path)))
+			return (get_key((temp->key_vl)));
+		temp = temp->next;
+	}
+	temp_str = malloc(sizeof(char) * 1);
+	temp_str = ft_strdup("");
+	return (temp_str);
+}
+
 char *get_var(char *str, int *i)
 {
 	char	*path;
@@ -44,7 +78,7 @@ char *get_var(char *str, int *i)
 	else
 	{
 		path = ft_substr(str, start_path, len);
-		glob_var = getenv(path);
+			glob_var = ft_getenv(path, pipes);
 		free(path);
 	}
 	return (glob_var);

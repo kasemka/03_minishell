@@ -11,6 +11,7 @@ char *get_dollar(int *i, char *str, char *out)
 	{
 		out = ft_strjoin(temp1, var_val);
 		free(temp1);
+		free(var_val);
 	}
 	return (out); // should add free VAR_VAL later
 }
