@@ -30,6 +30,6 @@ void	cancel_cmd(int signo)
 void quit_cmd(int signo)
 {
 	(void)signo;
-	ft_putstr_fd("^\\Quit: 3\n", 1);
-	exit(0);
+	ft_putstr_fd("Quit: 3\n", 1);
+	// exit(0);
 }

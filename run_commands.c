@@ -33,7 +33,7 @@ void	run_commands(char **commands, t_pipes *pipes) //t_env *env)
 			{
 				// catch signal here
 				signal(SIGINT, SIG_DFL);
-				signal(SIGQUIT, quit_cmd);
+				signal(SIGQUIT, SIG_DFL);
 				g_exitcode = other_cmd(env, commands);
 				if (!pipes->next)
 					last_command_exit(pipes);
@@ -44,6 +44,7 @@ void	run_commands(char **commands, t_pipes *pipes) //t_env *env)
 				}
 
 			}
+			signal(SIGQUIT, quit_cmd);
 			waitpid(pid, 0, 0);
 		}
 		else
