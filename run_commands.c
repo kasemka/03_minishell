@@ -35,8 +35,11 @@ void	run_commands(char **commands, t_pipes *pipes) //t_env *env)
 				signal(SIGINT, SIG_DFL);
 				signal(SIGQUIT, quit_cmd);
 				g_exitcode = other_cmd(env, commands);
+				if (!pipes->next)
+					last_command_exit(pipes);
 				if (g_exitcode)
 				{
+					// send sig to parent
 					exit(g_exitcode);
 				}
 

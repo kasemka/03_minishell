@@ -77,10 +77,11 @@ char **update_array(char **all_args, t_pipes *pipes, t_parsing *parso)
 	// check fd for ERROR
 	if (fd == -1 || fd2 == -1)
 	{
+		filename = ft_strjoin("minishell: ", filename);
 		non_exit_failure(filename);
+		free(filename);
 		clean_array(temp);
 		clean_array(all_args);
-		g_exitcode = errno;
 		return(NULL);
 	}
 	pipes->fd_in = fd2;
@@ -99,6 +100,23 @@ void print_array(char **args)
 		while (args[++i])
 			printf("%s\n",args[i]);
 }
+
+void last_command_exit(t_pipes *pipes)
+{
+	if (!g_exitcode)
+	{
+		waitpid(pipes->pid, pipes->stat_loc, 0);
+		if (WIFEXITED(pipes->stat_loc))
+			g_exitcode = WEXITSTATUS(pipes->stat_loc);
+		if (!g_exitcode && WIFSIGNALED(pipes->stat_loc))
+		{
+			if (*pipes->stat_loc == 2 || *pipes->stat_loc == 3)
+				ft_putendl_fd("", 2);
+			g_exitcode= 128 + WTERMSIG(pipes->stat_loc);
+		}
+	}
+}
+
 
 int	make_redirects(t_pipes *pipes)
 {
@@ -136,15 +154,18 @@ int	make_redirects(t_pipes *pipes)
 		if (pipes->fd_in != STD_IN || pipes->fd_out != STD_OUT)
 		{
 			// catch signal here;
+			//if (!pipes->next)
+			//	last_command_exit(pipes);
 			exit(g_exitcode);
 		}
 	}
-	if (pipes->fd_in != STD_IN || pipes->fd_out != STD_OUT)
-		waitpid(pid, 0, 0);
-	if (pipes->fd_in != STD_IN )
+	if (pipes->fd_in != STD_IN)
 		close (pipes->fd_in);
 	if (pipes->fd_out != STD_OUT)
 		close (pipes->fd_out);
+	// on error pid error - went away
+	if (pipes->pid < 0)
+		non_exit_failure("minishell: fork: ");
 	clean_array(all_args);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: gvolibea <gvolibea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 19:13:28 by gvolibea          #+#    #+#             */
-/*   Updated: 2021/10/30 12:24:39 by gvolibea         ###   ########.fr       */
+/*   Updated: 2021/10/31 14:00:20 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,22 @@
 # define STD_OUT	1
 
 int		g_exitcode;
+
+# include <stdio.h>
+# include <signal.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <string.h>
+# include <stdbool.h>
+# include <fcntl.h>
+# include <sys/errno.h>
+# include <dirent.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <sys/stat.h>
+# include "Libft/libft.h"
+# include <readline/history.h>
+# include <readline/readline.h>
 
 typedef struct s_env {
 	char			*key_vl;
@@ -40,26 +56,10 @@ typedef struct parse_pipes
 	int					fd_pipes[2];
 	int					fd_in;
 	int					fd_out;
+	int					*stat_loc;
 	t_env				*env;
+	pid_t				pid;
 } t_pipes;
-
-
-# include <stdio.h>
-# include <signal.h>
-# include <unistd.h>
-# include <stdlib.h>
-# include <string.h>
-# include <stdbool.h>
-# include <fcntl.h>
-# include <sys/errno.h>
-# include <dirent.h>
-# include <sys/types.h>
-# include <sys/wait.h>
-# include <sys/stat.h>
-# include "Libft/libft.h"
-# include <readline/history.h>
-# include <readline/readline.h>
-
 
 void print_list(t_pipes *pipes); //take out later
 void free_list(t_parsing *commons);
@@ -86,8 +86,7 @@ void non_exit_failure(char *err_msg);
 
 // make_redirects
 int	make_redirects(t_pipes *pipes);
-
-
+void last_command_exit(t_pipes *pipes);
 //arrays operations
 char **add_array_array(char **arr1, char **arr2);
 void clean_array(char **args);

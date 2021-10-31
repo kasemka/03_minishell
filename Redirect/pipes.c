@@ -30,6 +30,28 @@ void execution(t_pipes *pipes)
 	make_redirects(pipes);
 }
 
+void close_pipes(t_pipes *pipes)
+{
+	t_pipes *dup_pipes;
+
+	dup_pipes = pipes;
+	while (pipes)
+	{
+		if (pipes->fd_in != STD_IN )
+			close (pipes->fd_in);
+		if (pipes->fd_out != STD_OUT)
+			close (pipes->fd_out);
+		//printf("i close %d, %d\n",pipes->fd_in, pipes->fd_out);
+		pipes = pipes->next;
+	}
+	while (dup_pipes)
+	{
+		if (dup_pipes->fd_in != STD_IN || dup_pipes->fd_out != STD_OUT)
+			waitpid(dup_pipes->pid, 0, 0);
+		dup_pipes = dup_pipes->next;
+	}
+}
+
 void make_pipes(t_pipes *pipes)
 {
 	// cycle throght pipes lists (even if no)
@@ -55,6 +77,7 @@ void make_pipes(t_pipes *pipes)
 		execution(dup_pipes);
 		dup_pipes = dup_pipes->next;
 	}
+	close_pipes(pipes);
 
 	// close all fd's
 	// waitpid here

@@ -87,14 +87,22 @@ char *exit_failure_parso(t_parsing *parso)//, char *out)
 	printf("%s\n",strerror(errno));
 	return (NULL);
 }
+void must_exit_failure(char *err_msg)
+{
+	if (err_msg)
+		exit(errno);
+}
 
 void non_exit_failure(char *err_msg)
 {
+	/*
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	ft_putstr_fd(err_msg, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
 	ft_putendl_fd(strerror(errno),STDERR_FILENO);
-
+*/
+	if (err_msg)
+		perror(err_msg);
 	if (errno)
 		g_exitcode = errno;
 	else
