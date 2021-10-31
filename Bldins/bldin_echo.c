@@ -12,6 +12,20 @@
 
 #include "../ft_minishell.h"
 
+int	is_newline(char *nl)
+{
+	if (*nl != '-')
+		return (0);
+	nl++;
+	while (*nl != '\0')
+	{
+		if (*nl != 'n')
+			return (0);
+		nl++;
+	}
+	return (1);
+}
+
 int	bldin_echo(char **args)
 {
 	int		i;
@@ -19,18 +33,18 @@ int	bldin_echo(char **args)
 	i = 0;
 	if (args[1] == NULL)
 	{
-	 	printf("\n");
+	 	ft_putstr_fd("\n", STDIN_FILENO);
 		return (0);
 	}
-	if (ft_strncmp(args[1], "-n", 3) == 0)
+	if (is_newline(args[1]) == 1)
 		i++;
 	while (args[++i] != NULL)
 	{
-		printf("%s", args[i]);
+		ft_putstr_fd(args[i], STDIN_FILENO);
 		if (args[i + 1] != NULL)
-			printf(" ");
+			ft_putstr_fd(" ", STDIN_FILENO);
 	}
-	if (ft_strncmp(args[1], "-n", 3) != 0)
-		printf("\n");
+	if (is_newline(args[1]) == 0)
+		ft_putstr_fd("\n", STDIN_FILENO);
 	return (0);
 }
