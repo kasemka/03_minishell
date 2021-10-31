@@ -6,13 +6,13 @@
 /*   By: gvolibea <gvolibea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 19:13:28 by gvolibea          #+#    #+#             */
-/*   Updated: 2021/10/31 14:00:20 by gvolibea         ###   ########.fr       */
+/*   Updated: 2021/10/31 22:42:25 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-# define SHL_NAME	"minishell: $"
+# define SHL_NAME	"minishell$ "
 # define STD_IN		0
 # define STD_OUT	1
 
@@ -64,15 +64,15 @@ typedef struct parse_pipes
 void print_list(t_pipes *pipes); //take out later
 void free_list(t_parsing *commons);
 char *exit_failure(t_pipes *pipes, char *out);
-void parser_get_slash(char **out, char *str, int *i, t_parsing *parso);
-void parser_get_dollar(char **out, int *i, char *str);
+void parser_get_slash(char **out, char *str, int *i, t_pipes *pipes);
+void parser_get_dollar(char **out, int *i, char *str, t_pipes *pipes);
 void parser_get_dollar_alone(char **out);
 void parser_get_zero_o_space(char **out, t_pipes **pipes, int *s_w_i, \
 	char *str);
-char *get_dollar(int *i, char *str, char *out);
-char *get_quotes(int *i, char *str, char *out);
+char *get_dollar(int *i, char *str, char *out, t_pipes *pipes);
+char *get_quotes(int *i, char *str, char *out, t_pipes *pipes);
 void get_question(void);
-char *get_var(char *str, int *i);
+char *get_var(char *str, int *i, t_pipes *pipes);
 t_parsing	*new_list(void);
 void ft_isspace(char *str, int *s_w_i);
 int pipe_o_redirect(char *str);

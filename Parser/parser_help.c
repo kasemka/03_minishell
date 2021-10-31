@@ -1,17 +1,17 @@
 #include "../ft_minishell.h"
 
-void parser_get_slash(char **out, char *str, int *i, t_parsing *parso)
+void parser_get_slash(char **out, char *str, int *i, t_pipes *pipes)
 {
-	*out =  get_quotes(i, str, *out); // continue checks here
+	*out =  get_quotes(i, str, *out, pipes); // continue checks here
 	if (!ft_strncmp(*out,"",1))
-		parso->real_empty_str = 1;
+		pipes->parso->real_empty_str = 1;
 	if (str[*i + 1] == ' ' || !str[*i + 1])
 		(*i)++;
 }
 
-void parser_get_dollar(char **out, int *i, char *str)
+void parser_get_dollar(char **out, int *i, char *str, t_pipes *pipes)
 {
-	*out = get_dollar(i, str, *out);
+	*out = get_dollar(i, str, *out, pipes);
 	(*i)--;
 	//printf("i'm at simb %c and out is %s\n",str[*i],*out);
 	if (str[*i + 1] == ' ' || str[*i + 1] == '\0')

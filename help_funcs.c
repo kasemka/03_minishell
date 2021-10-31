@@ -1,12 +1,12 @@
 #include "ft_minishell.h"
 
-char *get_dollar(int *i, char *str, char *out)
+char *get_dollar(int *i, char *str, char *out, t_pipes *pipes)
 {
 	char *var_val;
 	char *temp1;
 
 	temp1 = out;
-	var_val = get_var(str, i);
+	var_val = get_var(str, i, pipes);
 	if (var_val)
 	{
 		out = ft_strjoin(temp1, var_val);

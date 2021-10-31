@@ -32,7 +32,7 @@ void get_question(void)
 	printf("%d\n",g_exitcode);
 }
 
-char *get_str_between_dbl(char *str, int *i, char c)
+char *get_str_between_dbl(char *str, int *i, char c, t_pipes *pipes)
 {
 	int len;
 	int start_path;
@@ -48,7 +48,7 @@ char *get_str_between_dbl(char *str, int *i, char c)
 		str[*i + 1] == '?'))
 		{
 			path = update_path(path, str, *i - len, len);
-			path = get_dollar(i, str, path);
+			path = get_dollar(i, str, path, pipes);
 			len = 0;
 			continue;
 		}
@@ -59,7 +59,7 @@ char *get_str_between_dbl(char *str, int *i, char c)
 	return (path);
 }
 
-char *get_quotes(int *i, char *str, char *out)
+char *get_quotes(int *i, char *str, char *out, t_pipes *pipes)
 {
 	char *temp;
 	char *temp1;
@@ -68,7 +68,7 @@ char *get_quotes(int *i, char *str, char *out)
 	if (str[*i] == '\'')
 		temp = get_str_between(str, i, str[*i]);
 	else
-		temp = get_str_between_dbl(str, i, str[*i]);
+		temp = get_str_between_dbl(str, i, str[*i], pipes);
 	out = ft_strjoin(temp1, temp);
 	free (temp1);
 	free (temp);

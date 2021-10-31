@@ -24,7 +24,7 @@ void ft_isspace(char *str, int *s_w_i)
 			s_w_i[2]++;
 }
 
-char *get_key(char *str)
+char *get_val(char *str)
 {
 	int		i;
 	int		j;
@@ -33,10 +33,13 @@ char *get_key(char *str)
 	i = 0;
 	while (str[i] != '=')
 		i++;
-	out = malloc(sizeof(char) * i);
-	j = -1;
-	while (++j < i)
-		out[j] = str[j];
+	out = malloc(sizeof(char) * (ft_strlen(str) - i + 1)); // add failure check
+	j = 0;
+	while (str[++i])
+	{
+		out[j] = str[i];
+		j++;
+	}
 	out[j] = '\0';
 	return (out);
 }
@@ -49,8 +52,8 @@ char *ft_getenv(char *path, t_pipes *pipes)
 	temp = pipes->env;
 	while(temp)
 	{
-		if (ft_strncmp(temp->key_vl, path, ft_strlen(path)))
-			return (get_key((temp->key_vl)));
+		if (!ft_strncmp(temp->key_vl, path, ft_strlen(path)))
+			return (get_val((temp->key_vl)));
 		temp = temp->next;
 	}
 	temp_str = malloc(sizeof(char) * 1);
@@ -58,7 +61,7 @@ char *ft_getenv(char *path, t_pipes *pipes)
 	return (temp_str);
 }
 
-char *get_var(char *str, int *i)
+char *get_var(char *str, int *i, t_pipes *pipes)
 {
 	char	*path;
 	int		len;
@@ -67,7 +70,7 @@ char *get_var(char *str, int *i)
 
 	start_path = *i + 1;
 	len = 0;
-	while(ft_isalpha(str[++(*i)]))
+	while(ft_isalnum(str[++(*i)]))
 		len++;
 	if (len == 0 && str[*i] == '?')
 	{
@@ -78,7 +81,7 @@ char *get_var(char *str, int *i)
 	else
 	{
 		path = ft_substr(str, start_path, len);
-			glob_var = ft_getenv(path, pipes);
+		glob_var = ft_getenv(path, pipes);
 		free(path);
 	}
 	return (glob_var);

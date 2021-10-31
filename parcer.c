@@ -6,7 +6,7 @@
 /*   By: gvolibea <gvolibea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 19:13:17 by gvolibea          #+#    #+#             */
-/*   Updated: 2021/10/31 19:00:07 by gvolibea         ###   ########.fr       */
+/*   Updated: 2021/10/31 19:26:02 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ char *parsing_cycle(t_pipes *pipes, char *str, char *out)
 		if (s_w_i[0] != s_w_i[2])
 			parser_get_word(&out, str, s_w_i[0], &s_w_i[2]);
 		if (str[s_w_i[2]] ==  '\'' || str[s_w_i[2]] ==  '\"')
-			parser_get_slash(&out, str, &s_w_i[2], pipes->parso);
+			parser_get_slash(&out, str, &s_w_i[2], pipes);
 		if (str[s_w_i[2]] == '$' && (ft_isalnum(str[s_w_i[2] + 1]) \
 		|| str[s_w_i[2] + 1] == '?'))
 			parser_get_dollar(&out, &s_w_i[2], str, pipes);

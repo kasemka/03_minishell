@@ -155,7 +155,7 @@ int	make_redirects(t_pipes *pipes)
 		{
 			// catch signal here;
 			//if (!pipes->next)
-			//	last_command_exit(pipes);
+			//last_command_exit(pipes);
 			exit(g_exitcode);
 		}
 	}
