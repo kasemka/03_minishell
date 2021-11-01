@@ -6,7 +6,7 @@
 /*   By: gvolibea <gvolibea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 19:13:28 by gvolibea          #+#    #+#             */
-/*   Updated: 2021/10/31 22:42:25 by gvolibea         ###   ########.fr       */
+/*   Updated: 2021/11/02 00:47:51 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,10 @@ typedef struct parse_pipes
 	int					fd_pipes[2];
 	int					fd_in;
 	int					fd_out;
-	int					*stat_loc;
+	int					stat_loc;
 	t_env				*env;
 	pid_t				pid;
+	int					fork;
 } t_pipes;
 
 void print_list(t_pipes *pipes); //take out later

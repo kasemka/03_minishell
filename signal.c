@@ -6,7 +6,7 @@
 /*   By: lelle <lelle@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 23:39:25 by lelle             #+#    #+#             */
-/*   Updated: 2021/10/30 13:34:50 by gvolibea         ###   ########.fr       */
+/*   Updated: 2021/11/02 00:41:30 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void sig_ignore(int signo)
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
+	g_exitcode = 130;
 }
 
 void	cancel_cmd(int signo)
@@ -37,9 +38,17 @@ void quit_cmd(int signo)
 void	print_row(int status)
 {
 	if (WIFSIGNALED(status) && WTERMSIG(status) == 3)
+	{
 		ft_putstr_fd("Quit: 3\n", STD_OUT);
+		g_exitcode = 131;
+	}
+
 	else if (WIFSIGNALED(status) && WTERMSIG(status) == 2)
+	{
 		write(1, "\n", 1);
+		g_exitcode = 130;
+	}
+
 }
 
 void	cntr_d(void)

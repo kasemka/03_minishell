@@ -6,8 +6,8 @@
 void	run_commands(char **commands, t_pipes *pipes) //t_env *env)
 {
 	t_env	*env;
-	pid_t	pid;
-	int		status;
+//	pid_t	pid;
+//	int		status;
 
 	env = pipes->env;
 	if (ft_strncmp(commands[0], "env", 4) == 0)
@@ -29,16 +29,16 @@ void	run_commands(char **commands, t_pipes *pipes) //t_env *env)
 	{
 		if (pipes->fd_in == STD_IN && pipes->fd_out == STD_OUT)
 		{
-			pid = fork();
-			if (!pid)
+			pipes->pid = fork();
+			if (!pipes->pid)
 			{
 				// catch signal here
 				signal(SIGINT, SIG_DFL);
 				signal(SIGQUIT, SIG_DFL);
 				g_exitcode = other_cmd(env, commands);
-				if (!pipes->next)
-					if (!g_exitcode)
-						last_command_exit(pipes);
+			//	if (!pipes->next)
+			//		if (!g_exitcode)
+			//			last_command_exit(pipes);
 				if (g_exitcode)
 				{
 					// send sig to parent
@@ -46,8 +46,8 @@ void	run_commands(char **commands, t_pipes *pipes) //t_env *env)
 				}
 			}
 			signal(SIGINT, SIG_IGN);
-			waitpid(pid, &status, 0);
-			print_row(status);
+//			waitpid(pid, &status, 0);
+//			print_row(status);
 
 		}
 		else

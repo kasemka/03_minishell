@@ -103,7 +103,8 @@ void print_array(char **args)
 
 void last_command_exit(t_pipes *pipes)
 {
-	if (!g_exitcode)
+	(void)pipes;
+	/*if (!g_exitcode)
 	{
 		waitpid(pipes->pid, pipes->stat_loc, 0);
 		if (WIFEXITED(pipes->stat_loc))
@@ -114,7 +115,7 @@ void last_command_exit(t_pipes *pipes)
 				ft_putendl_fd("", 2);
 			g_exitcode= 128 + WTERMSIG(pipes->stat_loc);
 		}
-	}
+	}*/
 }
 
 
@@ -123,7 +124,7 @@ int	make_redirects(t_pipes *pipes)
 
 	char		**all_args;
 	t_parsing	*begin;
-	pid_t		pid;
+//	pid_t		pid;
 
 	begin = pipes->parso;
 	all_args = NULL;
@@ -140,12 +141,22 @@ int	make_redirects(t_pipes *pipes)
 	// print all all_args
 	// check file-descriptors and fork if_NOT_fork if desc else than std_in _ out  -> here we fork in case of NO PIPES
 	//printf("out is %d",pipes->fd_out);
-	pid = 0;
+	pipes->fork = 0;
 	//printf("out is %d\n",pipes->fd_out);
 	if ((pipes->fd_in != STD_IN || pipes->fd_out != STD_OUT) && !g_exitcode)
-		pid = fork();
-	if (!pid && !g_exitcode)
 	{
+		pipes->pid = fork();
+		pipes->fork = 1;
+	}
+	if (!pipes->fork)
+	{
+		run_commands(all_args, pipes);
+	}
+
+	if (!pipes->pid && !g_exitcode)
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		dup2(pipes->fd_in, STD_IN);
 		dup2(pipes->fd_out, STD_OUT);
 		if (pipes->next)
@@ -154,8 +165,8 @@ int	make_redirects(t_pipes *pipes)
 		if (pipes->fd_in != STD_IN || pipes->fd_out != STD_OUT)
 		{
 			// catch signal here;
-			if (!pipes->next)
-				last_command_exit(pipes);
+			//if (!pipes->next)
+			//	last_command_exit(pipes);
 			//printf("exit code is %d\n",g_exitcode);
 			exit(g_exitcode);
 		}
@@ -167,6 +178,11 @@ int	make_redirects(t_pipes *pipes)
 	// on error pid error - went away
 	if (pipes->pid < 0)
 		non_exit_failure("minishell: fork: ");
+	if (!pipes->next && !g_exitcode)
+	{
+		waitpid(pipes->pid, &pipes->stat_loc, 0);
+		print_row(pipes->stat_loc);
+	}
 	clean_array(all_args);
 	return (0);
 }
