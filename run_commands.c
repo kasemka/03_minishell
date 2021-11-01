@@ -51,6 +51,9 @@ void	run_commands(char **commands, t_pipes *pipes) //t_env *env)
 
 		}
 		else
+		{
+			signal(SIGQUIT, SIG_DFL);
 			g_exitcode = other_cmd(env, commands);
+		}
 	}
 }
