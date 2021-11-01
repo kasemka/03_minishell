@@ -6,7 +6,7 @@
 /*   By: lelle <lelle@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 14:25:29 by lelle             #+#    #+#             */
-/*   Updated: 2021/10/24 12:52:19 by gvolibea         ###   ########.fr       */
+/*   Updated: 2021/11/01 16:18:00 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,18 @@ int	bldin_echo(char **args)
 	i = 0;
 	if (args[1] == NULL)
 	{
-	 	ft_putstr_fd("\n", STDIN_FILENO);
+	 	ft_putstr_fd("\n", STD_OUT);
 		return (0);
 	}
 	if (is_newline(args[1]) == 1)
 		i++;
 	while (args[++i] != NULL)
 	{
-		ft_putstr_fd(args[i], STDIN_FILENO);
+		ft_putstr_fd(args[i], STD_OUT);
 		if (args[i + 1] != NULL)
-			ft_putstr_fd(" ", STDIN_FILENO);
+			ft_putstr_fd(" ", STD_OUT);
 	}
 	if (is_newline(args[1]) == 0)
-		ft_putstr_fd("\n", STDIN_FILENO);
+		ft_putstr_fd("\n", STD_OUT);
 	return (0);
 }

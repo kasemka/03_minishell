@@ -144,7 +144,6 @@ int	make_redirects(t_pipes *pipes)
 	//printf("out is %d\n",pipes->fd_out);
 	if ((pipes->fd_in != STD_IN || pipes->fd_out != STD_OUT) && !g_exitcode)
 		pid = fork();
-	printf("in is %d and out is %d adn g_code %d\n",pipes->fd_in, pipes->fd_out,g_exitcode);
 	if (!pid && !g_exitcode)
 	{
 		dup2(pipes->fd_in, STD_IN);
@@ -155,8 +154,8 @@ int	make_redirects(t_pipes *pipes)
 		if (pipes->fd_in != STD_IN || pipes->fd_out != STD_OUT)
 		{
 			// catch signal here;
-			//if (!pipes->next)
-			//last_command_exit(pipes);
+			if (!pipes->next)
+				last_command_exit(pipes);
 			//printf("exit code is %d\n",g_exitcode);
 			exit(g_exitcode);
 		}
