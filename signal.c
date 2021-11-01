@@ -33,3 +33,17 @@ void quit_cmd(int signo)
 	ft_putstr_fd("Quit: 3\n", 1);
 	// exit(0);
 }
+
+void	print_row(int status)
+{
+	if (WIFSIGNALED(status) && WTERMSIG(status) == 3)
+		ft_putstr_fd("Quit: 3\n", STD_OUT);
+	else if (WIFSIGNALED(status) && WTERMSIG(status) == 2)
+		write(1, "\n", 1);
+}
+
+void	cntr_d(void)
+{
+	ft_putstr_fd("\e[1A\e[11C" "exit\n", 1);
+	exit (0);
+}

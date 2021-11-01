@@ -129,6 +129,8 @@ void	printArr(char **arr);
 void 	sig_ignore(int signo);
 void	cancel_cmd(int signo);
 void 	quit_cmd(int signo);
+void	cntr_d(void);
+void	print_row(int status);
 
 
 #endif

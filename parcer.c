@@ -185,10 +185,7 @@ int main(int argc, char **argv, char **envp)
 		signal(SIGQUIT, SIG_IGN);
 		string = readline(SHL_NAME);
 		if (string == NULL)
-		{
-			ft_putstr_fd("\e[1A\e[11C" "exit\n", 1);
-			exit (0);
-		}
+			cntr_d();
 		signal(SIGINT, cancel_cmd);
 		add_history(string);
 		parser(string, env);

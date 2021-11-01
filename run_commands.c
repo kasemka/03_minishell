@@ -7,6 +7,7 @@ void	run_commands(char **commands, t_pipes *pipes) //t_env *env)
 {
 	t_env	*env;
 	pid_t	pid;
+	int		status;
 
 	env = pipes->env;
 	if (ft_strncmp(commands[0], "env", 4) == 0)
@@ -44,8 +45,10 @@ void	run_commands(char **commands, t_pipes *pipes) //t_env *env)
 					exit(g_exitcode);
 				}
 			}
-			waitpid(pid, 0, 0);
-			signal(SIGQUIT, quit_cmd);
+			signal(SIGINT, SIG_IGN);
+			waitpid(pid, &status, 0);
+			print_row(status);
+
 		}
 		else
 			g_exitcode = other_cmd(env, commands);
