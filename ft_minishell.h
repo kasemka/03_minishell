@@ -125,6 +125,7 @@ t_env	*find_by_key(t_env *env, char *key_env);
 t_env	*last_list(t_env *env);
 void	free_list_env(t_env *env);
 void	printArr(char **arr);
+int		check_dir(char *home_dir);
 
 //signals
 void 	sig_ignore(int signo);

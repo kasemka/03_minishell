@@ -15,8 +15,9 @@
 char	*define_home(t_env *env, int *flag, int *home_empty)
 {
 	char			*home;
-	struct stat		buf;
 
+	home = NULL;
+	*flag = 4;
 	while (env != NULL)
 	{
 		if (ft_strncmp(env->key_vl, "HOME=", 5) == 0 && *flag == 4)
@@ -33,12 +34,7 @@ char	*define_home(t_env *env, int *flag, int *home_empty)
 		}
 		env = env->next;
 	}
-	if (stat(home, &buf) == 0)
-		return (home);
-	ft_putstr_fd("minishell: ", STDERR_FILENO);
-	ft_putstr_fd(home, STDERR_FILENO);
-	ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
-	return (NULL);
+	return (home);
 }
 
 int	change_dir(char **arg, char *home_dir)
@@ -124,15 +120,14 @@ int	bldin_cd(t_env *env, char **arg)
 	oldpwd = malloc(4096 * sizeof(char));
 	if (oldpwd == NULL)
 		msg_mallocfail();
-	flag = 4;
 	home_empty = 0;
 	home_dir = define_home(env, &flag, &home_empty);
-	if (!home_dir)
-		return (1);
-	if ((arg[1] == NULL || ft_strncmp(arg[1], "~", 2) == 0) && home_empty)
+	if ((arg[1] == NULL || !ft_strncmp(arg[1], "~", 2)) && home_empty)
 		return (0);
-	else if (arg[1] == NULL && flag == 4)
-		return(msg_home_not_set());
+	if ((arg[1] == NULL || !ft_strncmp(arg[1], "~", 2)) && check_dir(home_dir))
+		return (1);
+	if (arg[1] == NULL && flag == 4)
+		return (msg_home_not_set());
 	status = change_dir(arg, home_dir);
 	add_pwd(env);
 	if (status)

@@ -57,3 +57,17 @@ t_env	*find_by_key(t_env *env, char *key_env)
 	}
 	return (NULL);
 }
+
+int	check_dir(char *home_dir)
+{
+	struct stat		buf;
+
+	if (stat(home_dir, &buf))
+	{
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd(home_dir, STDERR_FILENO);
+		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+		return (1);
+	}
+	return (0);
+}
