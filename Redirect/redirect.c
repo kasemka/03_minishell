@@ -153,7 +153,7 @@ int	make_redirects(t_pipes *pipes)
 		run_commands(all_args, pipes);
 	}
 
-	if (!pipes->pid && !g_exitcode)
+	if (!pipes->pid && !g_exitcode && pipes->fork)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
