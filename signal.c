@@ -42,13 +42,13 @@ void	print_row(int status)
 		ft_putstr_fd("Quit: 3\n", STD_OUT);
 		g_exitcode = 131;
 	}
-
 	else if (WIFSIGNALED(status) && WTERMSIG(status) == 2)
 	{
 		write(1, "\n", 1);
 		g_exitcode = 130;
 	}
-
+	else if (!WIFSIGNALED(status))
+		g_exitcode = WEXITSTATUS(status);
 }
 
 void	cntr_d(void)
