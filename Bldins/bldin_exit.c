@@ -29,7 +29,6 @@ int	is_num(char *s)
 int	bldin_exit(char **args)
 {
 	(void)args;
-
 	g_exitcode = 0;
 	if (args[1] == NULL)
 		exit(g_exitcode);
@@ -42,7 +41,7 @@ int	bldin_exit(char **args)
 	}
 	else if (args[2] != NULL)
 	{
-		ft_putstr_fd("exit\nminishell: exit: too many arguments\n", STDERR_FILENO);
+		ft_putstr_fd("exit\nminishell: exit: too many arguments\n", 2);
 		g_exitcode = 1;
 		return (1);
 	}

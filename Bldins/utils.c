@@ -18,7 +18,7 @@ int	check_name(char *key_value)
 
 	i = 0;
 	if (ft_isalpha(key_value[0]) == 0 && key_value[0] != '_')
-		return(msg_error_export(key_value));
+		return (msg_error_export(key_value));
 	while (key_value[++i] != '=' && key_value[i] != '\0')
 	{
 		if ((!ft_isalpha(key_value[i]) && !ft_isdigit(key_value[i]) && \
@@ -26,7 +26,7 @@ int	check_name(char *key_value)
 		{
 			if (key_value[i] == '+' && key_value[i + 1] == '=')
 				return (0);
-			return(msg_error_export(key_value));
+			return (msg_error_export(key_value));
 		}
 	}
 	return (0);
