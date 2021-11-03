@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_minishell.h"
+
 #include <stdio.h>
 #include <signal.h>
 #include <unistd.h>
@@ -115,6 +117,7 @@ int	check_token_errors(char *str)
 }
 
 //gcc token.c finished_projects/01_libft/libft/*.c -lreadline -L ~/.brew/opt/readline/lib -L finished_projects/01_libft/libft/ -I ~/.brew/opt/readline/include && ./a.out
+
 int main()
 {
 	char 	*str;
