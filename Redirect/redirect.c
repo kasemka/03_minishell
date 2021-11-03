@@ -129,8 +129,27 @@ int	make_redirects(t_pipes *pipes)
 	begin = pipes->parso;
 	all_args = NULL;
  	//while (ft_strncmp(parso->redirects,">",1) ||	ft_strncmp(parso->redirects,">>",2))
+
+
+	// try to do heredoc here here
+
 	while (begin)
 	{
+		if (begin->redirects)
+		{
+			if (!ft_strncmp(begin->redirects,"<<",2))
+			{
+			//	printf("I'me here");
+				here_doc(pipes, begin->next->args[0]);
+			}
+		}
+		begin = begin->next;
+	}
+
+	begin = pipes->parso;
+	while (begin)
+	{
+		// get here doc here first
 		all_args = update_array(all_args, pipes, begin);
 		begin = begin->next;
 		if (!all_args)
@@ -142,13 +161,14 @@ int	make_redirects(t_pipes *pipes)
 	// check file-descriptors and fork if_NOT_fork if desc else than std_in _ out  -> here we fork in case of NO PIPES
 	//printf("out is %d",pipes->fd_out);
 	pipes->fork = 0;
+	pipes->pid = 0; // initialize when pipes
 	//printf("out is %d\n",pipes->fd_out);
 	if ((pipes->fd_in != STD_IN || pipes->fd_out != STD_OUT) && !g_exitcode)
 	{
 		pipes->pid = fork();
 		pipes->fork = 1;
 	}
-	if (!pipes->fork)
+	if (!pipes->fork && !g_exitcode)
 	{
 		run_commands(all_args, pipes);
 	}
@@ -157,6 +177,7 @@ int	make_redirects(t_pipes *pipes)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
+		//can make redirects here in child
 		dup2(pipes->fd_in, STD_IN);
 		dup2(pipes->fd_out, STD_OUT);
 		if (pipes->next)
@@ -178,11 +199,13 @@ int	make_redirects(t_pipes *pipes)
 	// on error pid error - went away
 	if (pipes->pid < 0)
 		non_exit_failure("minishell: fork: ");
-	if (!pipes->next && !g_exitcode)
+	if (!pipes->next && !g_exitcode) // shall we keep g_exitcode for the last?
 	{
 		waitpid(pipes->pid, &pipes->stat_loc, 0);
 		print_row(pipes->stat_loc);
 	}
 	clean_array(all_args);
+	if (pipes->next)
+		g_exitcode = 0;
 	return (0);
 }

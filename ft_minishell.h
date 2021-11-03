@@ -6,7 +6,7 @@
 /*   By: gvolibea <gvolibea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 19:13:28 by gvolibea          #+#    #+#             */
-/*   Updated: 2021/11/02 00:47:51 by gvolibea         ###   ########.fr       */
+/*   Updated: 2021/11/03 14:09:45 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,5 +134,6 @@ void 	quit_cmd(int signo);
 void	cntr_d(void);
 void	print_row(int status);
 
+void here_doc(t_pipes *pipes, char *stop);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: gvolibea <gvolibea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 19:13:17 by gvolibea          #+#    #+#             */
-/*   Updated: 2021/11/01 16:34:27 by gvolibea         ###   ########.fr       */
+/*   Updated: 2021/11/03 00:13:27 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,6 +179,7 @@ int main(int argc, char **argv, char **envp)
 	change_shlvl(env);
 	add_addit_keys(env);
 	rl_catch_signals = 0;
+	//rl_outstream = stderr;
 	while (1)
 	{
 		signal(SIGINT, sig_ignore);
