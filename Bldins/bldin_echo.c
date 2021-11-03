@@ -29,20 +29,21 @@ int	is_newline(char *nl)
 int	bldin_echo(char **args)
 {
 	int		i;
-
+	
 	i = 0;
-	if (args[1] == NULL)
+	if (args[++i] == NULL)
 	{
 	 	ft_putstr_fd("\n", STD_OUT);
 		return (0);
 	}
-	if (is_newline(args[1]) == 1)
+	while (args[i] && is_newline(args[i]))
 		i++;
-	while (args[++i] != NULL)
+	while (args[i] != NULL)
 	{
 		ft_putstr_fd(args[i], STD_OUT);
 		if (args[i + 1] != NULL)
 			ft_putstr_fd(" ", STD_OUT);
+		i++;
 	}
 	if (is_newline(args[1]) == 0)
 		ft_putstr_fd("\n", STD_OUT);
