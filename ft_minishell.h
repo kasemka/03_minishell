@@ -6,7 +6,7 @@
 /*   By: gvolibea <gvolibea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 19:13:28 by gvolibea          #+#    #+#             */
-/*   Updated: 2021/11/04 11:47:30 by gvolibea         ###   ########.fr       */
+/*   Updated: 2021/11/04 12:11:49 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void free_pipes(t_pipes *pipes);
 void make_pipes(t_pipes *pipes);
 void non_exit_failure(char *err_msg);
 void	must_exit_failure(char *err_msg);
-
+int	parser_list_update(char *out, t_pipes **pipes);
 // make_redirects
 int	make_redirects(t_pipes *pipes);
 void last_command_exit(t_pipes *pipes);
@@ -93,6 +93,7 @@ void last_command_exit(t_pipes *pipes);
 char **add_array_array(char **arr1, char **arr2);
 void clean_array(char **args);
 int size_arr(char **arr);
+t_parsing	*find_last(t_parsing *list);
 
 void	run_commands(char **commands, t_pipes *pipes); //run_commands(char **commands, t_env *env);
 int		msg_error(void);
