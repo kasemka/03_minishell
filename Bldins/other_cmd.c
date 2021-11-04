@@ -97,6 +97,6 @@ int	other_cmd(t_env *env, char **commands)
 	if (path == NULL)
 		return (127);
 	execve(path, commands, env_arr);
-	ft_free_2array(env_arr);
+	clean_array(env_arr);
 	return (0);
 }

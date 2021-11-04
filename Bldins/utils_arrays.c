@@ -22,16 +22,6 @@ int	len_arr(char **arr)
 	return (len);
 }
 
-void	ft_free_2array(char **arr)
-{
-	int	i;
-
-	i = -1;
-	while (arr[i++] != NULL)
-		free(arr[i]);
-	free(arr);
-}
-
 char	**list_to_arr(t_env *env)
 {
 	char	**arr;
