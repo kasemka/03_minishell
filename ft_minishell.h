@@ -6,7 +6,7 @@
 /*   By: gvolibea <gvolibea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 19:13:28 by gvolibea          #+#    #+#             */
-/*   Updated: 2021/11/04 12:11:49 by gvolibea         ###   ########.fr       */
+/*   Updated: 2021/11/04 13:29:56 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # define SHL_NAME	"minishell$ "
 # define STD_IN		0
 # define STD_OUT	1
+# define token "minishell: syntax error near unexpected token `"
 
 int		g_exitcode;
 
@@ -95,6 +96,10 @@ void clean_array(char **args);
 int size_arr(char **arr);
 t_parsing	*find_last(t_parsing *list);
 
+//init n check
+int	check_limit_vals(char *str, int j);
+
+
 void	run_commands(char **commands, t_pipes *pipes); //run_commands(char **commands, t_env *env);
 int		msg_error(void);
 int		msg_error_str(char *s);
@@ -128,6 +133,7 @@ t_env	*last_list(t_env *env);
 void	free_list_env(t_env *env);
 void	printArr(char **arr);
 int		check_dir(char *home_dir);
+char	**update_array(char **all_args, t_pipes *pipes, t_parsing *parso);
 
 //signals
 void 	sig_ignore(int signo);

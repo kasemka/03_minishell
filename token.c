@@ -6,26 +6,12 @@
 /*   By: lelle <lelle@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 19:08:30 by lelle             #+#    #+#             */
-/*   Updated: 2021/11/03 23:13:12 by gvolibea         ###   ########.fr       */
+/*   Updated: 2021/11/04 13:32:35 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_minishell.h"
-/*
-#include <stdio.h>
-#include <signal.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include "Libft/libft.h"
-*/
 
-#define token  "minishell: syntax error near unexpected token `"
-
-//int		g_exitcode;
-
-//remove this func, it is already in minishell.h
 int	len_arr_tkn(char **arr)
 {
 	int	len;
@@ -36,21 +22,19 @@ int	len_arr_tkn(char **arr)
 	return (len);
 }
 
-int print_token(char *sym)
+int	print_token(char *sym)
 {
-
 	ft_putstr_fd(token, 2);
 	ft_putstr_fd(sym, 2);
 	ft_putstr_fd("\'\n", 2);
 	return (258);
 }
 
-
-char *p_haystack(char *str, char **redir, int *len, int flag)
+char	*p_haystack(char *str, char **redir, int *len, int flag)
 {
-	int i;
-	char *haystack;
-	int	j;
+	int		i;
+	char	*haystack;
+	int		j;
 
 	i = -1;
 	j = len_arr_tkn(redir);
@@ -70,12 +54,12 @@ char *p_haystack(char *str, char **redir, int *len, int flag)
 	return (NULL);
 }
 
-int token_errors(char *str, char **redir, char **pipes_redir)
+int	token_errors(char *str, char **redir, char **pipes_redir)
 {
-	char *haystack;
-	char *haystack2;
-	int	len;
-	int len2;
+	char	*haystack;
+	char	*haystack2;
+	int		len;
+	int		len2;
 
 	len = 0;
 	len2 = 0;
@@ -87,7 +71,7 @@ int token_errors(char *str, char **redir, char **pipes_redir)
 			len++;
 		if (haystack[len] == '\0')
 			return (print_token("newline"));
-		haystack2 = p_haystack(haystack+len, pipes_redir, &len2, 2);
+		haystack2 = p_haystack(haystack + len, pipes_redir, &len2, 2);
 		if (haystack2)
 		{
 			haystack2[len2] = '\0';
@@ -99,7 +83,6 @@ int token_errors(char *str, char **redir, char **pipes_redir)
 
 int	check_token_errors(char *str)
 {
-
 	char	**redir;
 	char	**pipes_redir;
 
@@ -111,27 +94,10 @@ int	check_token_errors(char *str)
 		g_exitcode = print_token("|");
 	else
 		g_exitcode = token_errors(str, redir, pipes_redir);
-	//clean_array(redir);
-	//clean_array(pipes_redir);
-	//printf("i'm our w g_exit = %d\n",g_exitcode);
+	clean_array(redir);
+	clean_array(pipes_redir);
 	if (g_exitcode > 0)
 		return (1);
 	else
 		return (0);
 }
-
-
-
-/*int main()
-{
-	char 	*str;
-	g_exitcode = 0;
-
-
-	while (1)
-	{
-		str = readline("minishell$ ");
-		check_token_errors(str);
-	}
-	return (0);
-}*/

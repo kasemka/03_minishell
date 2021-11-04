@@ -6,13 +6,12 @@
 /*   By: lelle <lelle@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 14:26:57 by lelle             #+#    #+#             */
-/*   Updated: 2021/10/26 23:39:12 by gvolibea         ###   ########.fr       */
+/*   Updated: 2021/11/04 12:22:41 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minishell.h"
 
-//check if curr dir in PATH ::, : at the beginnig
 char	*search_in_env(char **envpath, char *cmd)
 {
 	char			*path;
@@ -78,7 +77,6 @@ int	other_cmd(t_env *env, char **commands)
 	char		*path;
 	char		**env_arr;
 	struct stat	buf;
-	// int			pid;
 
 	env_arr = list_to_arr(env);
 	if (env_arr == NULL)
@@ -98,11 +96,6 @@ int	other_cmd(t_env *env, char **commands)
 	}
 	if (path == NULL)
 		return (127);
-	//pid = fork();
-//if (pid == 0 && execve(path, commands, env_arr) == -1 )
-//		return (msg_error());
-//	else
-//		wait(NULL);
 	execve(path, commands, env_arr);
 	ft_free_2array(env_arr);
 	return (0);

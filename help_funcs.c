@@ -49,3 +49,19 @@ void	free_pipes(t_pipes *pipes)
 		free(begin);
 	}
 }
+
+t_pipes	*new_pipes(t_env *env)
+{
+	t_pipes		*new_pipe;
+	t_parsing	*new_parso;
+
+	new_pipe = malloc(sizeof(t_pipes));
+	new_parso = new_list();
+	new_pipe->parso = new_parso;
+	new_pipe->next = NULL;
+	new_pipe->fd_in = STD_IN;
+	new_pipe->fd_out = STD_OUT;
+	new_pipe->env = env;
+	new_pipe->g_exit = g_exitcode;
+	return (new_pipe);
+}

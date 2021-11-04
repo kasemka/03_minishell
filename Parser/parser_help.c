@@ -6,7 +6,7 @@
 /*   By: gvolibea <gvolibea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 11:23:32 by gvolibea          #+#    #+#             */
-/*   Updated: 2021/11/04 12:11:32 by gvolibea         ###   ########.fr       */
+/*   Updated: 2021/11/04 12:27:57 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ char	*get_pipe_o_redirect(char *str, int *s_w_i)
 	return (NULL);
 }
 
-void	parser_get_zero_o_space(char **out, t_pipes **pipes, int *s_w_i, \
+int	get_flag_after_parsing(char **out, t_pipes **pipes, int *s_w_i, \
 	char *str)
 {
-	int			flag;
 	char		*temp;
+	int			flag;
 	t_parsing	*last_parso;
 
 	flag = 0;
@@ -62,6 +62,15 @@ void	parser_get_zero_o_space(char **out, t_pipes **pipes, int *s_w_i, \
 		flag = parser_list_update(temp, pipes);
 		s_w_i[1] = 0;
 	}
+	return (flag);
+}
+
+void	parser_get_zero_o_space(char **out, t_pipes **pipes, int *s_w_i, \
+	char *str)
+{
+	int	flag;
+
+	flag = get_flag_after_parsing(out, pipes, s_w_i, str);
 	free(*out);
 	(*pipes)->parso->real_empty_str = 0;
 	if (flag)

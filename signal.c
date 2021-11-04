@@ -6,13 +6,13 @@
 /*   By: lelle <lelle@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 23:39:25 by lelle             #+#    #+#             */
-/*   Updated: 2021/11/02 00:41:30 by gvolibea         ###   ########.fr       */
+/*   Updated: 2021/11/04 13:28:54 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_minishell.h"
 
-void sig_ignore(int signo)
+void	sig_ignore(int signo)
 {
 	(void)signo;
 	write(2, "\n", 1);
@@ -28,11 +28,10 @@ void	cancel_cmd(int signo)
 	write(1, "\n", 1);
 }
 
-void quit_cmd(int signo)
+void	quit_cmd(int signo)
 {
 	(void)signo;
 	ft_putstr_fd("Quit: 3\n", 1);
-	// exit(0);
 }
 
 void	print_row(int status)
