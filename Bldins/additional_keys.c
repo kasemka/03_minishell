@@ -24,16 +24,24 @@ t_env	*find_by_key_flag(t_env *env, char *key_env, int flag)
 	return (NULL);
 }
 
+int	find_pwd(char **pwd)
+{
+	*pwd = malloc(4096 * sizeof(char));
+	if (*pwd == NULL)
+		return (msg_mallocfail());
+	if (getcwd(*pwd, 4096) == NULL)
+		return (1);
+	return (0);
+}
+
 int	add_pwd(t_env *env)
 {
 	char	*pwd;
 	t_env	*t;
 
 	t = env;
-	pwd = malloc(4096 * sizeof(char));
-	if (pwd == NULL)
-		return(msg_mallocfail());
-	getcwd(pwd, 4096);
+	if (find_pwd(&pwd))
+		return (1);
 	while (t != NULL)
 	{
 		if (ft_strncmp(t->key_vl, "PWD=", 4) == 0 && t->flg == 4)
@@ -50,7 +58,7 @@ int	add_pwd(t_env *env)
 	}
 	t->key_vl = ft_strjoin("PWD=", pwd);
 	if (t->key_vl == NULL)
-		return(msg_mallocfail());
+		return (msg_mallocfail());
 	free(pwd);
 	return (0);
 }
@@ -84,6 +92,6 @@ int	add_home(t_env *env)
 int	add_addit_keys(t_env *env)
 {
 	if (add_home(env) || add_pwd(env))
-		return (g_exitcode);
-	return(0);
+		return (1);
+	return (0);
 }

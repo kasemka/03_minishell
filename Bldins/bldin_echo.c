@@ -29,11 +29,11 @@ int	is_newline(char *nl)
 int	bldin_echo(char **args)
 {
 	int		i;
-	
+
 	i = 0;
 	if (args[++i] == NULL)
 	{
-	 	ft_putstr_fd("\n", STD_OUT);
+		ft_putstr_fd("\n", STD_OUT);
 		return (0);
 	}
 	while (args[i] && is_newline(args[i]))

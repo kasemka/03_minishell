@@ -65,7 +65,6 @@ int	change_env(t_env *env, char **arg)
 	t_env		*t;
 
 	i = 0;
-	
 	while (arg[++i] != NULL)
 	{
 		t = env;
@@ -82,12 +81,9 @@ int	change_env(t_env *env, char **arg)
 			}
 			t = t->next;
 		}
-		if (t == NULL && !check_name(arg[i]) && \
-		add_env(env, arg[i]) == 12)
+		if (t == NULL && !check_name(arg[i]) && add_env(env, arg[i]) == 12)
 			return (12);
 	}
-
-
 	return (0);
 }
 
