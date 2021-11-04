@@ -1,76 +1,101 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_help2.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gvolibea <gvolibea@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/04 11:43:39 by gvolibea          #+#    #+#             */
+/*   Updated: 2021/11/04 12:02:23 by gvolibea         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../ft_minishell.h"
 
-char *update_path(char *path, char *str, int start, int len)
+int	pipe_o_redirect(char *str)
 {
-	char *temp;
-	char *temp1;
+	int	len;
 
-	temp = path;
-	temp1 = ft_substr(str, start, len);
-	path = ft_strjoin(path, temp1);
-	free(temp1);
-	free(temp);
-	return (path);
-}
-
-char *get_str_between(char *str, int *i, char c)
-{
-	char *out;
-	int len;
-
-	(*i)++;
-	len = 0;
-	while (str[(*i)++] != c)
-		len++;
-	out = ft_substr(str, *i - len - 1, len);
-	(*i)--;
-	return(out);
-}
-
-void get_question(void)
-{
-	printf("%d\n",g_exitcode);
-}
-
-char *get_str_between_dbl(char *str, int *i, char c, t_pipes *pipes)
-{
-	int len;
-	int start_path;
-	char *path;
-
-	(*i)++;
-	len = 0;
-	start_path = 0;
-	path = ft_strdup("");
-	while (str[(*i)] != c)
+	if (*str != '\0')
 	{
-		if (str[(*i)] == '$' && (ft_isalnum((str[(*i + 1)])) || \
-		str[*i + 1] == '?'))
-		{
-			path = update_path(path, str, *i - len, len);
-			path = get_dollar(i, str, path, pipes);
-			len = 0;
-			continue;
-		}
-		(*i)++;
-		len++;
+		len = ft_strlen(str);
+		if (!ft_strncmp(str, "|", len) || !ft_strncmp(str, ">", len) || \
+		!ft_strncmp(str, ">>", len) || !ft_strncmp(str, "<", len) \
+		|| !ft_strncmp(str, "<<", len))
+			return (1);
 	}
-	path = update_path(path, str, *i - len, len);
-	return (path);
+	return (0);
 }
 
-char *get_quotes(int *i, char *str, char *out, t_pipes *pipes)
+void	ft_isspace(char *str, int *s_w_i)
 {
-	char *temp;
-	char *temp1;
+	if (str[s_w_i[2]])
+		while ((str[s_w_i[2]] == ' ' || str[s_w_i[2]] == '\t' || \
+		str[s_w_i[2]] == '\n' || str[s_w_i[2]] == '\v' || str[s_w_i[2]] == '\f'\
+		|| str[s_w_i[2]] == '\r') && str[s_w_i[2]])
+			s_w_i[2]++;
+}
 
-	temp1 = out;
-	if (str[*i] == '\'')
-		temp = get_str_between(str, i, str[*i]);
-	else
-		temp = get_str_between_dbl(str, i, str[*i], pipes);
-	out = ft_strjoin(temp1, temp);
-	free (temp1);
-	free (temp);
+char	*get_val(char *str)
+{
+	int		i;
+	int		j;
+	char	*out;
+
+	i = 0;
+	while (str[i] != '=')
+		i++;
+	out = malloc(sizeof(char) * (ft_strlen(str) - i + 1));
+	if (!out)
+		must_exit_failure(NULL);
+	j = 0;
+	while (str[++i])
+	{
+		out[j] = str[i];
+		j++;
+	}
+	out[j] = '\0';
 	return (out);
+}
+
+char	*ft_getenv(char *path, t_pipes *pipes)
+{
+	t_env	*temp;
+	char	*temp_str;
+
+	temp = pipes->env;
+	while (temp)
+	{
+		if (!ft_strncmp(temp->key_vl, path, ft_strlen(path)))
+			return (get_val((temp->key_vl)));
+		temp = temp->next;
+	}
+	temp_str = malloc(sizeof(char) * 1);
+	temp_str = ft_strdup("");
+	return (temp_str);
+}
+
+char	*get_var(char *str, int *i, t_pipes *pipes)
+{
+	char	*path;
+	int		len;
+	int		start_path;
+	char	*glob_var;
+
+	start_path = *i + 1;
+	len = 0;
+	while (ft_isalnum(str[++(*i)]))
+		len++;
+	if (len == 0 && str[*i] == '?')
+	{
+		glob_var = ft_itoa(pipes->g_exit);
+		(*i)++;
+	}
+	else
+	{
+		path = ft_substr(str, start_path, len);
+		glob_var = ft_getenv(path, pipes);
+		free(path);
+	}
+	return (glob_var);
 }

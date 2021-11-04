@@ -1,43 +1,28 @@
 #include "ft_minishell.h"
 
-char *get_dollar(int *i, char *str, char *out, t_pipes *pipes)
+void	parser_get_word(char **out, char *str, int start, int *i)
 {
-	char *var_val;
-	char *temp1;
+	char	*temp;
+	char	*temp1;
 
-	temp1 = out;
-	var_val = get_var(str, i, pipes);
-	if (var_val)
+	temp = *out;
+	temp1 = ft_substr(str, start, *i - start);
+	if (!temp1)
 	{
-		out = ft_strjoin(temp1, var_val);
-		free(temp1);
-		free(var_val);
+		free (*out);
+		*out = NULL;
+		exit(EXIT_FAILURE);
 	}
-	return (out); // should add free VAR_VAL later
+	*out = ft_strjoin(*out, temp1);
+	if (!(*out))
+		*out = NULL;
+	free (temp1);
+	free (temp);
 }
 
-void print_list(t_pipes *pipes)
+void	free_list(t_parsing *parso)
 {
-	int i;
-
-	while (pipes)
-	{
-		while (pipes->parso)
-		{
-			i = -1;
-			if (pipes->parso->args)
-				while (pipes->parso->args[++i])
-					printf("<%s>",pipes->parso->args[i]);
-			printf("\nredirect type %s\n", pipes->parso->redirects);
-			pipes->parso = pipes->parso->next;
-		}
-		pipes = pipes->next;
-	}
-}
-
-void free_list(t_parsing *parso)
-{
-	int i;
+	int	i;
 
 	while (parso)
 	{
@@ -52,9 +37,9 @@ void free_list(t_parsing *parso)
 	}
 }
 
-void free_pipes(t_pipes *pipes)
+void	free_pipes(t_pipes *pipes)
 {
-	t_pipes *begin;
+	t_pipes	*begin;
 
 	while (pipes)
 	{
@@ -63,49 +48,4 @@ void free_pipes(t_pipes *pipes)
 		pipes = pipes->next;
 		free(begin);
 	}
-}
-
-char *exit_failure(t_pipes *pipes, char *out)
-{
-	free(out);
-	t_pipes *begin;
-	while (pipes)
-	{
-		begin = pipes;
-		free_list(pipes->parso);
-		pipes = pipes->next;
-		free(begin);
-	}
-	printf("%s\n",strerror(errno));
-	//printf("%s\n",strerror(errno));
-	return (NULL);
-}
-
-char *exit_failure_parso(t_parsing *parso)//, char *out)
-{
-//	free(out);
-	free_list(parso);
-	printf("%s\n",strerror(errno));
-	return (NULL);
-}
-void must_exit_failure(char *err_msg)
-{
-	if (err_msg)
-		exit(errno);
-}
-
-void non_exit_failure(char *err_msg)
-{
-	/*
-	ft_putstr_fd("minishell: ", STDERR_FILENO);
-	ft_putstr_fd(err_msg, STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	ft_putendl_fd(strerror(errno),STDERR_FILENO);
-*/
-	if (err_msg)
-		perror(err_msg);
-	if (errno)
-		g_exitcode = errno;
-	else
-		g_exitcode = 1;
 }

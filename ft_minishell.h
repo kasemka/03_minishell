@@ -6,7 +6,7 @@
 /*   By: gvolibea <gvolibea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 19:13:28 by gvolibea          #+#    #+#             */
-/*   Updated: 2021/11/03 14:09:45 by gvolibea         ###   ########.fr       */
+/*   Updated: 2021/11/04 11:47:30 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct parse_pipes
 	t_env				*env;
 	pid_t				pid;
 	int					fork;
+	int					g_exit;
 } t_pipes;
 
 void print_list(t_pipes *pipes); //take out later
@@ -72,7 +73,6 @@ void parser_get_zero_o_space(char **out, t_pipes **pipes, int *s_w_i, \
 	char *str);
 char *get_dollar(int *i, char *str, char *out, t_pipes *pipes);
 char *get_quotes(int *i, char *str, char *out, t_pipes *pipes);
-void get_question(void);
 char *get_var(char *str, int *i, t_pipes *pipes);
 t_parsing	*new_list(void);
 void ft_isspace(char *str, int *s_w_i);
@@ -84,6 +84,7 @@ t_pipes *new_pipes(t_env *env);
 void free_pipes(t_pipes *pipes);
 void make_pipes(t_pipes *pipes);
 void non_exit_failure(char *err_msg);
+void	must_exit_failure(char *err_msg);
 
 // make_redirects
 int	make_redirects(t_pipes *pipes);
@@ -135,5 +136,6 @@ void	cntr_d(void);
 void	print_row(int status);
 
 void here_doc(t_pipes *pipes, char *stop);
+int	check_token_errors(char *str);
 
 #endif

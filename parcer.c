@@ -6,7 +6,7 @@
 /*   By: gvolibea <gvolibea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 19:13:17 by gvolibea          #+#    #+#             */
-/*   Updated: 2021/11/03 00:13:27 by gvolibea         ###   ########.fr       */
+/*   Updated: 2021/11/03 23:38:06 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ char *parsing_cycle(t_pipes *pipes, char *str, char *out)
 	{
 		ft_isspace(str, s_w_i);
 		s_w_i[0] = s_w_i[2];
+		if (s_w_i[2] == 0 && check_token_errors(str))
+			return (NULL);
 		while(check_limit_vals(str, s_w_i[2]))
 			s_w_i[2]++;
 		if (s_w_i[0] != s_w_i[2])
@@ -92,6 +94,7 @@ t_pipes *new_pipes(t_env *env)
 	new_pipe->fd_in = STD_IN;
 	new_pipe->fd_out = STD_OUT;
 	new_pipe->env = env;
+	new_pipe->g_exit = g_exitcode;
 	return (new_pipe);
 }
 
@@ -107,13 +110,12 @@ char *parser(char *str, t_env *env)
 		return (NULL);
 	out = ft_strdup("");
 	if (!out)
-		exit_failure(pipes, NULL);
+		return (exit_failure(pipes, NULL));
 	if (*str == '\0')
 		return ("");
 	out = parsing_cycle(pipes, str, out);
 	if (!out)
 		return (exit_failure(pipes, out));
-	//print_list(pipes);
 	g_exitcode = 0; // may be is should be somewhere else
 	make_pipes(pipes);
 	free (out);
@@ -179,6 +181,7 @@ int main(int argc, char **argv, char **envp)
 	change_shlvl(env);
 	add_addit_keys(env);
 	rl_catch_signals = 0;
+	g_exitcode = 0;
 	//rl_outstream = stderr;
 	while (1)
 	{
