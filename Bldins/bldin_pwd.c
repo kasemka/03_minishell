@@ -21,8 +21,7 @@ int	bldin_pwd(t_env *env)
 	buf = malloc(size * sizeof(char));
 	if (buf == NULL)
 		return (msg_mallocfail());
-	if (getcwd(buf, size) == NULL)
-		return (errno);
+	getcwd(buf, size);
 	if (!buf)
 	{
 		while (ft_strncmp(env->key_vl, "PWD=", 4) != 0 && env->flg != 4)
