@@ -6,7 +6,7 @@
 /*   By: gvolibea <gvolibea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 19:13:28 by gvolibea          #+#    #+#             */
-/*   Updated: 2021/11/04 13:29:56 by gvolibea         ###   ########.fr       */
+/*   Updated: 2021/11/04 15:05:47 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,37 +65,41 @@ typedef struct parse_pipes
 	int					g_exit;
 }	t_pipes;
 
-// parse funcs
-void		print_list(t_pipes *pipes); //take out later
+//help funcs
 void		free_list(t_parsing *commons);
+t_parsing	*new_list(void);
+void		ft_isspace(char *str, int *s_w_i);
+t_pipes		*new_pipes(t_env *env);
+void		free_pipes(t_pipes *pipes);
+void		make_pipes(t_pipes *pipes);
+int			check_limit_vals(char *str, int j);
+
+// exit funcs
 char		*exit_failure(t_pipes *pipes, char *out);
+void		non_exit_failure(char *err_msg);
+void		must_exit_failure(char *err_msg);
+
+// parse funcs
 void		parser_get_slash(char **out, char *str, int *i, t_pipes *pipes);
 void		parser_get_dollar(char **out, int *i, char *str, t_pipes *pipes);
 void		parser_get_dollar_alone(char **out);
+void		parser_get_word(char **out, char *str, int start, int *i);
+int			parser_list_update(char *out, t_pipes **pipes);
 void		parser_get_zero_o_space(char **out, t_pipes **pipes, \
 				int *s_w_i, char *str);
 char		*get_dollar(int *i, char *str, char *out, t_pipes *pipes);
 char		*get_quotes(int *i, char *str, char *out, t_pipes *pipes);
 char		*get_var(char *str, int *i, t_pipes *pipes);
-t_parsing	*new_list(void);
-void		ft_isspace(char *str, int *s_w_i);
 int			pipe_o_redirect(char *str);
-void		parser_get_word(char **out, char *str, int start, int *i);
 char		**add_array_element(t_parsing *parso, char *str, int words_num);
 int			if_pipe_or_redirect(char c);
-t_pipes		*new_pipes(t_env *env);
-void		free_pipes(t_pipes *pipes);
-void		make_pipes(t_pipes *pipes);
-void		non_exit_failure(char *err_msg);
-void		must_exit_failure(char *err_msg);
-int			parser_list_update(char *out, t_pipes **pipes);
 void		here_doc(t_pipes *pipes, char *stop);
 int			check_token_errors(char *str);
+
 // make_redirects
 int			make_redirects(t_pipes *pipes);
 void		last_command_exit(t_pipes *pipes);
-// init n check
-int			check_limit_vals(char *str, int j);
+
 // arrays operations
 char		**add_array_array(char **arr1, char **arr2);
 char		**update_array(char **all_args, t_pipes *pipes, t_parsing *parso);

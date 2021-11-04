@@ -6,7 +6,7 @@
 /*   By: lelle <lelle@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 19:08:30 by lelle             #+#    #+#             */
-/*   Updated: 2021/11/04 13:32:35 by gvolibea         ###   ########.fr       */
+/*   Updated: 2021/11/04 14:58:14 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	len_arr_tkn(char **arr)
 
 int	print_token(char *sym)
 {
-	ft_putstr_fd(token, 2);
+	ft_putstr_fd(TOKEN, 2);
 	ft_putstr_fd(sym, 2);
 	ft_putstr_fd("\'\n", 2);
 	return (258);
