@@ -6,7 +6,7 @@
 /*   By: gvolibea <gvolibea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 19:13:28 by gvolibea          #+#    #+#             */
-/*   Updated: 2021/11/04 21:03:29 by gvolibea         ###   ########.fr       */
+/*   Updated: 2021/11/05 17:41:51 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,7 @@ void		cancel_cmd(int signo);
 void		quit_cmd(int signo);
 void		cntr_d(void);
 void		print_row(int status);
+void		ft_isspace_2(char **str);
 
 // msg
 int			msg_error(void);

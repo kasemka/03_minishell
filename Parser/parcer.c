@@ -6,7 +6,7 @@
 /*   By: gvolibea <gvolibea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 19:13:17 by gvolibea          #+#    #+#             */
-/*   Updated: 2021/11/04 21:03:43 by gvolibea         ###   ########.fr       */
+/*   Updated: 2021/11/05 17:42:16 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ char	*parser(char *str, t_env *env)
 	out = ft_strdup("");
 	if (!out)
 		return (exit_failure(pipes, NULL));
+	ft_isspace_2(&str);
 	if (*str == '\0')
 		return ("");
 	out = parsing_cycle(pipes, str, out);

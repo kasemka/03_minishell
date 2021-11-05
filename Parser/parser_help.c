@@ -6,7 +6,7 @@
 /*   By: gvolibea <gvolibea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 11:23:32 by gvolibea          #+#    #+#             */
-/*   Updated: 2021/11/04 20:54:20 by gvolibea         ###   ########.fr       */
+/*   Updated: 2021/11/05 18:05:11 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,11 @@ void	parser_get_zero_o_space(char **out, t_pipes **pipes, int *s_w_i, \
 		*out = NULL;
 	if (*out)
 		*out = ft_strdup("");
+}
+
+void	ft_isspace_2(char **str)
+{
+	while ((**str == ' ' || **str == '\t' || **str == '\n' || **str == '\v' \
+	|| **str == '\f' || **str == '\r') && **str)
+		(*str)++;
 }
