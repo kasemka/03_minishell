@@ -14,6 +14,19 @@
 
 //check if curr dir in PATH ::, : at the beginnig
 
+int	msg_minsh_str(char *cmd, char *err)
+{
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(cmd, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	if (*err)
+	{
+		ft_putstr_fd(err, STDERR_FILENO);
+		ft_putstr_fd("\n", STDERR_FILENO);
+	}
+	return (errno);
+}
+
 char	*ft_strdupc(char *s1, char c)
 {
 	int		i;
@@ -96,14 +109,13 @@ char	*find_path(t_env *env, char *cmd_input, char **commands, char **env_arr)
 		key = (find_by_key(env, "PATH"))->key_vl + 5;
 	if (!find_by_key(env, "PATH") || !key)
 	{
-		ft_putstr_fd("No such file or directory\n", 2);
+		msg_minsh_str(cmd_input, "No such file or directory");
 		errno = 2;
 		return ("unset");
 	}
-	key += 5;
 	while (*key)
 	{
-		if (*key == ':' || ft_strnstr(key, ".:", 2) || ft_strnstr(key, ".", 2)) 
+		if (*key == ':' || ft_strnstr(key, ".:", 2) || ft_strnstr(key, ".", 2))
 		{
 			exec_curdir(cmd, commands, env_arr);
 			if (*key == '.')
@@ -121,14 +133,16 @@ char	*find_path(t_env *env, char *cmd_input, char **commands, char **env_arr)
 				return(NULL);
 			execve(path, commands, env_arr);
 			if (stat(path, &buf) == 0)
-				exit (0);
+			{
+				if (buf.st_mode & S_IRUSR)
+					exit (0);
+			}
 			key = key + ft_strlen(new_str);
-			if (*key == ':')
+			if (*key == ':' && *(key + 1) != '\0')
 				key++ ;
 			free (new_str);
 			free (path);
 		}
-			
 	}
 	return (NULL);
 }
@@ -141,20 +155,17 @@ int	other_cmd(t_env *env, char **commands)
 	env_arr = list_to_arr(env);
 	if (env_arr == NULL)
 		return (msg_mallocfail());
-	if (commands[0][0] == '/' || commands[0][0] == '.' || commands[0][0] == '~' || ft_strchr(commands[0], '/'))
+	if (commands[0][0] == '/' || commands[0][0] == '.' || \
+	commands[0][0] == '~' || ft_strchr(commands[0], '/'))
 	{
 		path = commands[0];
 		execve(path, commands, env_arr);
-		msg_error();
+		msg_minsh_str(commands[0], strerror(errno));
 	}
 	else 
 		path = find_path(env, commands[0], commands, env_arr);
 	if (path == NULL)
-	{
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		ft_putstr_fd(commands[0], STDERR_FILENO);
-		ft_putstr_fd(": command not found\n", STDERR_FILENO);
-	}
+		msg_minsh_str(commands[0], ": command not found");
 	if (errno == 2)
 		return (127);
 	if (errno == 13)
