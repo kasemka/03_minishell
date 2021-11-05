@@ -117,6 +117,7 @@ int			bldin_export(t_env **env_list, char **args);
 int			bldin_pwd(t_env *env);
 int			bldin_unset(t_env **env_list, char **args);
 int			other_cmd(t_env *env, char **commands);
+char		*find_path(t_env *env, char **commands, char **env_arr);
 
 // utils for bldins
 t_parsing	*find_last(t_parsing *list);
@@ -150,5 +151,7 @@ int			msg_error_str(char *s);
 int			msg_mallocfail(void);
 int			msg_home_not_set(void);
 int			msg_error_export(char *s);
+char		*msg_mallocfail_null(void);
+int			msg_minsh_str(char *cmd, char *err);
 
 #endif
