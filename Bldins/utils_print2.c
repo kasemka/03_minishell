@@ -23,3 +23,16 @@ char	*msg_mallocfail_null(void)
 	ft_putstr_fd("Cannot allocate memory.\n", STDERR_FILENO);
 	return (NULL);
 }
+
+int	print_token(char *sym, int len)
+{
+	ft_putstr_fd(TOKEN, 2);
+	while (len > 0)
+	{
+		ft_putchar_fd(*sym, 2);
+		sym++;
+		len--;
+	}
+	ft_putstr_fd("\'\n", 2);
+	return (258);
+}

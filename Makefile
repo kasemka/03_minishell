@@ -2,8 +2,9 @@ NAME 	=	minishell
 
 HEADER	=	ft_minishell.h
 
-SRC		=	$(wildcard Bldins/*.c) $(wildcard Parser/*.c) \
-				$(wildcard Redirect/*.c) $(wildcard *.c)
+SRC		=	 $(wildcard Bldins/*.c) $(wildcard Parser/*.c) \
+				$(wildcard Redirect/*.c) \
+				$(wildcard Exit_n_signal/*.c) $(wildcard *.c)
 
 LIBFT	=	Libft/libft.a
 

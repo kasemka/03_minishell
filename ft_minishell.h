@@ -80,6 +80,7 @@ void		non_exit_failure(char *err_msg);
 void		must_exit_failure(char *err_msg);
 
 // parse funcs
+char		*parser(char *str, t_env *env);
 void		parser_get_slash(char **out, char *str, int *i, t_pipes *pipes);
 void		parser_get_dollar(char **out, int *i, char *str, t_pipes *pipes);
 void		parser_get_dollar_alone(char **out);
@@ -137,6 +138,7 @@ t_env		*find_by_key(t_env *env, char *key_env);
 t_env		*last_list(t_env *env);
 void		free_list_env(t_env *env);
 int			check_dir(char *home_dir);
+void		change_shlvl(t_env *env);
 
 // signals
 void		sig_ignore(int signo);
@@ -153,5 +155,6 @@ int			msg_home_not_set(void);
 int			msg_error_export(char *s);
 char		*msg_mallocfail_null(void);
 int			msg_minsh_str(char *cmd, char *err);
+int			print_token(char *sym, int len);
 
 #endif
