@@ -12,6 +12,32 @@
 
 #include "../ft_minishell.h"
 
+//check if curr dir in PATH ::, : at the beginnig
+
+char	*ft_strdupc(char *s1, char c)
+{
+	int		i;
+	char	*s2;
+	int		len;
+
+	i = 0;
+	len = 0;
+	if (s1 == NULL)
+		return (NULL);
+	while (s1[len] != c && s1[len] != '\0')
+		len++;
+	s2 = (char *)malloc(len + 1);
+	if (s2 == NULL)
+		return (NULL);
+	while (i < len)
+	{
+		s2[i] = s1[i];
+		i++;
+	}
+	s2[i] = '\0';
+	return (s2);
+}
+
 char	*search_in_env(char **envpath, char *cmd)
 {
 	char			*path;
@@ -31,7 +57,7 @@ char	*search_in_env(char **envpath, char *cmd)
 	return (NULL);
 }
 
-char	*search_in_curdir(char *cmd)
+char	*exec_curdir(char *cmd, char **commands, char **env_arr)
 {
 	struct stat	buf;
 	char		*path;
@@ -44,59 +70,95 @@ char	*search_in_curdir(char *cmd)
 	path = ft_strjoin(cur_dir, cmd);
 	if (path == NULL)
 		msg_mallocfail();
+	execve(path, commands, env_arr);
 	if (stat(path, &buf) == 0)
-		return (path);
+	{
+		if (buf.st_mode & S_IRUSR)
+			exit (0);
+	}
+	free(path);
 	return (NULL);
 }
 
-char	*find_path(t_env *env, char *cmd_input)
+char	*find_path(t_env *env, char *cmd_input, char **commands, char **env_arr)
 {
-	char		**envpath;
 	char		*key;
 	char		*cmd;
 	char		*path;
+	char		*new_str;
+	struct stat	buf;
 
-	key = (find_by_key(env, "PATH"))->key_vl + 5;
-	if (key == NULL)
-		return (NULL);
+	key = NULL;
 	cmd = ft_strjoin("/", cmd_input);
 	if (cmd == NULL)
-		msg_mallocfail();
-	envpath = ft_split(key, ':');
-	if (envpath == NULL)
-		msg_mallocfail();
-	path = search_in_env(envpath, cmd);
-	if (path == NULL && (ft_strnstr(key, "::", ft_strlen(key)) != NULL \
-	|| key[0] == ':'))
-		path = search_in_curdir(cmd);
-	return (path);
+		return (NULL);
+	if (find_by_key(env, "PATH") != NULL)
+		key = (find_by_key(env, "PATH"))->key_vl + 5;
+	if (!find_by_key(env, "PATH") || !key)
+	{
+		ft_putstr_fd("No such file or directory\n", 2);
+		errno = 2;
+		return ("unset");
+	}
+	key += 5;
+	while (*key)
+	{
+		if (*key == ':' || ft_strnstr(key, ".:", 2) || ft_strnstr(key, ".", 2)) 
+		{
+			exec_curdir(cmd, commands, env_arr);
+			if (*key == '.')
+				key++;
+			while (*key == ':')
+				key++ ;
+		}
+		else if (*key)
+		{
+		 	new_str = ft_strdupc(key, ':');
+			if (new_str == NULL)
+				return (NULL);
+			path = ft_strjoin(new_str, cmd);
+			if (path == NULL)
+				return(NULL);
+			execve(path, commands, env_arr);
+			if (stat(path, &buf) == 0)
+				exit (0);
+			key = key + ft_strlen(new_str);
+			if (*key == ':')
+				key++ ;
+			free (new_str);
+			free (path);
+		}
+			
+	}
+	return (NULL);
 }
 
 int	other_cmd(t_env *env, char **commands)
 {
 	char		*path;
 	char		**env_arr;
-	struct stat	buf;
 
 	env_arr = list_to_arr(env);
 	if (env_arr == NULL)
 		return (msg_mallocfail());
-	if (stat(commands[0], &buf) == 0)
+	if (commands[0][0] == '/' || commands[0][0] == '.' || commands[0][0] == '~' || ft_strchr(commands[0], '/'))
+	{
 		path = commands[0];
-	else
-		path = find_path(env, commands[0]);
+		execve(path, commands, env_arr);
+		msg_error();
+	}
+	else 
+		path = find_path(env, commands[0], commands, env_arr);
 	if (path == NULL)
 	{
 		ft_putstr_fd("minishell: ", STDERR_FILENO);
 		ft_putstr_fd(commands[0], STDERR_FILENO);
-		if (ft_strchr(commands[0], '/') == 0)
-			ft_putstr_fd(": command not found\n", STDERR_FILENO);
-		else if (ft_strchr(commands[0], '/') != 0)
-			ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+		ft_putstr_fd(": command not found\n", STDERR_FILENO);
 	}
-	if (path == NULL)
+	if (errno == 2)
 		return (127);
-	execve(path, commands, env_arr);
+	if (errno == 13)
+		return (126);
 	clean_array(env_arr);
 	return (0);
 }
