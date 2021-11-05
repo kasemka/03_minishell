@@ -6,7 +6,7 @@
 /*   By: lelle <lelle@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 14:26:57 by lelle             #+#    #+#             */
-/*   Updated: 2021/11/04 12:22:41 by gvolibea         ###   ########.fr       */
+/*   Updated: 2021/11/05 11:22:04 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,13 +93,49 @@ char	*exec_curdir(char *cmd, char **commands, char **env_arr)
 	return (NULL);
 }
 
+char *new_str_upd(char *key, char **commands, char **env_arr)
+{
+	char	*path;
+	char	*cmd;
+	char	*new_str;
+	struct stat	buf;
+
+	cmd = ft_strjoin("/", commands[0]);
+	new_str = ft_strdupc(key, ':');
+	if (new_str == NULL || cmd == NULL)
+		return (NULL);
+	path = ft_strjoin(new_str, cmd);
+	if (path == NULL)
+		return(NULL);
+	execve(path, commands, env_arr);
+	if (stat(path, &buf) == 0)
+	{
+		if (buf.st_mode & S_IRUSR)
+			exit (0);
+	}
+	key = key + ft_strlen(new_str);
+	if (*key == ':' && *(key + 1) != '\0')
+		key++ ;
+	free (new_str);
+	free (path);
+	return (key);
+}
+
+char *path_err(char *cmd_input)
+{
+	msg_minsh_str(cmd_input, "No such file or directory");
+	errno = 2;
+	return ("unset");
+}
+
+
 char	*find_path(t_env *env, char *cmd_input, char **commands, char **env_arr)
 {
 	char		*key;
 	char		*cmd;
-	char		*path;
-	char		*new_str;
-	struct stat	buf;
+	//char		*path;
+	//char		*new_str;
+	//struct stat	buf;
 
 	key = NULL;
 	cmd = ft_strjoin("/", cmd_input);
@@ -108,11 +144,12 @@ char	*find_path(t_env *env, char *cmd_input, char **commands, char **env_arr)
 	if (find_by_key(env, "PATH") != NULL)
 		key = (find_by_key(env, "PATH"))->key_vl + 5;
 	if (!find_by_key(env, "PATH") || !key)
-	{
+		return (path_err(cmd_input));
+	/*{
 		msg_minsh_str(cmd_input, "No such file or directory");
 		errno = 2;
 		return ("unset");
-	}
+	}*/
 	while (*key)
 	{
 		if (*key == ':' || ft_strnstr(key, ".:", 2) || ft_strnstr(key, ".", 2))
@@ -125,7 +162,8 @@ char	*find_path(t_env *env, char *cmd_input, char **commands, char **env_arr)
 		}
 		else if (*key)
 		{
-		 	new_str = ft_strdupc(key, ':');
+		 	key = new_str_upd(key, commands, env_arr);
+			/*new_str = ft_strdupc(key, ':');
 			if (new_str == NULL)
 				return (NULL);
 			path = ft_strjoin(new_str, cmd);
@@ -141,7 +179,7 @@ char	*find_path(t_env *env, char *cmd_input, char **commands, char **env_arr)
 			if (*key == ':' && *(key + 1) != '\0')
 				key++ ;
 			free (new_str);
-			free (path);
+			free (path);*/
 		}
 	}
 	return (NULL);
@@ -162,7 +200,7 @@ int	other_cmd(t_env *env, char **commands)
 		execve(path, commands, env_arr);
 		msg_minsh_str(commands[0], strerror(errno));
 	}
-	else 
+	else
 		path = find_path(env, commands[0], commands, env_arr);
 	if (path == NULL)
 		msg_minsh_str(commands[0], ": command not found");
