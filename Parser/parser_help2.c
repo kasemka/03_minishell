@@ -6,7 +6,7 @@
 /*   By: gvolibea <gvolibea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 11:43:39 by gvolibea          #+#    #+#             */
-/*   Updated: 2021/11/04 12:02:23 by gvolibea         ###   ########.fr       */
+/*   Updated: 2021/11/04 20:55:44 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*get_val(char *str)
 		i++;
 	out = malloc(sizeof(char) * (ft_strlen(str) - i + 1));
 	if (!out)
-		must_exit_failure(NULL);
+		return (NULL);
 	j = 0;
 	while (str[++i])
 	{
@@ -66,7 +66,8 @@ char	*ft_getenv(char *path, t_pipes *pipes)
 	temp = pipes->env;
 	while (temp)
 	{
-		if (!ft_strncmp(temp->key_vl, path, ft_strlen(path)))
+		if (ft_strncmp(temp->key_vl, path, ft_strlen(path)) == 0 && \
+		temp->key_vl[ft_strlen(path)] == '=')
 			return (get_val((temp->key_vl)));
 		temp = temp->next;
 	}

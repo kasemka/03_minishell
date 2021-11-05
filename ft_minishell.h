@@ -6,7 +6,7 @@
 /*   By: gvolibea <gvolibea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 19:13:28 by gvolibea          #+#    #+#             */
-/*   Updated: 2021/11/04 15:05:47 by gvolibea         ###   ########.fr       */
+/*   Updated: 2021/11/04 21:03:29 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ char		**add_array_element(t_parsing *parso, char *str, int words_num);
 int			if_pipe_or_redirect(char c);
 void		here_doc(t_pipes *pipes, char *stop);
 int			check_token_errors(char *str);
+char		*ft_getenv(char *path, t_pipes *pipes);
 
 // make_redirects
 int			make_redirects(t_pipes *pipes);

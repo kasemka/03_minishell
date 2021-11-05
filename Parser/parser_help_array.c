@@ -6,7 +6,7 @@
 /*   By: gvolibea <gvolibea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 11:43:35 by gvolibea          #+#    #+#             */
-/*   Updated: 2021/11/04 11:55:51 by gvolibea         ###   ########.fr       */
+/*   Updated: 2021/11/04 20:53:41 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,13 @@ char	**add_array_element(t_parsing *parso, char *str, int words_num)
 		{
 			temp[i] = ft_strdup(parso->args[i]);
 			if (!temp[i])
-				must_exit_failure(NULL);
+				return (NULL);
 			i++;
 		}
 	}
 	temp[i] = ft_strdup(str);
 	if (!temp[i])
-		must_exit_failure(NULL);
+		return (NULL);
 	i++;
 	temp[i] = NULL;
 	clean_array(parso->args);
@@ -78,7 +78,7 @@ char	**add_arr_to_arr(char **arr1, char **arr2, int start)
 		{
 			arr1[start] = ft_strdup(arr2[i]);
 			if (!arr1[start])
-				must_exit_failure(NULL);
+				return (NULL);
 			start++;
 		}
 	}

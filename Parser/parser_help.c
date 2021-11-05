@@ -6,7 +6,7 @@
 /*   By: gvolibea <gvolibea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 11:23:32 by gvolibea          #+#    #+#             */
-/*   Updated: 2021/11/04 12:27:57 by gvolibea         ###   ########.fr       */
+/*   Updated: 2021/11/04 20:54:20 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,12 @@ char	*get_pipe_o_redirect(char *str, int *s_w_i)
 	return (NULL);
 }
 
+void	check_tilda(char **out, int *s_w_i, t_pipes *pipes, char *str)
+{
+	if (!ft_strncmp(*out, "~", 2) && str[s_w_i[2] - 1] == '~')
+		*out = ft_getenv("HOME", pipes);
+}
+
 int	get_flag_after_parsing(char **out, t_pipes **pipes, int *s_w_i, \
 	char *str)
 {
@@ -48,6 +54,7 @@ int	get_flag_after_parsing(char **out, t_pipes **pipes, int *s_w_i, \
 	if ((!pipe_o_redirect(*out) && ft_strncmp(*out, "", 1)) || \
 		(!ft_strncmp(*out, "", 1) && (*pipes)->parso->real_empty_str))
 	{
+		check_tilda(out, s_w_i, *pipes, str);
 		(s_w_i[1])++;
 		last_parso = find_last((*pipes)->parso);
 		last_parso->args = add_array_element(last_parso, *out, s_w_i[1]);

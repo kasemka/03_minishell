@@ -6,7 +6,7 @@
 /*   By: gvolibea <gvolibea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 11:43:33 by gvolibea          #+#    #+#             */
-/*   Updated: 2021/11/04 11:46:46 by gvolibea         ###   ########.fr       */
+/*   Updated: 2021/11/04 20:50:38 by gvolibea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ char	*update_path(char *path, char *str, int start, int len)
 	path = ft_strjoin(path, temp1);
 	free(temp1);
 	free(temp);
+	if (!temp1 || !path)
+		return (NULL);
 	return (path);
 }
 

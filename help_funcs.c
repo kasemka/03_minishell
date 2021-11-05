@@ -57,6 +57,8 @@ t_pipes	*new_pipes(t_env *env)
 
 	new_pipe = malloc(sizeof(t_pipes));
 	new_parso = new_list();
+	if (!new_pipe || !new_parso)
+		return (NULL);
 	new_pipe->parso = new_parso;
 	new_pipe->next = NULL;
 	new_pipe->fd_in = STD_IN;
