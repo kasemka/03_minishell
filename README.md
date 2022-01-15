@@ -45,6 +45,8 @@ Command output works like in bash. It can be run by calling program in the termi
 - Has working pipes
 - Returns exit status
 
+![2](https://user-images.githubusercontent.com/83021442/149620306-bf0e0552-f5de-44aa-bcd0-446067e392ac.png)
+
 
 ### Setup
 There is a Makefile in root directory, so all neccessary files can by compiled by runnig "make" command from minishell root directory.
